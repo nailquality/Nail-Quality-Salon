@@ -16,7 +16,7 @@
 4. نفّذ: `npm install -g firebase-tools` ثم `firebase login` ثم `firebase use nailqualitysalon`.
 5. أعط حساب المالكة claim موثوقًا من جهاز الإدارة بعد إعداد Application Default Credentials أو مفتاح خدمة آمن خارج GitHub:
    `npm install firebase-admin`
-   `node scripts/set-user-role.js owner@example.com owner quality-nails`
+   `node scripts/set-user-role.js salonquality5@gmail.com owner quality-nails`
    كرر للموظفات والعميلات مع role المناسب. لا تضع مفاتيح service account في المستودع.
 6. جهز مجلد `salons/quality-nails` والبيانات الفرعية `services` و`staff` و`clients` و`bookings` و`blocks` و`invoices` و`expenses` و`inventory` و`loyaltyLedger`. معرّف مستند الموظفة ينبغي أن يطابق UID في Authentication حتى يظهر جدولها.
 7. انشر القواعد والدوال: `cd functions && npm install && cd ..` ثم `firebase deploy --only firestore:rules,functions`.
