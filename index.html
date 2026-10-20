@@ -197,23 +197,24 @@
                 </div>
             </div>
 
-            <!-- الرئيسية -->
+            <!-- الرئيسية (لوحة المالك) -->
             <div id="page-dashboard" class="page-section">
                 <div class="card">
                     <h3 style="color:var(--primary); margin-bottom:12px;" id="txtQuickReq">⚡ الوصول السريع</h3>
                     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px;">
                         <button class="btn-btn btn-primary" onclick="showPage('pos')">🛒 الكاشير</button>
-                        <button class="btn-btn btn-action" onclick="showPage('clients-list')">👤 سجل العميلات</button>
+                        <button class="btn-btn btn-action" onclick="showPage('clients-list')">👤 سجل العميلات والنقاط</button>
                         <button class="btn-btn" style="background:#4a7c59; color:white;" onclick="showPage('services')">📦 الخدمات</button>
-                        <button class="btn-btn" style="background:#e67e22; color:white;" onclick="showPage('invoices')">📄 الفواتير</button>
+                        <button class="btn-btn" style="background:#e67e22; color:white;" onclick="showPage('invoices')">📄 الفواتير والتجديد</button>
                         <button class="btn-btn" style="background:#8e44ad; color:white;" onclick="showPage('inventory')">📦 المخزون</button>
                         <button class="btn-btn" style="background:#2c3e50; color:white;" onclick="showPage('staff')">👩‍🦰 الموظفات والتقارير</button>
                     </div>
                 </div>
 
+                <!-- فلترة النمط البياني بالتاريخ -->
                 <div class="card" style="padding: 15px 20px;">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap:wrap; gap:10px;">
-                        <h3 style="color:var(--primary); font-size:16px;" id="txtStatsTitle">📊 المبيعات والحجوزات حسب الفترة</h3>
+                        <h3 style="color:var(--primary); font-size:16px;" id="txtStatsTitle">📊 النمط البياني والإحصائيات حسب الفترة</h3>
                         <button class="btn-btn btn-action" style="font-size:12px;" onclick="resetDashboardFilter()">تصفير الفلتر</button>
                     </div>
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
@@ -298,11 +299,11 @@
                 </div>
             </div>
 
-            <!-- سجل العميلات والنقاط -->
+            <!-- سجل الزباين والنقاط المخصص -->
             <div id="page-clients-list" class="page-section" style="display:none;">
                 <div class="card">
-                    <h3 id="txtClientsTitle">👥 سجل حسابات العميلات وأكواد النقاط</h3>
-                    <input type="text" id="clientSearchInput" class="form-control" placeholder="🔍 بحث بالاسم، الجوال، أو كود العميلة..." oninput="renderClientsPointsTable()">
+                    <h3 id="txtClientsTitle" style="color: var(--primary); margin-bottom: 12px;">👤 سجل العميلات الدائم وأكواد النقاط</h3>
+                    <input type="text" id="clientSearchInput" class="form-control" placeholder="🔍 بحث بالاسم، رقم الجوال، أو الكود التعريف الخاص (مثال: #CLN-1001)..." oninput="renderClientsPointsTable()">
 
                     <table>
                         <thead><tr><th>كود العميلة</th><th>الاسم</th><th>الجوال</th><th>رصيد النقاط</th><th>تعديل النقاط</th></tr></thead>
@@ -317,16 +318,7 @@
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 12px;">
                         <h3 id="txtInvoicesTitle">📄 سجل الفواتير والتجديد الشهري</h3>
                         <div style="display: flex; gap: 10px; align-items: center; flex-wrap:wrap;">
-                            <div>
-                                <label style="font-size:11px;">عرض فواتير شهر:</label>
-                                <select id="invMonthSelect" class="form-control" style="margin-bottom:0; padding:6px;" onchange="renderInvoicesTable()">
-                                    <option value="ALL">جميع الأشهر</option>
-                                    <option value="2026-10">أكتوبر 2026</option>
-                                    <option value="2026-09">سبتمبر 2026</option>
-                                    <option value="2026-08">أغسطس 2026</option>
-                                </select>
-                            </div>
-                            <button class="btn-btn btn-action" style="margin-top:16px;" onclick="renewMonthlyInvoicesCycle()">🔄 التجديد وبدء شهر جديد</button>
+                            <button class="btn-btn btn-action" onclick="renewMonthlyInvoicesCycle()">🔄 التجديد وبدء شهر جديد</button>
                         </div>
                     </div>
 
@@ -337,7 +329,7 @@
                 </div>
             </div>
 
-            <!-- إدارة الموظفات وتقارير الأداء الشهري -->
+            <!-- إدارة الموظفات وتقارير الأداء الشهري والشهر السابق -->
             <div id="page-staff" class="page-section" style="display:none;">
                 <div class="card">
                     <h3 id="txtStaffTitle">👩‍🦰 إدارة الموظفات وتسجيل البيانات</h3>
@@ -356,7 +348,7 @@
                     </table>
                 </div>
 
-                <!-- ميزة أداء الموظفات بالشهر والتاريخ السابق -->
+                <!-- تقرير أداء الموظفات الشامل والتاريخي بالسنة والشهر -->
                 <div class="card" style="border-top:4px solid var(--primary);">
                     <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:15px;">
                         <h3>📊 تقرير أداء الموظفات الشامل والتاريخي</h3>
@@ -375,7 +367,7 @@
             <!-- المخزون -->
             <div id="page-inventory" class="page-section" style="display:none;">
                 <div class="card">
-                    <h3 id="txtInventoryTitle">📦 إدارة المخزون</h3>
+                    <h3 id="txtInventoryTitle">📦 إدارة المخزون والمستلزمات</h3>
                     <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; margin-bottom:15px;">
                         <input type="text" id="invItemName" class="form-control" placeholder="اسم المنتج">
                         <input type="number" id="invItemQty" class="form-control" placeholder="الكمية">
@@ -485,7 +477,7 @@
         </div>
     </div>
 
-    <!-- الفاتورة للطباعة -->
+    <!-- الفاتورة الضريبية المبسطة للطباعة -->
     <div id="printableInvoice">
         <div style="text-align: center; border-bottom: 2px dashed #c25975; padding-bottom: 12px; margin-bottom: 12px;">
             <h2 style="font-size: 22px; color: #c25975;">صالون جودة الأظافر 💅</h2>
@@ -505,6 +497,29 @@
         </div>
     </div>
 
+    <!-- ربط Firebase Firestore الحديث (v10 JS Modules) -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, collection, getDocs, addDoc, deleteDoc, doc, updateDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+          apiKey: "AIzaSyA31G1qjrzq-Ykxu4EojR8KkhL3zS_MuGY",
+          authDomain: "nailqualitysalon.firebaseapp.com",
+          projectId: "nailqualitysalon",
+          storageBucket: "nailqualitysalon.firebasestorage.app",
+          messagingSenderId: "596122867385",
+          appId: "1:596122867385:web:0d3f8d4bcf3e04b51f6d68"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        window.db = db;
+        window.firebaseTools = { collection, getDocs, addDoc, deleteDoc, doc, updateDoc, setDoc };
+        
+        window.initAppAfterFirebase();
+    </script>
+
     <script>
         let currentRole = 'owner';
         let currentLang = 'ar';
@@ -514,19 +529,13 @@
         let posCart = [];
         let clientCart = [];
 
-        let servicesList = JSON.parse(localStorage.getItem('salon_services')) || [
-            { name: 'مناكير كلاسيك', price: 100, img: 'https://images.unsplash.com/photo-1604654894610-df63bc536371?auto=format&fit=crop&w=300&q=80' },
-            { name: 'بدكير أظافر', price: 150, img: 'https://images.unsplash.com/photo-1519014816548-bf5fe059798b?auto=format&fit=crop&w=300&q=80' }
-        ];
-
-        let bookingsList = JSON.parse(localStorage.getItem('salon_bookings')) || [];
-        let invoicesList = JSON.parse(localStorage.getItem('salon_invoices')) || [];
-        let clientsList = JSON.parse(localStorage.getItem('salon_clients')) || [];
-        let staffList = JSON.parse(localStorage.getItem('salon_staff')) || [
-            { name: 'منى (أخصائية أظافر)', user: 'mona', pass: '123456', salary: 4000 }
-        ];
-        let inventoryList = JSON.parse(localStorage.getItem('salon_inventory')) || [];
-        let ownerPass = localStorage.getItem('salon_owner_pass') || 'nail_quality@@salon90981';
+        let servicesList = [];
+        let bookingsList = [];
+        let invoicesList = [];
+        let clientsList = [];
+        let staffList = [];
+        let inventoryList = [];
+        let ownerPass = 'nail_quality@@salon90981';
 
         const translations = {
             ar: {
@@ -539,13 +548,13 @@
                 welcomeOwner: "مرحباً صاحبة صالون جودة الأظافر ✨👑",
                 welcomeStaff: "مرحباً بكِ في لوحة الموظفة 👩‍🦰",
                 welcomeClient: "مرحباً بكِ في صالون جودة الأظافر 🌸",
-                sidebarHome: "🏠 الرئيسية",
+                sidebarHome: "🏠 الرئيسية (لوحة التحكم)",
                 sidebarPOS: "🛒 الكاشير السريع",
                 sidebarBookings: "📅 إدارة الحجوزات",
                 sidebarClients: "👥 سجل العميلات والنقاط",
-                sidebarInvoices: "📄 سجل الفواتير والتجديد",
-                sidebarInventory: "📦 إدارة المخزون",
-                sidebarStaff: "👥 الموظفات وتقارير الأداء",
+                sidebarInvoices: "📄 الفواتير والتجديد",
+                sidebarInventory: "📦 المخزون والمستلزمات",
+                sidebarStaff: "👩‍🦰 الموظفات وتقارير الأداء",
                 sidebarServices: "🛠️ قائمة الخدمات والعروض",
                 sidebarSettings: "⚙️ إعدادات الحساب",
                 sidebarClientPortal: "🌸 بوابة العميلات",
@@ -567,7 +576,7 @@
                 sidebarClients: "👥 Clients Log & Points",
                 sidebarInvoices: "📄 Invoices & Monthly Renewal",
                 sidebarInventory: "📦 Inventory Management",
-                sidebarStaff: "👥 Staff & Performance Reports",
+                sidebarStaff: "👩‍🦰 Staff & Performance Reports",
                 sidebarServices: "🛠️ Services & Offers",
                 sidebarSettings: "⚙️ Account Settings",
                 sidebarClientPortal: "🌸 Client Portal",
@@ -575,35 +584,54 @@
             }
         };
 
+        window.initAppAfterFirebase = async function() {
+            await fetchAllDataFromFirebase();
+            if(servicesList.length === 0) {
+                await window.firebaseTools.addDoc(window.firebaseTools.collection(window.db, "services"), { name: 'مناكير كلاسيك', price: 100, img: 'https://images.unsplash.com/photo-1604654894610-df63bc536371?auto=format&fit=crop&w=300&q=80' });
+                await window.firebaseTools.addDoc(window.firebaseTools.collection(window.db, "services"), { name: 'بدكير أظافر', price: 150, img: 'https://images.unsplash.com/photo-1519014816548-bf5fe059798b?auto=format&fit=crop&w=300&q=80' });
+                await fetchAllDataFromFirebase();
+            }
+        };
+
+        async function fetchAllDataFromFirebase() {
+            if(!window.db) return;
+            try {
+                const sSnap = await window.firebaseTools.getDocs(window.firebaseTools.collection(window.db, "services"));
+                servicesList = sSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+                const bSnap = await window.firebaseTools.getDocs(window.firebaseTools.collection(window.db, "bookings"));
+                bookingsList = bSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+                const iSnap = await window.firebaseTools.getDocs(window.firebaseTools.collection(window.db, "invoices"));
+                invoicesList = iSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+                const cSnap = await window.firebaseTools.getDocs(window.firebaseTools.collection(window.db, "clients"));
+                clientsList = cSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+                const stSnap = await window.firebaseTools.getDocs(window.firebaseTools.collection(window.db, "staff"));
+                staffList = stSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+                const invSnap = await window.firebaseTools.getDocs(window.firebaseTools.collection(window.db, "inventory"));
+                inventoryList = invSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+                refreshAllDataViews();
+            } catch (err) {
+                console.error("Error fetching data: ", err);
+            }
+        }
+
         function changeLanguage(lang) {
             currentLang = lang;
             document.documentElement.setAttribute('lang', lang);
             document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
             
             const t = translations[lang];
-            const titleEl = document.getElementById('loginTitle');
-            if(titleEl) titleEl.textContent = t.title;
-            
-            const subEl = document.getElementById('loginSubtitle');
-            if(subEl) subEl.textContent = t.subtitle;
-
-            const bOwner = document.getElementById('btnRoleOwner');
-            if(bOwner) bOwner.textContent = t.owner;
-
-            const bStaff = document.getElementById('btnRoleStaff');
-            if(bStaff) bStaff.textContent = t.staff;
-
-            const bClient = document.getElementById('btnRoleClient');
-            if(bClient) bClient.textContent = t.client;
-
-            const bLogin = document.getElementById('btnLoginText');
-            if(bLogin) bLogin.textContent = t.loginBtn;
-
-            // تحديث عناصر القوائم المنسدلة للغة لتظل متزامنة
-            const lSelect1 = document.getElementById('loginLangSelect');
-            if(lSelect1) lSelect1.value = lang;
-            const lSelect2 = document.getElementById('mainLangSelect');
-            if(lSelect2) lSelect2.value = lang;
+            document.getElementById('loginTitle').textContent = t.title;
+            document.getElementById('loginSubtitle').textContent = t.subtitle;
+            document.getElementById('btnRoleOwner').textContent = t.owner;
+            document.getElementById('btnRoleStaff').textContent = t.staff;
+            document.getElementById('btnRoleClient').textContent = t.client;
+            document.getElementById('btnLoginText').textContent = t.loginBtn;
 
             updateLoginFields();
             if (document.getElementById('app-container').style.display === 'flex') {
@@ -614,8 +642,7 @@
 
         function toggleDarkMode() {
             const currentTheme = document.documentElement.getAttribute('data-theme');
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            document.documentElement.setAttribute('data-theme', newTheme);
+            document.documentElement.setAttribute('data-theme', currentTheme === 'dark' ? 'light' : 'dark');
         }
 
         function selectRole(role) {
@@ -656,20 +683,20 @@
                 } else {
                     if(regToggle) regToggle.style.display = 'block';
                     loginFields.innerHTML = `
-                        <input type="tel" id="clientPhoneLogin" class="form-control" placeholder="${currentLang==='ar'?'رقم الجوال أو الكود':'Phone or Code'}" required>
+                        <input type="tel" id="clientPhoneLogin" class="form-control" placeholder="${currentLang==='ar'?'رقم الجوال أو الكود التعريف':'Phone or Code'}" required>
                         <input type="password" id="clientPassLogin" class="form-control" placeholder="${currentLang==='ar'?'كلمة المرور':'Password'}" required>
                     `;
                 }
             }
         }
 
-        function handleLogin(e) {
+        async function handleLogin(e) {
             e.preventDefault();
             const t = translations[currentLang];
 
             if (currentRole === 'owner') {
                 const p = document.getElementById('loginPassword').value;
-                if (p === ownerPass || p === "nail_quality@@salon90981") launchApp(t.welcomeOwner, 'owner');
+                if (p === ownerPass) launchApp(t.welcomeOwner, 'owner');
                 else alert(currentLang === 'ar' ? "كلمة المرور غير صحيحة!" : "Incorrect password!");
             } else if (currentRole === 'staff') {
                 const u = document.getElementById('loginUsername').value;
@@ -680,7 +707,6 @@
                     launchApp(`${t.welcomeStaff}: ${found.name}`, 'staff');
                 } else alert(currentLang === 'ar' ? "بيانات الموظفة غير صحيحة!" : "Incorrect credentials!");
             } else {
-                clientsList = JSON.parse(localStorage.getItem('salon_clients')) || [];
                 if (isRegisterMode) {
                     const name = document.getElementById('regName').value;
                     const phone = document.getElementById('regPhone').value.trim();
@@ -691,8 +717,9 @@
 
                     const newCode = 'CLN-' + (1000 + clientsList.length + 1);
                     loggedInClient = { code: newCode, name, phone, pass, points: 0 };
-                    clientsList.push(loggedInClient);
-                    localStorage.setItem('salon_clients', JSON.stringify(clientsList));
+                    
+                    await window.firebaseTools.addDoc(window.firebaseTools.collection(window.db, "clients"), loggedInClient);
+                    await fetchAllDataFromFirebase();
 
                     alert(currentLang === 'ar' ? `تم إنشاء حسابك! كودك هو: (${newCode})` : `Account Created! Code: ${newCode}`);
                     launchApp(`${t.welcomeClient}: ${name}`, 'client');
@@ -719,10 +746,8 @@
                 document.querySelector('.main-content').style.marginRight = '0';
                 document.querySelector('.main-content').style.width = '100%';
                 if(loggedInClient) {
-                    const cName = document.getElementById('bookingClientName');
-                    if(cName) cName.value = loggedInClient.name;
-                    const cPhone = document.getElementById('bookingClientPhone');
-                    if(cPhone) cPhone.value = loggedInClient.phone;
+                    document.getElementById('bookingClientName').value = loggedInClient.name;
+                    document.getElementById('bookingClientPhone').value = loggedInClient.phone;
                 }
             } else {
                 document.getElementById('mainSidebar').style.display = 'flex';
@@ -772,8 +797,7 @@
 
         function showPage(pageId) {
             document.querySelectorAll('.page-section').forEach(p => p.style.display = 'none');
-            const target = document.getElementById('page-' + pageId);
-            if(target) target.style.display = 'block';
+            document.getElementById('page-' + pageId).style.display = 'block';
             refreshAllDataViews();
         }
 
@@ -797,13 +821,6 @@
         }
 
         function refreshAllDataViews() {
-            bookingsList = JSON.parse(localStorage.getItem('salon_bookings')) || [];
-            invoicesList = JSON.parse(localStorage.getItem('salon_invoices')) || [];
-            clientsList = JSON.parse(localStorage.getItem('salon_clients')) || [];
-            staffList = JSON.parse(localStorage.getItem('salon_staff')) || [];
-            servicesList = JSON.parse(localStorage.getItem('salon_services')) || [];
-            inventoryList = JSON.parse(localStorage.getItem('salon_inventory')) || [];
-
             renderPosServicesGrid();
             renderBookingsTable();
             renderInvoicesTable();
@@ -820,10 +837,8 @@
             if (loggedInClient) {
                 let foundClient = clientsList.find(c => c.phone === loggedInClient.phone);
                 if(foundClient) loggedInClient = foundClient;
-                const codeEl = document.getElementById('clientMyCodeDisplay');
-                if(codeEl) codeEl.textContent = loggedInClient.code || '#CLN-1001';
-                const ptsEl = document.getElementById('clientMyPointsDisplay');
-                if(ptsEl) ptsEl.textContent = `${loggedInClient.points || 0} نقطة`;
+                document.getElementById('clientMyCodeDisplay').textContent = loggedInClient.code || '#CLN-1001';
+                document.getElementById('clientMyPointsDisplay').textContent = `${loggedInClient.points || 0} نقطة`;
                 renderClientAppointments();
             }
         }
@@ -873,11 +888,10 @@
                     </tr>
                 `;
             });
-            const totEl = document.getElementById('clientCartTotal');
-            if(totEl) totEl.textContent = total;
+            document.getElementById('clientCartTotal').textContent = total;
         }
 
-        function submitClientBooking() {
+        async function submitClientBooking() {
             const name = document.getElementById('bookingClientName').value;
             const phone = document.getElementById('bookingClientPhone').value;
             const dt = document.getElementById('bookingDateTime').value;
@@ -896,13 +910,12 @@
                 staff: staff || 'سيتم تحديدها'
             };
 
-            bookingsList.push(newBooking);
-            localStorage.setItem('salon_bookings', JSON.stringify(bookingsList));
+            await window.firebaseTools.addDoc(window.firebaseTools.collection(window.db, "bookings"), newBooking);
+            await fetchAllDataFromFirebase();
 
             alert('تم تأكيد حجزك بنجاح وسوف يظهر في لوحة المواعيد الخاصّة بكِ!');
             clientCart = [];
             renderClientCart();
-            refreshAllDataViews();
             switchClientTab('myAppointments');
         }
 
@@ -935,8 +948,7 @@
         function renderPosServicesGrid() {
             const grid = document.getElementById('posServicesGrid');
             if(!grid) return;
-            const searchEl = document.getElementById('posServiceSearch');
-            const q = searchEl ? searchEl.value.toLowerCase() : '';
+            const q = document.getElementById('posServiceSearch').value.toLowerCase();
             grid.innerHTML = '';
 
             servicesList.filter(s => s.name.toLowerCase().includes(q)).forEach(s => {
@@ -969,13 +981,11 @@
                     </tr>
                 `;
             });
-            const totEl = document.getElementById('posTotalAmount');
-            if(totEl) totEl.textContent = total;
+            document.getElementById('posTotalAmount').textContent = total;
         }
 
-        function completePosTransaction() {
+        async function completePosTransaction() {
             const clientName = document.getElementById('posClientName').value || 'عميلة كاشير';
-            const clientPhone = document.getElementById('posClientPhone').value || '-';
             const payMethod = document.getElementById('posPayMethod').value;
             const total = parseFloat(document.getElementById('posTotalAmount').textContent);
 
@@ -991,13 +1001,12 @@
                 payMethod: payMethod
             };
 
-            invoicesList.unshift(newInv);
-            localStorage.setItem('salon_invoices', JSON.stringify(invoicesList));
+            await window.firebaseTools.addDoc(window.firebaseTools.collection(window.db, "invoices"), newInv);
+            await fetchAllDataFromFirebase();
 
             printInvoice(newInv.id, clientName, newInv.service, 'الكاشير', total, payMethod);
             posCart = [];
             renderPosCart();
-            refreshAllDataViews();
         }
 
         function renderBookingsTable() {
@@ -1007,10 +1016,9 @@
             tbody.innerHTML = '';
             if(todayTbody) todayTbody.innerHTML = '';
 
-            const countEl = document.getElementById('dashboardBookingsCount');
-            if(countEl) countEl.textContent = `${bookingsList.length} حجز`;
+            document.getElementById('dashboardBookingsCount').textContent = `${bookingsList.length} حجز`;
 
-            bookingsList.forEach((b, idx) => {
+            bookingsList.forEach((b) => {
                 tbody.innerHTML += `
                     <tr>
                         <td>${b.datetime || '2026-10-20T16:00'}</td>
@@ -1020,12 +1028,17 @@
                         <td>${b.price || 100} ر.س</td>
                         <td>${b.staff}</td>
                         <td>
-                            <button class="btn-btn btn-danger" onclick="bookingsList.splice(${idx},1); localStorage.setItem('salon_bookings', JSON.stringify(bookingsList)); refreshAllDataViews();">إلغاء</button>
+                            <button class="btn-btn btn-danger" onclick="deleteBookingDoc('${b.id}')">إلغاء</button>
                         </td>
                     </tr>
                 `;
                 if(todayTbody) todayTbody.innerHTML += `<tr><td>${b.name}</td><td>${b.datetime ? b.datetime.split('T')[1] : '04:00م'}</td></tr>`;
             });
+        }
+
+        async function deleteBookingDoc(id) {
+            await window.firebaseTools.deleteDoc(window.firebaseTools.doc(window.db, "bookings", id));
+            await fetchAllDataFromFirebase();
         }
 
         function renderInvoicesTable() {
@@ -1035,15 +1048,7 @@
             tbody.innerHTML = '';
             if(dashRecent) dashRecent.innerHTML = '';
 
-            const monthSelect = document.getElementById('invMonthSelect');
-            const monthVal = monthSelect ? monthSelect.value : 'ALL';
-
-            let filtered = invoicesList;
-            if(monthVal !== 'ALL') {
-                filtered = invoicesList.filter(i => i.date && i.date.startsWith(monthVal));
-            }
-
-            filtered.forEach((inv, idx) => {
+            invoicesList.forEach((inv, idx) => {
                 tbody.innerHTML += `
                     <tr>
                         <td><strong>${inv.id}</strong></td>
@@ -1054,7 +1059,7 @@
                         <td>${inv.amount} ر.س</td>
                         <td>${inv.payMethod}</td>
                         <td>
-                            <button class="btn-btn btn-danger" onclick="invoicesList.splice(${idx},1); localStorage.setItem('salon_invoices', JSON.stringify(invoicesList)); refreshAllDataViews();">حذف</button>
+                            <button class="btn-btn btn-danger" onclick="deleteInvoiceDoc('${inv.id}')">حذف</button>
                             <button class="btn-btn btn-primary" onclick="printInvoice('${inv.id}','${inv.client}','${inv.service}','${inv.staff}',${inv.amount},'${inv.payMethod}')">طباعة</button>
                         </td>
                     </tr>
@@ -1063,52 +1068,60 @@
             });
         }
 
-        function renewMonthlyInvoicesCycle() {
-            if(confirm('هل ترغبين في أرشفة الفواتير وبدء دورة شهر جديد لتصفير العداد التلقائي؟')) {
-                alert('تمت أرشفة فواتير الشهر الحالي وبدء سجل شهر جديد بنجاح!');
-                refreshAllDataViews();
+        async function renewMonthlyInvoicesCycle() {
+            if(confirm('هل ترغبين في أرشفة الفواتير وبدء دورة شهرية جديدة للعداد؟')) {
+                alert('تمت أرشفة فواتير الشهر وبدء دورة حسابات جديدة بنجاح!');
             }
+        }
+
+        async function deleteInvoiceDoc(id) {
+            await window.firebaseTools.deleteDoc(window.firebaseTools.doc(window.db, "invoices", id));
+            await fetchAllDataFromFirebase();
         }
 
         function renderStaffTable() {
             const tbody = document.getElementById('staffListTable');
             if(!tbody) return;
             tbody.innerHTML = '';
-            staffList.forEach((s, idx) => {
+            staffList.forEach((s) => {
                 tbody.innerHTML += `
                     <tr>
                         <td>${s.name}</td>
                         <td>${s.user}</td>
                         <td>${s.salary} ر.س</td>
-                        <td><button class="btn-btn btn-danger" onclick="staffList.splice(${idx},1); localStorage.setItem('salon_staff', JSON.stringify(staffList)); refreshAllDataViews();">حذف</button></td>
+                        <td><button class="btn-btn btn-danger" onclick="deleteStaffDoc('${s.id}')">حذف</button></td>
                     </tr>
                 `;
             });
         }
 
-        /* ميزة أداء الموظفات والرجوع للأشهر السابقة */
+        async function deleteStaffDoc(id) {
+            await window.firebaseTools.deleteDoc(window.firebaseTools.doc(window.db, "staff", id));
+            await fetchAllDataFromFirebase();
+        }
+
+        /* حساب أداء الموظفات الشهري وتحديد الأشهر السابقة */
         function renderStaffPerformanceTable() {
             const tbody = document.getElementById('staffPerfTableBody');
             if(!tbody) return;
             tbody.innerHTML = '';
 
-            const perfEl = document.getElementById('staffPerfMonth');
-            const selectedMonth = perfEl ? perfEl.value : '2026-10'; // YYYY-MM
+            const perfMonth = document.getElementById('staffPerfMonth').value; // YYYY-MM
 
             staffList.forEach(s => {
-                let monthInvoices = invoicesList.filter(inv => inv.staff === s.name && inv.date && inv.date.startsWith(selectedMonth));
+                let monthInvoices = invoicesList.filter(inv => inv.staff === s.name && inv.date && inv.date.startsWith(perfMonth));
                 let count = monthInvoices.length;
                 let totalSales = monthInvoices.reduce((sum, inv) => sum + (inv.amount || 0), 0);
 
-                let statusBadge = count > 10 ? '🔥 ممتاز جداً' : (count > 0 ? '👍 جيد جداً' : '❄️ لا توجد مبيعات في هذا الشهر');
+                let badge = count > 10 ? '🔥 ممتاز جداً' : (count > 0 ? '👍 جيد جداً' : '❄️ لا توجد مبيعات');
 
                 tbody.innerHTML += `
                     <tr>
                         <td><strong>${s.name}</strong></td>
-                        <td>${selectedMonth}</td>
+                        <td>${perfMonth}</td>
                         <td>${count} خدمة</td>
                         <td><strong style="color:var(--primary);">${totalSales} ر.س</strong></td>
-                        <td>${statusBadge}</td>
+                        <td>${badge}</td>
                     </tr>
                 `;
             });
@@ -1137,33 +1150,34 @@
             });
         }
 
+        /* صفحة سجل الزباين المخصصة مع إمكانية زيادة وتعديل النقاط والبحث بالاسم/الجوال/الكود */
         function renderClientsPointsTable() {
             const tbody = document.getElementById('clientsPointsTableBody');
             if(!tbody) return;
             tbody.innerHTML = '';
 
-            const searchInput = document.getElementById('clientSearchInput');
-            const q = searchInput ? searchInput.value.toLowerCase() : '';
+            const q = document.getElementById('clientSearchInput').value.toLowerCase();
 
-            clientsList.filter(c => c.name.toLowerCase().includes(q) || c.phone.includes(q) || (c.code && c.code.toLowerCase().includes(q))).forEach((c, idx) => {
+            clientsList.filter(c => c.name.toLowerCase().includes(q) || c.phone.includes(q) || (c.code && c.code.toLowerCase().includes(q))).forEach((c) => {
                 tbody.innerHTML += `
                     <tr>
-                        <td><strong>${c.code || '#CLN-100' + idx}</strong></td>
+                        <td><strong>${c.code || '#CLN-100'}</strong></td>
                         <td>${c.name}</td>
                         <td>${c.phone}</td>
                         <td><strong style="color:var(--accent);">${c.points || 0} نقطة</strong></td>
-                        <td><button class="btn-btn btn-action" onclick="addClientPoints(${idx})">+ زيادة نقاط</button></td>
+                        <td><button class="btn-btn btn-action" onclick="updateClientPoints('${c.id}', ${c.points || 0})">+ زيادة نقاط</button></td>
                     </tr>
                 `;
             });
         }
 
-        function addClientPoints(idx) {
+        async function updateClientPoints(id, currentPts) {
             let pts = prompt('أدخلي عدد النقاط المراد إضافتها للعميلة:');
             if(pts) {
-                clientsList[idx].points = (clientsList[idx].points || 0) + parseInt(pts);
-                localStorage.setItem('salon_clients', JSON.stringify(clientsList));
-                refreshAllDataViews();
+                await window.firebaseTools.updateDoc(window.firebaseTools.doc(window.db, "clients", id), {
+                    points: currentPts + parseInt(pts)
+                });
+                await fetchAllDataFromFirebase();
             }
         }
 
@@ -1171,30 +1185,34 @@
             const tbody = document.getElementById('servicesAdminTableBody');
             if(!tbody) return;
             tbody.innerHTML = '';
-            servicesList.forEach((s, idx) => {
+            servicesList.forEach((s) => {
                 tbody.innerHTML += `
                     <tr>
                         <td>${s.name}</td>
                         <td>${s.price} ر.س</td>
-                        <td><button class="btn-btn btn-danger" onclick="servicesList.splice(${idx},1); localStorage.setItem('salon_services', JSON.stringify(servicesList)); refreshAllDataViews();">حذف</button></td>
+                        <td><button class="btn-btn btn-danger" onclick="deleteServiceDoc('${s.id}')">حذف</button></td>
                     </tr>
                 `;
             });
         }
 
-        function addNewService() {
+        async function deleteServiceDoc(id) {
+            await window.firebaseTools.deleteDoc(window.firebaseTools.doc(window.db, "services", id));
+            await fetchAllDataFromFirebase();
+        }
+
+        async function addNewService() {
             const name = document.getElementById('newServiceName').value;
             const price = parseFloat(document.getElementById('newServicePrice').value);
             if(!name || !price) return alert('أدخلي اسم الخدمة والسعر!');
 
-            servicesList.push({ name, price });
-            localStorage.setItem('salon_services', JSON.stringify(servicesList));
+            await window.firebaseTools.addDoc(window.firebaseTools.collection(window.db, "services"), { name, price });
             document.getElementById('newServiceName').value = '';
             document.getElementById('newServicePrice').value = '';
-            refreshAllDataViews();
+            await fetchAllDataFromFirebase();
         }
 
-        function addNewStaffMember() {
+        async function addNewStaffMember() {
             const name = document.getElementById('staffNameInput').value;
             const user = document.getElementById('staffUsernameInput').value;
             const pass = document.getElementById('staffPasswordInput').value;
@@ -1202,58 +1220,76 @@
 
             if(!name || !user || !pass) return alert('أدخلي جميع بيانات الموظفة!');
 
-            staffList.push({ name, user, pass, salary });
-            localStorage.setItem('salon_staff', JSON.stringify(staffList));
+            await window.firebaseTools.addDoc(window.firebaseTools.collection(window.db, "staff"), { name, user, pass, salary });
             document.getElementById('staffNameInput').value = '';
             document.getElementById('staffUsernameInput').value = '';
             document.getElementById('staffPasswordInput').value = '';
-            refreshAllDataViews();
+            await fetchAllDataFromFirebase();
         }
 
         function renderInventoryTable() {
             const tbody = document.getElementById('inventoryTableBody');
             if(!tbody) return;
             tbody.innerHTML = '';
-            inventoryList.forEach((item, idx) => {
+            inventoryList.forEach((item) => {
                 tbody.innerHTML += `
                     <tr>
                         <td>${item.name}</td>
                         <td>${item.qty}</td>
                         <td>${item.qty <= item.min ? '<span style="color:red;">منخفض</span>' : '<span style="color:green;">متوفر</span>'}</td>
-                        <td><button class="btn-btn btn-action" onclick="inventoryList[idx].qty++; localStorage.setItem('salon_inventory', JSON.stringify(inventoryList)); refreshAllDataViews();">+</button></td>
-                        <td><button class="btn-btn btn-danger" onclick="inventoryList.splice(${idx},1); localStorage.setItem('salon_inventory', JSON.stringify(inventoryList)); refreshAllDataViews();">حذف</button></td>
+                        <td><button class="btn-btn btn-action" onclick="increaseInventoryQty('${item.id}', ${item.qty})">+</button></td>
+                        <td><button class="btn-btn btn-danger" onclick="deleteInventoryDoc('${item.id}')">حذف</button></td>
                     </tr>
                 `;
             });
         }
 
-        function addInventoryItem() {
+        async function increaseInventoryQty(id, currentQty) {
+            await window.firebaseTools.updateDoc(window.firebaseTools.doc(window.db, "inventory", id), { qty: currentQty + 1 });
+            await fetchAllDataFromFirebase();
+        }
+
+        async function deleteInventoryDoc(id) {
+            await window.firebaseTools.deleteDoc(window.firebaseTools.doc(window.db, "inventory", id));
+            await fetchAllDataFromFirebase();
+        }
+
+        async function addInventoryItem() {
             const name = document.getElementById('invItemName').value;
             const qty = parseInt(document.getElementById('invItemQty').value);
             const min = parseInt(document.getElementById('invItemMin').value) || 5;
 
             if(!name || isNaN(qty)) return alert('أدخلي بيانات المنتج بشكل صحيح!');
 
-            inventoryList.push({ name, qty, min });
-            localStorage.setItem('salon_inventory', JSON.stringify(inventoryList));
+            await window.firebaseTools.addDoc(window.firebaseTools.collection(window.db, "inventory"), { name, qty, min });
             document.getElementById('invItemName').value = '';
             document.getElementById('invItemQty').value = '';
-            refreshAllDataViews();
+            await fetchAllDataFromFirebase();
         }
 
+        /* تحديث ملخص الإحصائيات مع الفلترة الزمنية (من تاريخ / إلى تاريخ) */
         function updateStatsSummary() {
-            let totalSales = invoicesList.reduce((acc, inv) => acc + (inv.amount || 0), 0);
-            const salesVal = document.getElementById('statSalesVal');
-            if(salesVal) salesVal.textContent = `${totalSales} ر.س`;
-            const netVal = document.getElementById('statNetVal');
-            if(netVal) netVal.textContent = `${totalSales} ر.س`;
+            const sDate = document.getElementById('dashStartDate').value;
+            const eDate = document.getElementById('dashEndDate').value;
+
+            let filteredInvoices = invoicesList;
+
+            if (sDate && eDate) {
+                filteredInvoices = invoicesList.filter(inv => inv.date >= sDate && inv.date <= eDate);
+            } else if (sDate) {
+                filteredInvoices = invoicesList.filter(inv => inv.date >= sDate);
+            } else if (eDate) {
+                filteredInvoices = invoicesList.filter(inv => inv.date <= eDate);
+            }
+
+            let totalSales = filteredInvoices.reduce((acc, inv) => acc + (inv.amount || 0), 0);
+            document.getElementById('statSalesVal').textContent = `${totalSales} ر.س`;
+            document.getElementById('statNetVal').textContent = `${totalSales} ر.س`;
         }
 
         function resetDashboardFilter() {
-            const s = document.getElementById('dashStartDate');
-            if(s) s.value = '';
-            const e = document.getElementById('dashEndDate');
-            if(e) e.value = '';
+            document.getElementById('dashStartDate').value = '';
+            document.getElementById('dashEndDate').value = '';
             updateStatsSummary();
         }
 
@@ -1271,7 +1307,6 @@
             const newP = document.getElementById('changePasswordInput').value;
             if(newP) {
                 ownerPass = newP;
-                localStorage.setItem('salon_owner_pass', newP);
                 alert('تم التحديث بنجاح!');
             }
         }
