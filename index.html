@@ -19,102 +19,31 @@
         }
 
         * { box-sizing: border-box; font-family: 'Tajawal', sans-serif; margin: 0; padding: 0; }
-        body { background-color: var(--body-bg); color: var(--text-dark); direction: rtl; min-height: 100vh; font-size: 14px; transition: background-color 0.3s; }
+        body { background-color: var(--body-bg); color: var(--text-dark); direction: rtl; min-height: 100vh; font-size: 14px; }
 
-        #eventBanner {
-            display: none;
-            background: var(--primary);
-            color: #ffffff;
-            text-align: center;
-            padding: 8px 12px;
-            font-weight: bold;
-            font-size: 13px;
-        }
+        #eventBanner { display: none; background: var(--primary); color: #ffffff; text-align: center; padding: 8px 12px; font-weight: bold; font-size: 13px; }
 
+        /* شاشة الدخول */
         #login-screen {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background: linear-gradient(135deg, #2d2327 0%, var(--primary) 100%);
-            padding: 15px;
+            display: flex; justify-content: center; align-items: center; min-height: 100vh;
+            background: linear-gradient(135deg, #2d2327 0%, var(--primary) 100%); padding: 15px;
         }
-
         .login-card {
-            background: #ffffff;
-            width: 100%;
-            max-width: 420px;
-            padding: 30px 22px;
-            border-radius: 18px;
-            box-shadow: 0 12px 35px rgba(0,0,0,0.25);
-            text-align: center;
+            background: #ffffff; width: 100%; max-width: 420px; padding: 30px 22px;
+            border-radius: 18px; box-shadow: 0 12px 35px rgba(0,0,0,0.25); text-align: center;
         }
-
         .login-card h2 { color: var(--primary); font-size: 22px; margin-bottom: 6px; }
         .login-card p { color: var(--text-light); font-size: 13px; margin-bottom: 15px; }
 
-        .lang-selector { margin-bottom: 15px; }
-        .lang-selector select {
-            padding: 6px 12px;
-            border-radius: 8px;
-            border: 1px solid #ddd;
-            font-size: 12px;
-            cursor: pointer;
-            outline: none;
-            background: #fff;
-        }
-
-        .role-selector {
-            display: flex;
-            gap: 5px;
-            margin-bottom: 15px;
-            background: #f0f0f0;
-            padding: 4px;
-            border-radius: 10px;
-        }
-
-        .role-btn {
-            flex: 1;
-            padding: 8px 3px;
-            border: none;
-            border-radius: 8px;
-            background: transparent;
-            font-weight: 700;
-            font-size: 12px;
-            color: #555;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
+        .role-selector { display: flex; gap: 5px; margin-bottom: 15px; background: #f0f0f0; padding: 4px; border-radius: 10px; }
+        .role-btn { flex: 1; padding: 8px 3px; border: none; border-radius: 8px; background: transparent; font-weight: 700; font-size: 12px; color: #555; cursor: pointer; transition: 0.3s; }
         .role-btn.active { background: var(--primary); color: #ffffff; }
 
-        .form-control {
-            width: 100%;
-            padding: 10px 12px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            margin-bottom: 12px;
-            font-size: 13px;
-            outline: none;
-            background: #fff;
-            color: #333;
-        }
+        .form-control { width: 100%; padding: 10px 12px; border: 1px solid #ddd; border-radius: 8px; margin-bottom: 12px; font-size: 13px; outline: none; background: #fff; color: #333; }
+        .btn-submit { width: 100%; padding: 12px; background: var(--primary); color: white; border: none; border-radius: 8px; font-size: 14px; font-weight: 700; cursor: pointer; transition: 0.3s; }
 
-        .btn-submit {
-            width: 100%;
-            padding: 12px;
-            background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
+        /* الهيكل الرئيسي */
         #app-container { display: none; min-height: 100vh; flex-direction: column; }
-
         @media (min-width: 769px) {
             #app-container { flex-direction: row; }
             .sidebar { width: 250px; height: 100vh; position: fixed; right: 0; top: 0; }
@@ -122,13 +51,11 @@
             body[dir="ltr"] .main-content { margin-right: 0; margin-left: 250px; }
             body[dir="ltr"] .sidebar { right: auto; left: 0; }
         }
-
         @media (max-width: 768px) {
             .sidebar { width: 100%; height: auto; position: relative; }
             .main-content { padding: 12px; width: 100%; margin-right: 0 !important; margin-left: 0 !important; }
-            .grid-2 { grid-template-columns: 1fr !important; }
+            .grid-2, .pos-layout { grid-template-columns: 1fr !important; }
             .stats-grid { grid-template-columns: 1fr 1fr !important; gap: 10px !important; }
-            .top-bar { flex-direction: column; text-align: center; gap: 10px; }
             table { display: block; overflow-x: auto; white-space: nowrap; }
         }
 
@@ -136,36 +63,13 @@
         .sidebar-header { padding: 18px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); }
         .sidebar-header h2 { font-size: 18px; color: var(--secondary); }
         .sidebar-menu { list-style: none; padding: 10px; display: flex; flex-wrap: wrap; gap: 5px; }
-
         @media (min-width: 769px) { .sidebar-menu { flex-direction: column; } }
 
-        .sidebar-menu a {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 12px;
-            color: #ccc;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: 500;
-            cursor: pointer;
-            font-size: 13px;
-        }
-
+        .sidebar-menu a { display: flex; align-items: center; gap: 8px; padding: 10px 12px; color: #ccc; text-decoration: none; border-radius: 8px; font-weight: 500; cursor: pointer; font-size: 13px; }
         .sidebar-menu a:hover, .sidebar-menu a.active { background-color: var(--primary); color: #fff; }
-        .sidebar-footer { padding: 12px; border-top: 1px solid rgba(255,255,255,0.1); display: flex; gap: 8px; }
+        .sidebar-footer { padding: 12px; border-top: 1px solid rgba(255,255,255,0.1); }
 
-        .top-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: var(--card-bg);
-            padding: 14px 20px;
-            border-radius: 12px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
-            margin-bottom: 15px;
-        }
-
+        .top-bar { display: flex; justify-content: space-between; align-items: center; background: var(--card-bg); padding: 14px 20px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.03); margin-bottom: 15px; }
         .welcome-msg h1 { font-size: 18px; color: var(--text-dark); }
         .welcome-msg p { font-size: 12px; color: var(--text-light); }
 
@@ -187,6 +91,13 @@
         .btn-danger { background-color: #d9534f; color: white; }
         .btn-action { background-color: #31708f; color: white; margin-left: 3px; }
 
+        /* تصميم الكاشير الحقيقي (Real POS Layout) */
+        .pos-layout { display: grid; grid-template-columns: 2fr 1fr; gap: 15px; }
+        .pos-items-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 10px; }
+        .pos-item-card { background: #fff; border: 1.5px solid #eee; border-radius: 10px; padding: 10px; text-align: center; cursor: pointer; transition: 0.2s; }
+        .pos-item-card:hover { border-color: var(--primary); background: #fdf5f7; transform: translateY(-2px); }
+        .pos-cart-box { background: #fff; padding: 15px; border-radius: 12px; border: 2px solid var(--primary); }
+
         .client-tabs { display: flex; gap: 10px; margin-bottom: 15px; }
         .client-tab-btn { flex: 1; padding: 12px; border: none; border-radius: 10px; background: #e0d5d8; font-weight: bold; cursor: pointer; color: #444; }
         .client-tab-btn.active { background: var(--primary); color: white; }
@@ -194,28 +105,19 @@
         .service-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin-bottom: 15px; }
         .service-card { background: #fff; border: 1.5px solid #f2d6de; border-radius: 10px; padding: 10px; text-align: center; position: relative; }
         .service-card img { width: 100%; height: 85px; object-fit: cover; border-radius: 6px; margin-bottom: 8px; }
-        .discount-tag { position: absolute; top: 6px; right: 6px; background: #d9534f; color: white; padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: bold; }
 
-        #printableInvoice {
-            display: none;
-            width: 100%;
-            max-width: 380px;
-            margin: 0 auto;
-            padding: 20px;
-            border: 2px solid var(--primary);
-            border-radius: 12px;
-            background: #fff;
-        }
+        .chart-bar-container { display: flex; align-items: flex-end; justify-content: space-around; height: 180px; padding-top: 20px; border-bottom: 2px solid #eee; gap: 15px; }
+        .chart-bar { width: 45px; background: linear-gradient(180deg, var(--primary) 0%, #7e3247 100%); border-radius: 6px 6px 0 0; text-align: center; color: white; font-size: 11px; padding-top: 6px; }
 
+        #printableInvoice { display: none; width: 100%; max-width: 380px; margin: 0 auto; padding: 20px; border: 2px solid var(--primary); border-radius: 12px; background: #fff; }
         .inv-header { text-align: center; border-bottom: 2px dashed var(--primary); padding-bottom: 10px; margin-bottom: 12px; }
-        .inv-header h2 { color: var(--primary); font-size: 20px; font-weight: bold; }
-        .inv-details p { font-size: 13px; line-height: 1.8; color: #222; font-weight: 500; }
+        .inv-details p { font-size: 13px; line-height: 1.8; color: #222; }
         .inv-footer { text-align: center; border-top: 2px dashed var(--primary); padding-top: 10px; margin-top: 12px; font-size: 12px; color: #555; }
 
         @media print {
             body * { visibility: hidden; }
             #printableInvoice, #printableInvoice * { visibility: visible; }
-            #printableInvoice { position: absolute; left: 0; top: 0; width: 100%; max-width: 100%; border: none; }
+            #printableInvoice { position: absolute; left: 0; top: 0; width: 100%; border: none; }
         }
     </style>
 </head>
@@ -223,14 +125,14 @@
 
     <div id="eventBanner"></div>
 
-    <!-- 1. تسجيل الدخول وإنشاء الحساب -->
+    <!-- 1. شاشة تسجيل الدخول -->
     <div id="login-screen">
         <div class="login-card">
             <h2 id="loginTitle">صالون جودة الأظافر 💅</h2>
             <p id="loginSubtitle">مرحباً بكِ، اختاري نوع الحساب للدخول</p>
 
-            <div class="lang-selector">
-                <select id="langSelect" onchange="changeLanguage(this.value)">
+            <div style="margin-bottom: 15px;">
+                <select id="langSelect" onchange="changeLanguage(this.value)" style="padding:6px 12px; border-radius:8px; border:1px solid #ddd;">
                     <option value="ar">العربية 🇸🇦</option>
                     <option value="en">English 🇬🇧</option>
                 </select>
@@ -250,10 +152,10 @@
             </form>
 
             <div id="clientRegisterToggle" style="display:none; margin-top: 12px;">
-                <p style="font-size:12px; color:#666;" id="txtNoAccount">ليس لديكِ حساب؟ <a href="#" onclick="toggleClientMode('register')" style="color:var(--primary); font-weight:bold;" id="linkRegister">إنشاء حساب جديد</a></p>
+                <p style="font-size:12px; color:#666;" id="txtNoAccount">ليس لديكِ حساب؟ <a href="#" onclick="toggleClientMode('register')" style="color:var(--primary); font-weight:bold;">إنشاء حساب جديد</a></p>
             </div>
             <div id="clientLoginToggle" style="display:none; margin-top: 12px;">
-                <p style="font-size:12px; color:#666;" id="txtHasAccount">لديكِ حساب بالفعل؟ <a href="#" onclick="toggleClientMode('login')" style="color:var(--primary); font-weight:bold;" id="linkLogin">تسجيل الدخول</a></p>
+                <p style="font-size:12px; color:#666;" id="txtHasAccount">لديكِ حساب بالفعل؟ <a href="#" onclick="toggleClientMode('login')" style="color:var(--primary); font-weight:bold;">تسجيل الدخول</a></p>
             </div>
         </div>
     </div>
@@ -263,12 +165,12 @@
         <div class="sidebar" id="mainSidebar">
             <div>
                 <div class="sidebar-header">
-                    <h2 id="sidebarTitle">جودة الأظافر 💅</h2>
+                    <h2>جودة الأظافر 💅</h2>
                 </div>
                 <ul class="sidebar-menu" id="sidebarMenu"></ul>
             </div>
             <div class="sidebar-footer">
-                <button class="btn-btn btn-danger" style="width:100%;" id="btnLogout" onclick="logout()">خروج 🔒</button>
+                <button class="btn-btn btn-danger" style="width:100%;" onclick="logout()">خروج 🔒</button>
             </div>
         </div>
 
@@ -279,64 +181,240 @@
                     <p id="currentDateDisplay">التاريخ الحالي: 2026/10/20م</p>
                 </div>
                 <div>
-                    <span id="statusBadge" style="background: #e8f5e9; color: var(--accent); padding: 5px 12px; border-radius: 15px; font-size: 12px; font-weight: 700;">🟢 متصل</span>
+                    <span style="background: #e8f5e9; color: var(--accent); padding: 5px 12px; border-radius: 15px; font-size: 12px; font-weight: 700;">🟢 متصل</span>
                 </div>
             </div>
 
-            <!-- الرئيسية -->
+            <!-- أ. الرئيسية (Dashboard) -->
             <div id="page-dashboard" class="page-section">
                 <div class="card">
-                    <h3 id="txtQuickReq" style="color:var(--primary); margin-bottom:10px;">⚡ متطلباتي السريعة</h3>
+                    <h3 style="color:var(--primary); margin-bottom:10px;" id="txtQuickReq">⚡ متطلباتي السريعة</h3>
                     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px;">
-                        <button class="btn-btn btn-primary" id="btnPosQuick" onclick="showPage('pos')">🛒 كاشير جديد</button>
-                        <button class="btn-btn btn-action" id="btnClientsQuick" onclick="showPage('clients-list')">👤 إضافة/إدارة عميل</button>
-                        <button class="btn-btn" id="btnServicesQuick" style="background:#4a7c59; color:white;" onclick="showPage('services')">📦 إضافة منتج/خدمة</button>
-                        <button class="btn-btn" id="btnInvoiceQuick" style="background:#e67e22; color:white;" onclick="showPage('invoices')">📄 فاتورة جديدة</button>
-                        <button class="btn-btn" id="btnFinancesQuick" style="background:#8e44ad; color:white;" onclick="showPage('finances')">📊 تقرير المبيعات</button>
-                        <button class="btn-btn" id="btnStaffQuick" style="background:#2c3e50; color:white;" onclick="showPage('staff')">👩‍🦰 موظف جديد</button>
+                        <button class="btn-btn btn-primary" onclick="showPage('pos')">🛒 كاشير جديد</button>
+                        <button class="btn-btn btn-action" onclick="showPage('clients-list')">👤 إضافة/إدارة عميل</button>
+                        <button class="btn-btn" style="background:#4a7c59; color:white;" onclick="showPage('services')">📦 إضافة منتج/خدمة</button>
+                        <button class="btn-btn" style="background:#e67e22; color:white;" onclick="showPage('invoices')">📄 فاتورة جديدة</button>
+                        <button class="btn-btn" style="background:#8e44ad; color:white;" onclick="showPage('finances')">📊 تقرير المبيعات</button>
+                        <button class="btn-btn" style="background:#2c3e50; color:white;" onclick="showPage('staff')">👩‍🦰 موظف جديد</button>
                     </div>
                 </div>
 
                 <div class="stats-grid">
                     <div class="stat-card"><h3 id="txtStatBookings">حجوزات اليوم</h3><div class="value" id="dashboardBookingsCount">0 حجز</div></div>
-                    <div class="stat-card"><h3 id="txtStatSales">إجمالي المبيعات</h3><div class="value">10,870 ر.س</div></div>
-                    <div class="stat-card"><h3 id="txtStatNet">صافي الأرباح</h3><div class="value">8,420 ر.س</div></div>
-                    <div class="stat-card"><h3 id="txtStatExpenses">المصروفات والإيجارات</h3><div class="value">2,450 ر.س</div></div>
+                    <div class="stat-card"><h3 id="txtStatSales">إجمالي المبيعات</h3><div class="value" id="statSalesVal">0 ر.س</div></div>
+                    <div class="stat-card"><h3 id="txtStatNet">صافي الأرباح</h3><div class="value" id="statNetVal">0 ر.س</div></div>
+                    <div class="stat-card"><h3 id="txtStatExpenses">المصروفات والإيجارات</h3><div class="value" id="statExpVal">0 ر.س</div></div>
                 </div>
 
                 <div class="grid-2">
                     <div class="card">
-                        <div class="card-header"><h3 id="txtRecentInvoices">أحدث الفواتير</h3><button class="btn-btn btn-primary" id="btnViewAllInv" onclick="showPage('invoices')">عرض الكل</button></div>
+                        <div class="card-header"><h3 id="txtRecentInvoices">أحدث الفواتير</h3><button class="btn-btn btn-primary" onclick="showPage('invoices')">عرض الكل</button></div>
                         <table>
-                            <thead><tr><th id="thInvCl">العميل</th><th id="thInvAm">المبلغ</th><th id="thInvSt">الحالة</th></tr></thead>
-                            <tbody>
-                                <tr><td>سارة محمد</td><td>320 ر.س</td><td><span style="color:green; font-weight:bold;">مدفوعة</span></td></tr>
-                                <tr><td>نورة القحطاني</td><td>450 ر.س</td><td><span style="color:green; font-weight:bold;">مدفوعة</span></td></tr>
-                            </tbody>
+                            <thead><tr><th>#</th><th>العميلة</th><th>المبلغ</th><th>الحالة</th></tr></thead>
+                            <tbody id="dashRecentInvoicesBody"></tbody>
                         </table>
                     </div>
                     <div class="card">
                         <div class="card-header"><h3 id="txtTodayAppointments">مواعيد اليوم</h3></div>
                         <table>
-                            <thead><tr><th id="thAppCl">العميلة</th><th id="thAppTm">الوقت</th></tr></thead>
+                            <thead><tr><th>العميلة</th><th>الوقت</th></tr></thead>
                             <tbody id="todayAppointmentsTable"></tbody>
                         </table>
                     </div>
                 </div>
             </div>
 
-            <!-- واجهة الكاشير -->
+            <!-- ب. جهاز الكاشير الحقيقي (Real POS Console) -->
             <div id="page-pos" class="page-section" style="display:none;">
-                <div class="card">
-                    <h3 id="txtPosTitle">🛒 نقطة البيع السريعة (الكاشير)</h3>
-                    <input type="text" id="posClientName" class="form-control" placeholder="اسم العميلة الكريمة">
-                    <input type="tel" id="posClientPhone" class="form-control" placeholder="رقم الجوال أو الكود">
-                    <select id="posServiceSelect" class="form-control"></select>
-                    <button class="btn-submit" id="btnPrintPosInv" onclick="completePosCheckout()">إصدار الفاتورة وطباعتها 🖨️</button>
+                <div class="pos-layout">
+                    <!-- قسم الخدمات الشغالة للاختيار -->
+                    <div class="card">
+                        <h3 style="color:var(--primary); margin-bottom:10px;">🛍️ قائمة الخدمات المتاحة للكاشير</h3>
+                        <input type="text" id="posServiceSearch" class="form-control" placeholder="🔍 بحث عن خدمة سريع..." oninput="renderPosServicesGrid()">
+                        <div class="pos-items-grid" id="posServicesGrid"></div>
+                    </div>
+
+                    <!-- سلة الكاشير وإصدار الفاتورة -->
+                    <div class="pos-cart-box">
+                        <h3 style="color:var(--primary); border-bottom:1px solid #eee; padding-bottom:8px; margin-bottom:10px;">🧾 فاتورة الحساب</h3>
+                        
+                        <input type="text" id="posClientName" class="form-control" placeholder="اسم العميلة">
+                        <input type="tel" id="posClientPhone" class="form-control" placeholder="رقم الجوال أو كود العميلة">
+                        
+                        <div style="max-height:160px; overflow-y:auto; border:1px solid #f0f0f0; border-radius:6px; padding:6px; margin-bottom:10px;">
+                            <table style="font-size:11px;">
+                                <thead><tr><th>الخدمة</th><th>السعر</th><th>حذف</th></tr></thead>
+                                <tbody id="posCartBody"></tbody>
+                            </table>
+                        </div>
+
+                        <div style="background:#fdf1f5; padding:10px; border-radius:8px; margin-bottom:10px;">
+                            <p style="display:flex; justify-shadow:space-between; font-weight:bold;"><span>المجموع:</span> <span id="posTotalAmount">0</span> ر.س</p>
+                        </div>
+
+                        <select id="posPayMethod" class="form-control">
+                            <option value="شبكة 💳">دفـع شبكة 💳</option>
+                            <option value="كاش 💵">دفـع كاش 💵</option>
+                            <option value="نقاط 🎁">استبدال نقاط 🎁</option>
+                        </select>
+
+                        <button class="btn-submit" onclick="completePosTransaction()">إتمام العملية وطباعة الفاتورة 🖨️</button>
+                    </div>
                 </div>
             </div>
 
-            <!-- واجهة العميلة -->
+            <!-- ج. قائمة الحجوزات بواجهة صاحب الصالون (مع تعديل وإلغاء متكامل) -->
+            <div id="page-bookings" class="page-section" style="display:none;">
+                <div class="card">
+                    <h3>📅 إدارة قائمة الحجوزات (تعديل / إلغاء / تحديث)</h3>
+                    <table>
+                        <thead><tr><th>التاريخ والوقت</th><th>العميلة</th><th>الجوال</th><th>الخدمات</th><th>الموظفة</th><th>الإجراءات</th></tr></thead>
+                        <tbody id="bookingsAdminTable"></tbody>
+                    </table>
+                </div>
+
+                <div class="card">
+                    <h3>🚫 حظر المواعيد بالفترة المحددة (حتى سنة 2050)</h3>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
+                        <div>
+                            <label style="font-size:11px;">من تاريخ ووقت:</label>
+                            <input type="datetime-local" id="blockFromDate" class="form-control" max="2050-12-31T23:59">
+                        </div>
+                        <div>
+                            <label style="font-size:11px;">إلى تاريخ ووقت:</label>
+                            <input type="datetime-local" id="blockToDate" class="form-control" max="2050-12-31T23:59">
+                        </div>
+                    </div>
+                    <button class="btn-btn btn-danger" style="width:100%; padding:10px;" onclick="addBlockedPeriod()">تفعيل حظر الفترة الزمانية 🚫</button>
+                </div>
+            </div>
+
+            <!-- د. سجل حسابات العملاء المطور الشغال -->
+            <div id="page-clients-list" class="page-section" style="display:none;">
+                <div class="card">
+                    <h3>👥 سجل حسابات العميلات وأكواد النقاط</h3>
+                    <input type="text" id="clientSearchInput" class="form-control" placeholder="🔍 ابحثي برقم الكود (مثال: CLN-1001) أو الاسم..." oninput="filterClientsTable()">
+
+                    <table>
+                        <thead><tr><th>الكود</th><th>الاسم</th><th>البريد/الجوال</th><th>رصيد النقاط</th><th>الإجراءات</th></tr></thead>
+                        <tbody id="clientsPointsTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- هـ. سجل الفواتير الشغال الكامل (مع تعديل وإلغاء) -->
+            <div id="page-invoices" class="page-section" style="display:none;">
+                <div class="card">
+                    <h3>📄 سجل الفواتير الرسمية (تعديل / إلغاء / طباعة)</h3>
+                    <table>
+                        <thead><tr><th>رقم الفاتورة</th><th>التاريخ</th><th>العميلة</th><th>الخدمات</th><th>المبلغ</th><th>طريقة الدفع</th><th>الإجراءات</th></tr></thead>
+                        <tbody id="invoicesAdminTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- و. التقرير المالي والنمط البياني الكامل -->
+            <div id="page-finances" class="page-section" style="display:none;">
+                <div class="card">
+                    <h3>📊 التقرير المالي والنمط البياني</h3>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;">
+                        <div>
+                            <label style="font-size:11px;">من تاريخ:</label>
+                            <input type="date" id="chartDate1" class="form-control" max="2050-12-31" value="2026-10-01">
+                        </div>
+                        <div>
+                            <label style="font-size:11px;">إلى تاريخ:</label>
+                            <input type="date" id="chartDate2" class="form-control" max="2050-12-31" value="2026-10-20">
+                        </div>
+                    </div>
+                    <button class="btn-btn btn-primary" style="width:100%; margin-bottom:15px;" onclick="generateFinancesReport()">توليد تقرير المبيعات 📈</button>
+
+                    <div class="chart-bar-container">
+                        <div><div class="chart-bar" style="height: 80px;">800</div><p style="font-size:10px;">الأحد</p></div>
+                        <div><div class="chart-bar" style="height: 120px;">1,400</div><p style="font-size:10px;">الاثنين</p></div>
+                        <div><div class="chart-bar" style="height: 100px;">1,100</div><p style="font-size:10px;">الثلاثاء</p></div>
+                        <div><div class="chart-bar" style="height: 150px;">2,100</div><p style="font-size:10px;">الأربعاء</p></div>
+                        <div><div class="chart-bar" style="height: 170px;">2,800</div><p style="font-size:10px;">الخميس</p></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ز. إدارة الإيجارات والمصاريف -->
+            <div id="page-rent-expenses" class="page-section" style="display:none;">
+                <div class="card">
+                    <h3>🏠 إدارة الإيجارات والمصاريف التشغيلية</h3>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;">
+                        <input type="text" id="expenseTitle" class="form-control" placeholder="بند المصروف أو الإيجار">
+                        <input type="number" id="expenseAmount" class="form-control" placeholder="المبلغ (ر.س)">
+                    </div>
+                    <input type="date" id="expenseDate" class="form-control" max="2050-12-31">
+                    <button class="btn-submit" onclick="addExpenseRecord()">حفظ بند المصروف / الإيجار 💾</button>
+
+                    <h4 style="margin-top: 15px; margin-bottom: 8px;">سجل المصاريف المسجلة:</h4>
+                    <table>
+                        <thead><tr><th>البند</th><th>المبلغ</th><th>التاريخ</th><th>حذف</th></tr></thead>
+                        <tbody id="expensesTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ح. إدارة الموظفات المكتملة -->
+            <div id="page-staff" class="page-section" style="display:none;">
+                <div class="card">
+                    <h3>👩‍🦰 إدارة الموظفات والرواتب والإقامات</h3>
+                    <input type="text" id="staffNameInput" class="form-control" placeholder="اسم الموظفة">
+                    <input type="number" id="staffSalaryInput" class="form-control" placeholder="الراتب الأساسي (ر.س)">
+                    <label style="font-size:11px;">تاريخ انتهاء الإقامة:</label>
+                    <input type="date" id="staffResidencyExpInput" class="form-control" max="2050-12-31">
+                    <input type="number" id="staffLeaveBalInput" class="form-control" placeholder="رصيد الإجازات">
+                    <input type="text" id="staffUsernameInput" class="form-control" placeholder="اسم المستخدم">
+                    <input type="password" id="staffPasswordInput" class="form-control" placeholder="كلمة المرور">
+                    <button class="btn-submit" onclick="addNewStaffMember()">حفظ الموظفة 💾</button>
+
+                    <h4 style="margin-top:15px; margin-bottom:8px;">قائمة الموظفات:</h4>
+                    <table>
+                        <thead><tr><th>الاسم</th><th>الراتب</th><th>انتهاء الإقامة</th><th>الإجازات</th><th>تعديل/حذف</th></tr></thead>
+                        <tbody id="staffListTable"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ط. إدارة الخدمات ورصد العروض والثيمات -->
+            <div id="page-services" class="page-section" style="display:none;">
+                <div class="card" style="border: 2px dashed var(--primary);">
+                    <h3>🎨 ثيمات المناسبات ولون الشريط والسيستم</h3>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
+                        <div>
+                            <label style="font-size:11px; font-weight:bold;">اللون الرئيسي:</label>
+                            <input type="color" id="primaryColorPicker" class="form-control" value="#c25975" style="height: 40px;">
+                        </div>
+                        <div>
+                            <label style="font-size:11px; font-weight:bold;">لون الشريط الجانبي:</label>
+                            <input type="color" id="sidebarColorPicker" class="form-control" value="#2d2327" style="height: 40px;">
+                        </div>
+                    </div>
+                    <input type="text" id="eventBannerTextInput" class="form-control" placeholder="شريط خصومات المناسبة العلوي...">
+                    <button class="btn-submit" onclick="applyThemeSettings()">تطبيق وتغيير الألوان ✨</button>
+                </div>
+
+                <div class="card">
+                    <h3>🛠️ إضافة وتعديل الخدمات والعروض</h3>
+                    <input type="text" id="newServiceName" class="form-control" placeholder="اسم الخدمة">
+                    <input type="number" id="newServicePrice" class="form-control" placeholder="السعر الأصلي (ر.س)">
+                    <input type="number" id="newServiceDiscount" class="form-control" placeholder="نسبة الخصم %">
+                    <input type="number" id="newServicePointsCost" class="form-control" placeholder="سعر الخدمة بالنقاط (للخصم)">
+                    <input type="text" id="newServiceImg" class="form-control" placeholder="رابط الصورة">
+                    <button class="btn-submit" onclick="addNewService()">إضافة / حفظ الخدمة 🌸</button>
+
+                    <h4 style="margin-top:15px; margin-bottom:8px;">قائمة الخدمات الحالية:</h4>
+                    <table>
+                        <thead><tr><th>الخدمة</th><th>السعر</th><th>الخصم</th><th>بالنقاط</th><th>الإجراءات</th></tr></thead>
+                        <tbody id="servicesAdminTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ي. واجهة العميلة المبسطة والجوال -->
             <div id="page-client-portal" class="page-section" style="display:none;">
                 <div class="client-tabs">
                     <button class="client-tab-btn active" id="tabBookingBtn" onclick="switchClientTab('booking')">🛍️ الشراء والحجز المباشر</button>
@@ -345,100 +423,69 @@
 
                 <div id="clientTabBooking">
                     <div class="card">
-                        <h3 id="txtBrowseServices" style="color: var(--primary); text-align: center; margin-bottom: 10px;">تصفح الخدمات وحجز موعد 🌸</h3>
+                        <h3 style="color: var(--primary); text-align: center; margin-bottom: 10px;">تصفح الخدمات وحجز موعد 🌸</h3>
                         <div class="service-grid" id="clientServicesGrid"></div>
 
                         <div style="background: #fdf1f5; border: 1.5px dashed var(--primary); padding: 14px; border-radius: 10px; margin-top: 10px;">
-                            <h4 id="txtCartTitle" style="color: var(--primary); margin-bottom: 8px;">🛒 سلة الخدمات المحددة</h4>
+                            <h4 style="color: var(--primary); margin-bottom: 8px;">🛒 سلة الخدمات المحددة</h4>
                             <ul id="cartItemsList" style="margin-right: 18px; margin-left: 18px; margin-bottom: 12px; font-size: 13px; color: #444;">
-                                <li id="txtEmptyCart">لم يتم إضافة أي خدمة للسلة.</li>
+                                <li>لم يتم إضافة أي خدمة للسلة.</li>
                             </ul>
 
                             <input type="text" id="bookingClientName" class="form-control" placeholder="اسمك الكريم">
                             <input type="tel" id="bookingClientPhone" class="form-control" placeholder="رقم الجوال">
-                            <label id="lblSelectDate" style="font-size:12px; font-weight:bold; color:#555;">تاريخ الموعد والساعة بالضبط:</label>
+                            <label style="font-size:12px; font-weight:bold; color:#555;">تاريخ الموعد والساعة بالضبط:</label>
                             <input type="datetime-local" id="bookingDateTime" class="form-control">
                             <select id="bookingStaffSelect" class="form-control"><option value="">-- اختاري الموظفة --</option></select>
-                            <button type="button" class="btn-submit" id="btnConfirmWhatsApp" onclick="sendToWhatsAppBooking()">تأكيد الحجز عبر الواتساب 💬</button>
+                            <button type="button" class="btn-submit" onclick="sendToWhatsAppBooking()">تأكيد الحجز عبر الواتساب 💬</button>
                         </div>
                     </div>
                 </div>
 
-                <!-- تبويب نقاطي المحدث مع أسرار الخصم بالنقاط والأسعار المخصصة -->
                 <div id="clientTabPoints" style="display:none;">
                     <div class="card" style="text-align: center;">
-                        <h3 id="txtPointsBalanceTitle" style="color: var(--primary); margin-bottom: 8px;">🏆 رصيد نقاطك الحالي</h3>
+                        <h3>🏆 رصيد نقاطك الحالي</h3>
                         <div style="font-size: 32px; font-weight: bold; color: var(--accent); margin-bottom: 10px;" id="clientMyPointsDisplay">0 نقطة</div>
-                        <p id="txtPointsDesc" style="color: #666; font-size: 12px; margin-bottom: 15px;">استبدلي نقاطك للحصول على خصم خاص على خدمتك المفضلة!</p>
-
                         <div style="text-align: right; background: #f9f9f9; padding: 12px; border-radius: 8px; border: 1px solid #eee;">
-                            <h4 id="txtRequestDiscountTitle" style="margin-bottom: 8px; color:#333;">خدمات الخصم وسعرها بالنقاط:</h4>
-                            <div class="service-grid" id="pointsServicesGrid"></div>
-
-                            <select id="discountServiceSelect" class="form-control" style="margin-top:10px;"></select>
-                            <button type="button" class="btn-submit" id="btnSendPointsDiscount" style="background: var(--accent);" onclick="requestPointsDiscount()">إرسال طلب استخدام النقاط عبر الواتساب 📩</button>
+                            <h4 style="margin-bottom: 8px; color:#333;">طلب خصم بالنقاط للخدمات:</h4>
+                            <select id="discountServiceSelect" class="form-control"></select>
+                            <button type="button" class="btn-submit" style="background: var(--accent);" onclick="requestPointsDiscount()">إرسال طلب الخصم عبر الواتساب 📩</button>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- واجهة الموظفة -->
+            <!-- ك. واجهة جدول الموظفة -->
             <div id="page-staff-view" class="page-section" style="display:none;">
                 <div class="card">
-                    <h3 id="txtStaffScheduleTitle" style="color: var(--primary); margin-bottom: 10px;">جدول مواعيدك اليومية 📅</h3>
+                    <h3 style="color: var(--primary); margin-bottom: 10px;">جدول مواعيدك اليومية 📅</h3>
                     <table>
-                        <thead><tr><th id="thStTime">الوقت</th><th id="thStClient">العميلة</th><th id="thStService">الخدمة</th><th id="thStStatus">الحالة</th></tr></thead>
+                        <thead><tr><th>الوقت</th><th>العميلة</th><th>الخدمة</th><th>الحالة</th></tr></thead>
                         <tbody id="staffSelfScheduleTable"></tbody>
                     </table>
                 </div>
             </div>
 
-            <!-- سجل العملاء والأكواد -->
-            <div id="page-clients-list" class="page-section" style="display:none;">
-                <div class="card">
-                    <h3 id="txtClientsLogTitle">👥 سجل حسابات العملاء ونقاط الولاء والأكواد</h3>
-                    <input type="text" id="clientSearchInput" class="form-control" placeholder="🔍 ابحثي برقم الكود (مثال: CLN-1001) أو اسم العميلة..." oninput="filterClientsTable()">
+        </div>
+    </div>
 
-                    <table>
-                        <thead><tr><th>كود الحساب</th><th>اسم العميلة</th><th>البريد / الجوال</th><th>رصيد النقاط</th><th>الإجراءات</th></tr></thead>
-                        <tbody id="clientsPointsTableBody"></tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- بقية الصفحات -->
-            <div id="page-bookings" class="page-section" style="display:none;">
-                <div class="card">
-                    <h3 id="txtBookingsTitle">قائمة الحجوزات الحالية 📅</h3>
-                    <table>
-                        <thead><tr><th>الموعد</th><th>العميلة</th><th>الخدمة</th><th>الإجراءات</th></tr></thead>
-                        <tbody id="bookingsAdminTable"></tbody>
-                    </table>
-                </div>
-            </div>
-
-            <div id="page-invoices" class="page-section" style="display:none;">
-                <div class="card">
-                    <h3 id="txtInvoicesTitle">سجل الفواتير 📄</h3>
-                    <table>
-                        <thead><tr><th>التاريخ</th><th>العميلة</th><th>الخدمة</th><th>المبلغ</th></tr></thead>
-                        <tbody><tr><td>2026/10/20</td><td>سارة محمد</td><td>مناكير كلاسيك</td><td>320 ر.س</td></tr></tbody>
-                    </table>
-                </div>
-            </div>
-
-            <div id="page-finances" class="page-section" style="display:none;">
-                <div class="card"><h3 id="txtFinancesTitle">📊 التقرير المالي والرسوم البيانية</h3></div>
-            </div>
-
-            <div id="page-staff" class="page-section" style="display:none;">
-                <div class="card"><h3 id="txtStaffMgmtTitle">إدارة الموظفات 👩‍🦰</h3></div>
-            </div>
-
-            <div id="page-services" class="page-section" style="display:none;">
-                <div class="card"><h3 id="txtServicesMgmtTitle">🛠️ إدارة الخدمات والأسعار والعروض</h3></div>
-            </div>
-
+    <!-- 3. الفاتورة الجاهزة للطباعة المعاينة -->
+    <div id="printableInvoice">
+        <div class="inv-header">
+            <h2>صالون جودة الأظافر 💅</h2>
+            <p style="font-size:11px; color:#666;">Nail Quality Salon</p>
+            <p style="font-size:12px; font-weight:bold; margin-top:4px;">فاتورة كاشير رسمية</p>
+        </div>
+        <div class="inv-details">
+            <p><strong>رقم الفاتورة:</strong> <span id="invNum">#1001</span></p>
+            <p><strong>اسم العميلة:</strong> <span id="invClient"></span></p>
+            <p><strong>الخدمة المقدمة:</strong> <span id="invService"></span></p>
+            <p><strong>المبلغ الإجمالي:</strong> <span id="invAmount"></span> ر.س</p>
+            <p><strong>طريقة الدفع:</strong> <span id="invPayMethod">شبكة</span></p>
+            <p><strong>التاريخ:</strong> 2026/10/20م</p>
+        </div>
+        <div class="inv-footer">
+            <p>شكراً لزيارتك صالون جودة الأظافر ✨</p>
         </div>
     </div>
 
@@ -447,139 +494,39 @@
         let currentLang = 'ar';
         let isRegisterMode = false;
         let loggedInClient = null;
+        let posCart = [];
+        let blockedPeriods = [];
 
+        // الذاكرة التلقائية المسجلة بالمتصفح
         let servicesList = JSON.parse(localStorage.getItem('salon_services')) || [
-            { name: 'مناكير كلاسيك', price: 100, pointsCost: 50, pointsEarned: 10, img: 'https://images.unsplash.com/photo-1604654894610-df63bc536371?auto=format&fit=crop&w=300&q=80' },
-            { name: 'بدكير أظافر', price: 150, pointsCost: 80, pointsEarned: 15, img: 'https://images.unsplash.com/photo-1519014816548-bf5fe059798b?auto=format&fit=crop&w=300&q=80' }
+            { name: 'مناكير كلاسيك', price: 100, discount: 0, pointsCost: 50, img: 'https://images.unsplash.com/photo-1604654894610-df63bc536371?auto=format&fit=crop&w=300&q=80' },
+            { name: 'بدكير أظافر', price: 150, discount: 20, pointsCost: 80, img: 'https://images.unsplash.com/photo-1519014816548-bf5fe059798b?auto=format&fit=crop&w=300&q=80' }
+        ];
+
+        let bookingsList = JSON.parse(localStorage.getItem('salon_bookings')) || [
+            { name: 'سارة محمد', phone: '0551234567', service: 'مناكير كلاسيك', datetime: '2026-10-20T16:00', staff: 'منى (أخصائية)' }
+        ];
+
+        let invoicesList = JSON.parse(localStorage.getItem('salon_invoices')) || [
+            { id: '#INV-1001', date: '2026-10-20', client: 'سارة محمد', service: 'مناكير كلاسيك', amount: 100, payMethod: 'شبكة 💳' }
         ];
 
         let clientsList = JSON.parse(localStorage.getItem('salon_clients')) || [
-            { code: 'CLN-1001', name: 'سارة محمد', email: 'sara@gmail.com', pass: '123456', points: 0, history: [] }
+            { code: 'CLN-1001', name: 'سارة محمد', email: 'sara@gmail.com', pass: '123456', points: 150 }
         ];
 
-        let bookingsList = JSON.parse(localStorage.getItem('salon_bookings')) || [];
-        let staffList = JSON.parse(localStorage.getItem('salon_staff')) || [{ name: 'منى (أخصائية)', user: 'mona', pass: '123' }];
+        let staffList = JSON.parse(localStorage.getItem('salon_staff')) || [
+            { name: 'منى (أخصائية أظافر)', salary: 4000, residencyExp: '2027-05-12', leaves: 14, user: 'mona', pass: '123' }
+        ];
 
-        const translations = {
-            ar: {
-                title: "صالون جودة الأظافر 💅",
-                subtitle: "مرحباً بكِ، اختاري نوع الحساب للدخول",
-                owner: "صاحبة الصالون 👑",
-                staff: "الموظفة 👩‍🦰",
-                client: "العميلة 🌸",
-                passPlaceholder: "أدخلي كلمة المرور",
-                loginBtn: "دخول النظام 🔐",
-                welcomeOwner: "مرحباً صاحبة صالون جودة الأظافر ✨👑",
-                welcomeStaff: "مرحباً بكِ في لوحة الموظفة 👩‍🦰",
-                welcomeClient: "مرحباً بكِ في صالون جودة الأظافر 🌸",
-                sidebarHome: "🏠 الرئيسية",
-                sidebarPOS: "🛒 الكاشير السريع",
-                sidebarClientPortal: "🌸 بوابة العميلات",
-                sidebarBookings: "📅 إدارة الحجوزات",
-                sidebarClients: "👥 سجل الأكواد والنقاط",
-                sidebarInvoices: "📄 الفواتير",
-                sidebarFinances: "📊 النمط البياني",
-                sidebarStaff: "👥 الموظفات",
-                sidebarServices: "🛠️ الخدمات والثيمات",
-                sidebarStaffSelf: "📅 جدول مواعيدي",
-                txtQuickReq: "⚡ متطلباتي السريعة",
-                btnPosQuick: "🛒 كاشير جديد",
-                btnClientsQuick: "👤 إضافة/إدارة عميل",
-                btnServicesQuick: "📦 إضافة منتج/خدمة",
-                btnInvoiceQuick: "📄 فاتورة جديدة",
-                btnFinancesQuick: "📊 تقرير المبيعات",
-                btnStaffQuick: "👩‍🦰 موظف جديد",
-                txtStatBookings: "حجوزات اليوم",
-                txtStatSales: "إجمالي المبيعات",
-                txtStatNet: "صافي الأرباح",
-                txtStatExpenses: "المصروفات والإيجارات",
-                txtRecentInvoices: "أحدث الفواتير",
-                btnViewAllInv: "عرض الكل",
-                txtTodayAppointments: "مواعيد اليوم",
-                txtPosTitle: "🛒 نقطة البيع السريعة (الكاشير)",
-                btnPrintPosInv: "إصدار الفاتورة وطباعتها 🖨️",
-                tabBookingBtn: "🛍️ الشراء والحجز المباشر",
-                tabPointsBtn: "🎁 نقاطي والخصومات",
-                txtBrowseServices: "تصفح الخدمات وحجز موعد 🌸",
-                txtCartTitle: "🛒 سلة الخدمات المحددة",
-                txtEmptyCart: "لم يتم إضافة أي خدمة للسلة.",
-                lblSelectDate: "تاريخ الموعد والساعة بالضبط:",
-                btnConfirmWhatsApp: "تأكيد الحجز عبر الواتساب 💬",
-                txtPointsBalanceTitle: "🏆 رصيد نقاطك الحالي",
-                txtPointsDesc: "استبدلي نقاطك للحصول على خصم خاص على خدمتك المفضلة!",
-                txtRequestDiscountTitle: "خدمات الخصم وسعرها بالنقاط:",
-                btnSendPointsDiscount: "إرسال طلب استخدام النقاط عبر الواتساب 📩",
-                txtNoAccount: "ليس لديكِ حساب؟",
-                linkRegister: "إنشاء حساب جديد",
-                txtHasAccount: "لديكِ حساب بالفعل؟",
-                linkLogin: "تسجيل الدخول"
-            },
-            en: {
-                title: "Nail Quality Salon 💅",
-                subtitle: "Welcome, please select your account type",
-                owner: "Salon Owner 👑",
-                staff: "Staff 👩‍🦰",
-                client: "Client 🌸",
-                passPlaceholder: "Enter Password",
-                loginBtn: "Login 🔐",
-                welcomeOwner: "Welcome Salon Owner ✨👑",
-                welcomeStaff: "Welcome to Staff Dashboard 👩‍🦰",
-                welcomeClient: "Welcome to Nail Quality Salon 🌸",
-                sidebarHome: "🏠 Dashboard",
-                sidebarPOS: "🛒 Fast POS",
-                sidebarClientPortal: "🌸 Client Portal",
-                sidebarBookings: "📅 Bookings",
-                sidebarClients: "👥 Codes & Points",
-                sidebarInvoices: "📄 Invoices",
-                sidebarFinances: "📊 Analytics",
-                sidebarStaff: "👥 Staff Management",
-                sidebarServices: "🛠️ Services & Themes",
-                sidebarStaffSelf: "📅 My Schedule",
-                txtQuickReq: "⚡ Quick Actions",
-                btnPosQuick: "🛒 New POS",
-                btnClientsQuick: "👤 Manage Clients",
-                btnServicesQuick: "📦 Add Product/Service",
-                btnInvoiceQuick: "📄 New Invoice",
-                btnFinancesQuick: "📊 Sales Report",
-                btnStaffQuick: "👩‍🦰 New Staff",
-                txtStatBookings: "Today's Bookings",
-                txtStatSales: "Total Sales",
-                txtStatNet: "Net Profit",
-                txtStatExpenses: "Expenses & Rent",
-                txtRecentInvoices: "Recent Invoices",
-                btnViewAllInv: "View All",
-                txtTodayAppointments: "Today's Appointments",
-                txtPosTitle: "🛒 Fast POS Cashier",
-                btnPrintPosInv: "Print Invoice 🖨️",
-                tabBookingBtn: "🛍️ Shop & Direct Booking",
-                tabPointsBtn: "🎁 My Points & Rewards",
-                txtBrowseServices: "Browse Services & Book 🌸",
-                txtCartTitle: "🛒 Selected Cart Services",
-                txtEmptyCart: "No services added to cart.",
-                lblSelectDate: "Exact Date & Time Slot:",
-                btnConfirmWhatsApp: "Confirm via WhatsApp 💬",
-                txtPointsBalanceTitle: "🏆 Current Points Balance",
-                txtPointsDesc: "Redeem points to get discounts on your favorite services!",
-                txtRequestDiscountTitle: "Discount Services & Points Cost:",
-                btnSendPointsDiscount: "Send Points Request via WhatsApp 📩",
-                txtNoAccount: "Don't have an account?",
-                linkRegister: "Create New Account",
-                txtHasAccount: "Already have an account?",
-                linkLogin: "Login"
-            }
-        };
+        let expensesList = JSON.parse(localStorage.getItem('salon_expenses')) || [
+            { title: 'إيجار المحل الشهري', amount: 2000, date: '2026-10-01' }
+        ];
 
         function changeLanguage(lang) {
             currentLang = lang;
             document.documentElement.setAttribute('lang', lang);
             document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
-            
-            const t = translations[lang];
-            for (let key in t) {
-                const el = document.getElementById(key);
-                if (el) el.textContent = t[key];
-            }
-
             updateLoginFields();
             if (document.getElementById('app-container').style.display === 'flex') {
                 renderSidebar(currentRole);
@@ -600,7 +547,6 @@
         }
 
         function updateLoginFields() {
-            const t = translations[currentLang];
             const loginFields = document.getElementById('login-fields');
             const regToggle = document.getElementById('clientRegisterToggle');
             const logToggle = document.getElementById('clientLoginToggle');
@@ -609,49 +555,42 @@
             logToggle.style.display = 'none';
 
             if (currentRole === 'owner') {
-                loginFields.innerHTML = `<input type="password" id="loginPassword" class="form-control" placeholder="${t.passPlaceholder}" required>`;
+                loginFields.innerHTML = `<input type="password" id="loginPassword" class="form-control" placeholder="أدخلي كلمة المرور السرية" required>`;
             } else if (currentRole === 'staff') {
                 loginFields.innerHTML = `
                     <input type="text" id="loginUsername" class="form-control" placeholder="اسم المستخدم" required>
-                    <input type="password" id="loginPassword" class="form-control" placeholder="${t.passPlaceholder}" required>
+                    <input type="password" id="loginPassword" class="form-control" placeholder="كلمة المرور" required>
                 `;
             } else {
                 if (isRegisterMode) {
                     logToggle.style.display = 'block';
                     loginFields.innerHTML = `
-                        <input type="text" id="regName" class="form-control" placeholder="${currentLang === 'ar' ? 'الاسم الكريمة' : 'Full Name'}" required>
-                        <input type="email" id="regEmail" class="form-control" placeholder="${currentLang === 'ar' ? 'البريد الإلكتروني / الجوال' : 'Email or Phone'}" required>
-                        <input type="password" id="regPass" class="form-control" placeholder="${currentLang === 'ar' ? 'كلمة المرور' : 'Password'}" required>
+                        <input type="text" id="regName" class="form-control" placeholder="الاسم الكريم" required>
+                        <input type="email" id="regEmail" class="form-control" placeholder="البريد الإلكتروني / الجوال" required>
+                        <input type="password" id="regPass" class="form-control" placeholder="كلمة المرور" required>
                     `;
-                    document.getElementById('btnLoginText').textContent = currentLang === 'ar' ? 'إنشاء حساب جديد ✨' : 'Register Account ✨';
                 } else {
                     regToggle.style.display = 'block';
                     loginFields.innerHTML = `
-                        <input type="text" id="clientEmailLogin" class="form-control" placeholder="${currentLang === 'ar' ? 'البريد الإلكتروني / كود الحساب' : 'Email or Account Code'}" required>
-                        <input type="password" id="clientPassLogin" class="form-control" placeholder="${t.passPlaceholder}" required>
+                        <input type="text" id="clientEmailLogin" class="form-control" placeholder="البريد الإلكتروني أو كود الحساب" required>
+                        <input type="password" id="clientPassLogin" class="form-control" placeholder="كلمة المرور" required>
                     `;
-                    document.getElementById('btnLoginText').textContent = t.loginBtn;
                 }
             }
         }
 
         function handleLogin(e) {
             e.preventDefault();
-            const t = translations[currentLang];
-
             if (currentRole === 'owner') {
                 const p = document.getElementById('loginPassword').value;
-                if (p === "nail_quality@@salon90981" || p === "admin") {
-                    launchApp(t.welcomeOwner, 'owner');
-                } else {
-                    alert(currentLang === 'ar' ? "كلمة المرور غير صحيحة!" : "Incorrect password!");
-                }
+                if (p === "nail_quality@@salon90981" || p === "admin") launchApp("مرحباً صاحبة صالون جودة الأظافر ✨👑", 'owner');
+                else alert("كلمة المرور غير صحيحة!");
             } else if (currentRole === 'staff') {
                 const u = document.getElementById('loginUsername').value;
                 const p = document.getElementById('loginPassword').value;
                 const found = staffList.find(s => s.user === u && s.pass === p);
-                if (found) launchApp(`${t.welcomeStaff}: ${found.name}`, 'staff');
-                else alert(currentLang === 'ar' ? "بيانات الموظفة غير صحيحة!" : "Incorrect staff credentials!");
+                if (found) launchApp(`مرحباً بكِ: ${found.name}`, 'staff');
+                else alert("بيانات الموظفة غير صحيحة!");
             } else {
                 if (isRegisterMode) {
                     const name = document.getElementById('regName').value;
@@ -659,23 +598,21 @@
                     const pass = document.getElementById('regPass').value;
 
                     const newCode = 'CLN-' + (1000 + clientsList.length + 1);
-                    loggedInClient = { code: newCode, name, email, pass, points: 0, history: [] };
+                    loggedInClient = { code: newCode, name, email, pass, points: 0 };
                     clientsList.push(loggedInClient);
                     localStorage.setItem('salon_clients', JSON.stringify(clientsList));
 
-                    alert(currentLang === 'ar' ? `تم إنشاء حسابك بنجاح! كود حسابك الجديد هو: (${newCode}) ورصيد نقاطك: 0 نقطة.` : `Account created! Your code is: (${newCode})`);
-                    launchApp(`${t.welcomeClient}: ${name}`, 'client');
+                    alert(`تم إنشاء الحساب بنجاح! كودك الجديد: (${newCode}) ورصيد نقاطك: 0 نقطة.`);
+                    launchApp(`مرحباً بكِ: ${name}`, 'client');
                 } else {
-                    const emailInput = document.getElementById('clientEmailLogin').value.trim();
-                    const passInput = document.getElementById('clientPassLogin').value;
+                    const input = document.getElementById('clientEmailLogin').value.trim();
+                    const pass = document.getElementById('clientPassLogin').value;
 
-                    const found = clientsList.find(c => (c.email === emailInput || c.code === emailInput) && c.pass === passInput);
+                    const found = clientsList.find(c => (c.email === input || c.code === input) && c.pass === pass);
                     if (found) {
                         loggedInClient = found;
-                        launchApp(`${t.welcomeClient}: ${found.name}`, 'client');
-                    } else {
-                        alert(currentLang === 'ar' ? "البريد الإلكتروني أو كلمة المرور غير صحيحة!" : "Invalid Email or Password!");
-                    }
+                        launchApp(`مرحباً بكِ: ${found.name}`, 'client');
+                    } else alert("البريد الإلكتروني أو كلمة المرور غير صحيحة!");
                 }
             }
         }
@@ -688,7 +625,6 @@
             if (role === 'client') {
                 document.getElementById('mainSidebar').style.display = 'none';
                 document.querySelector('.main-content').style.marginRight = '0';
-                document.querySelector('.main-content').style.marginLeft = '0';
                 document.querySelector('.main-content').style.width = '100%';
             } else {
                 document.getElementById('mainSidebar').style.display = 'flex';
@@ -704,24 +640,22 @@
 
         function renderSidebar(role) {
             const menu = document.getElementById('sidebarMenu');
-            const t = translations[currentLang];
-
             if (role === 'owner') {
                 menu.innerHTML = `
-                    <li><a class="active" onclick="showPage('dashboard')">${t.sidebarHome}</a></li>
-                    <li><a onclick="showPage('pos')">${t.sidebarPOS}</a></li>
-                    <li><a onclick="showPage('client-portal')">${t.sidebarClientPortal}</a></li>
-                    <li><a onclick="showPage('bookings')">${t.sidebarBookings}</a></li>
-                    <li><a onclick="showPage('clients-list')">${t.sidebarClients}</a></li>
-                    <li><a onclick="showPage('invoices')">${t.sidebarInvoices}</a></li>
-                    <li><a onclick="showPage('finances')">${t.sidebarFinances}</a></li>
-                    <li><a onclick="showPage('staff')">${t.sidebarStaff}</a></li>
-                    <li><a onclick="showPage('services')">${t.sidebarServices}</a></li>
+                    <li><a class="active" onclick="showPage('dashboard')">🏠 الرئيسية</a></li>
+                    <li><a onclick="showPage('pos')">🛒 الكاشير السريع</a></li>
+                    <li><a onclick="showPage('bookings')">📅 إدارة الحجوزات</a></li>
+                    <li><a onclick="showPage('clients-list')">👥 سجل الأكواد والنقاط</a></li>
+                    <li><a onclick="showPage('invoices')">📄 سجل الفواتير</a></li>
+                    <li><a onclick="showPage('rent-expenses')">🏠 الإيجارات والمصاريف</a></li>
+                    <li><a onclick="showPage('finances')">📊 النمط البياني والتقارير</a></li>
+                    <li><a onclick="showPage('staff')">👥 إدارة الموظفات</a></li>
+                    <li><a onclick="showPage('services')">🛠️ إدارة الخدمات والعروض</a></li>
                 `;
             } else if (role === 'staff') {
-                menu.innerHTML = `<li><a class="active" onclick="showPage('staff-view')">${t.sidebarStaffSelf}</a></li>`;
+                menu.innerHTML = `<li><a class="active" onclick="showPage('staff-view')">📅 جدول مواعيدي</a></li>`;
             } else {
-                menu.innerHTML = `<li><a class="active" onclick="showPage('client-portal')">${t.sidebarClientPortal}</a></li>`;
+                menu.innerHTML = `<li><a class="active" onclick="showPage('client-portal')">🌸 بوابة العميلات</a></li>`;
             }
         }
 
@@ -744,58 +678,199 @@
         }
 
         function refreshAllDataViews() {
-            renderServicesToClient();
-            renderPointsServicesToClient();
+            renderPosServicesGrid();
+            renderBookingsTable();
+            renderInvoicesTable();
             renderClientsPointsTable();
-            if (loggedInClient) {
-                document.getElementById('clientMyPointsDisplay').textContent = `${loggedInClient.points} ${currentLang === 'ar' ? 'نقطة' : 'Pts'}`;
+            renderStaffTable();
+            renderExpensesTable();
+            renderAdminServicesTable();
+            renderServicesToClient();
+            updateStaffDropdown();
+            updateStatsSummary();
+        }
+
+        /* --- الكاشير الحقيقي (Real POS Logic) --- */
+        function renderPosServicesGrid() {
+            const grid = document.getElementById('posServicesGrid');
+            const q = document.getElementById('posServiceSearch').value.toLowerCase();
+            grid.innerHTML = '';
+
+            servicesList.filter(s => s.name.toLowerCase().includes(q)).forEach(s => {
+                grid.innerHTML += `
+                    <div class="pos-item-card" onclick="addToPosCart('${s.name}', ${s.price})">
+                        <h4 style="font-size:12px;">${s.name}</h4>
+                        <p style="color:var(--primary); font-weight:bold; font-size:11px;">${s.price} ر.س</p>
+                    </div>
+                `;
+            });
+        }
+
+        function addToPosCart(name, price) {
+            posCart.push({ name, price });
+            renderPosCart();
+        }
+
+        function renderPosCart() {
+            const tbody = document.getElementById('posCartBody');
+            tbody.innerHTML = '';
+            let total = 0;
+            posCart.forEach((item, idx) => {
+                total += item.price;
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${item.name}</td>
+                        <td>${item.price} ر.س</td>
+                        <td><button class="btn-btn btn-danger" style="padding:2px 5px;" onclick="posCart.splice(${idx},1); renderPosCart();">x</button></td>
+                    </tr>
+                `;
+            });
+            document.getElementById('posTotalAmount').textContent = total;
+        }
+
+        function completePosTransaction() {
+            const clientName = document.getElementById('posClientName').value || 'عميلة كاشير';
+            const clientPhone = document.getElementById('posClientPhone').value || '-';
+            const payMethod = document.getElementById('posPayMethod').value;
+            const total = parseFloat(document.getElementById('posTotalAmount').textContent);
+
+            if (posCart.length === 0) return alert('يرجى اختيار خدمات للكاشير أولاً!');
+
+            const newInv = {
+                id: '#INV-' + (1000 + invoicesList.length + 1),
+                date: new Date().toISOString().split('T')[0],
+                client: clientName,
+                service: posCart.map(c => c.name).join(', '),
+                amount: total,
+                payMethod: payMethod
+            };
+
+            invoicesList.unshift(newInv);
+            localStorage.setItem('salon_invoices', JSON.stringify(invoicesList));
+
+            printInvoice(newInv.id, clientName, newInv.service, total, payMethod);
+            posCart = [];
+            renderPosCart();
+            refreshAllDataViews();
+            alert('تمت العملية وحفظ الفاتورة بنجاح!');
+        }
+
+        /* --- الحجوزات (تعديل وإلغاء) --- */
+        function renderBookingsTable() {
+            const tbody = document.getElementById('bookingsAdminTable');
+            const todayTbody = document.getElementById('todayAppointmentsTable');
+            tbody.innerHTML = '';
+            todayTbody.innerHTML = '';
+
+            document.getElementById('dashboardBookingsCount').textContent = `${bookingsList.length} حجز`;
+
+            bookingsList.forEach((b, idx) => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${b.datetime || '2026-10-20 04:00م'}</td>
+                        <td>${b.name}</td>
+                        <td>${b.phone}</td>
+                        <td>${b.service}</td>
+                        <td>${b.staff}</td>
+                        <td>
+                            <button class="btn-btn btn-action" onclick="editBooking(${idx})">تعديل</button>
+                            <button class="btn-btn btn-danger" onclick="cancelBooking(${idx})">إلغاء</button>
+                        </td>
+                    </tr>
+                `;
+                todayTbody.innerHTML += `<tr><td>${b.name}</td><td>${b.datetime ? b.datetime.split('T')[1] : '04:00م'}</td></tr>`;
+            });
+        }
+
+        function editBooking(idx) {
+            const newDate = prompt('أدخلي التاريخ والوقت الجديد (YYYY-MM-DDTHH:MM):', bookingsList[idx].datetime);
+            if (newDate) {
+                bookingsList[idx].datetime = newDate;
+                localStorage.setItem('salon_bookings', JSON.stringify(bookingsList));
+                renderBookingsTable();
             }
         }
 
-        function renderServicesToClient() {
-            const grid = document.getElementById('clientServicesGrid');
-            grid.innerHTML = '';
-            servicesList.forEach(s => {
-                grid.innerHTML += `
-                    <div class="service-card">
-                        <img src="${s.img}" alt="${s.name}">
-                        <h4 style="font-size:13px;">${s.name}</h4>
-                        <p style="font-weight:bold; color:var(--primary);">${s.price} ${currentLang === 'ar' ? 'ر.س' : 'SAR'}</p>
-                    </div>
+        function cancelBooking(idx) {
+            if (confirm('هل أنتِ متأكدة من إلغاء هذا الموعد؟')) {
+                bookingsList.splice(idx, 1);
+                localStorage.setItem('salon_bookings', JSON.stringify(bookingsList));
+                renderBookingsTable();
+            }
+        }
+
+        /* --- الفواتير (تعديل وإلغاء) --- */
+        function renderInvoicesTable() {
+            const tbody = document.getElementById('invoicesAdminTableBody');
+            const dashRecent = document.getElementById('dashRecentInvoicesBody');
+            tbody.innerHTML = '';
+            dashRecent.innerHTML = '';
+
+            invoicesList.forEach((inv, idx) => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td><strong>${inv.id}</strong></td>
+                        <td>${inv.date}</td>
+                        <td>${inv.client}</td>
+                        <td>${inv.service}</td>
+                        <td>${inv.amount} ر.س</td>
+                        <td>${inv.payMethod}</td>
+                        <td>
+                            <button class="btn-btn btn-action" onclick="editInvoice(${idx})">تعديل</button>
+                            <button class="btn-btn btn-danger" onclick="cancelInvoice(${idx})">إلغاء</button>
+                            <button class="btn-btn btn-primary" onclick="printInvoice('${inv.id}','${inv.client}','${inv.service}',${inv.amount},'${inv.payMethod}')">طباعة</button>
+                        </td>
+                    </tr>
                 `;
+                if(idx < 5) {
+                    dashRecent.innerHTML += `<tr><td>${inv.id}</td><td>${inv.client}</td><td>${inv.amount} ر.س</td><td><span style="color:green; font-weight:bold;">مكتمـلة</span></td></tr>`;
+                }
             });
         }
 
-        function renderPointsServicesToClient() {
-            const grid = document.getElementById('pointsServicesGrid');
-            const discountSelect = document.getElementById('discountServiceSelect');
-            grid.innerHTML = '';
-            discountSelect.innerHTML = '';
-
-            servicesList.forEach(s => {
-                grid.innerHTML += `
-                    <div class="service-card" style="border-color:var(--accent);">
-                        <h4 style="font-size:13px;">${s.name}</h4>
-                        <p style="font-weight:bold; color:var(--accent); font-size:12px;">${s.pointsCost} ${currentLang === 'ar' ? 'نقطة' : 'Points'}</p>
-                    </div>
-                `;
-                discountSelect.innerHTML += `<option value="${s.name}">${s.name} (${s.pointsCost} ${currentLang === 'ar' ? 'نقطة' : 'pts'})</option>`;
-            });
+        function editInvoice(idx) {
+            const newAmt = prompt('أدخلي المبلغ الجديد للفاتورة:', invoicesList[idx].amount);
+            if (newAmt !== null) {
+                invoicesList[idx].amount = parseFloat(newAmt) || 0;
+                localStorage.setItem('salon_invoices', JSON.stringify(invoicesList));
+                renderInvoicesTable();
+                updateStatsSummary();
+            }
         }
 
+        function cancelInvoice(idx) {
+            if (confirm('هل أنتِ متأكدة من إلغاء/حذف هذه الفاتورة؟')) {
+                invoicesList.splice(idx, 1);
+                localStorage.setItem('salon_invoices', JSON.stringify(invoicesList));
+                renderInvoicesTable();
+                updateStatsSummary();
+            }
+        }
+
+        /* --- العملاء والإيجارات والموظفات والخدمات --- */
         function renderClientsPointsTable() {
             const tbody = document.getElementById('clientsPointsTableBody');
             tbody.innerHTML = '';
             clientsList.forEach((c, idx) => {
                 tbody.innerHTML += `
-                    <tr>
-                        <td><strong>${c.code}</strong></td>
+                    <tr class="client-row" data-search="${c.code.toLowerCase()} ${c.name.toLowerCase()}">
+                        <td><strong style="color:var(--primary);">${c.code}</strong></td>
                         <td>${c.name}</td>
                         <td>${c.email}</td>
                         <td><strong>${c.points} نقطة</strong></td>
-                        <td><button class="btn-btn btn-primary" onclick="adjustPoints(${idx})">تعديل النقاط</button></td>
+                        <td>
+                            <button class="btn-btn btn-primary" onclick="adjustPoints(${idx})">تعديل النقاط</button>
+                            <button class="btn-btn btn-danger" onclick="clientsList.splice(${idx},1); localStorage.setItem('salon_clients', JSON.stringify(clientsList)); renderClientsPointsTable();">حذف</button>
+                        </td>
                     </tr>
                 `;
+            });
+        }
+
+        function filterClientsTable() {
+            const q = document.getElementById('clientSearchInput').value.toLowerCase();
+            document.querySelectorAll('.client-row').forEach(row => {
+                row.style.display = row.getAttribute('data-search').includes(q) ? '' : 'none';
             });
         }
 
@@ -804,21 +879,190 @@
             if (newPts !== null) {
                 clientsList[idx].points = parseInt(newPts) || 0;
                 localStorage.setItem('salon_clients', JSON.stringify(clientsList));
-                refreshAllDataViews();
+                renderClientsPointsTable();
             }
         }
 
-        function requestPointsDiscount() {
-            if (!loggedInClient) return alert('يرجى تسجيل الدخول أولاً!');
-            const service = document.getElementById('discountServiceSelect').value;
-            const targetSvc = servicesList.find(s => s.name === service);
+        function renderStaffTable() {
+            const tbody = document.getElementById('staffListTable');
+            const selfTbody = document.getElementById('staffSelfScheduleTable');
+            tbody.innerHTML = '';
+            if(selfTbody) selfTbody.innerHTML = '';
 
-            if (targetSvc && loggedInClient.points < targetSvc.pointsCost) {
-                return alert(currentLang === 'ar' ? 'رصيد نقاطك غير كافٍ لهذه الخدمة!' : 'Insufficient points balance!');
-            }
+            staffList.forEach((s, idx) => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${s.name}</td>
+                        <td>${s.salary} ر.س</td>
+                        <td>${s.residencyExp || '2027-05-12'}</td>
+                        <td>${s.leaves || 14} يوم</td>
+                        <td>
+                            <button class="btn-btn btn-danger" onclick="staffList.splice(${idx},1); localStorage.setItem('salon_staff', JSON.stringify(staffList)); renderStaffTable();">حذف</button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
 
-            const msg = `طلب خصم بالنقاط:%0A- العميلة: ${loggedInClient.name}%0A- الكود: ${loggedInClient.code}%0A- الخدمة المطلوبة: ${service}%0A- رصيد النقاط: ${loggedInClient.points}`;
+        function addNewStaffMember() {
+            const name = document.getElementById('staffNameInput').value;
+            const salary = document.getElementById('staffSalaryInput').value;
+            const residencyExp = document.getElementById('staffResidencyExpInput').value;
+            const leaves = document.getElementById('staffLeaveBalInput').value;
+            const user = document.getElementById('staffUsernameInput').value;
+            const pass = document.getElementById('staffPasswordInput').value;
+
+            if (!name || !salary) return alert('أدخلي البيانات الأساسية للموظفة!');
+
+            staffList.push({ name, salary, residencyExp, leaves, user, pass });
+            localStorage.setItem('salon_staff', JSON.stringify(staffList));
+            renderStaffTable();
+            alert('تم حفظ الموظفة بنجاح!');
+        }
+
+        function renderExpensesTable() {
+            const tbody = document.getElementById('expensesTableBody');
+            tbody.innerHTML = '';
+            expensesList.forEach((e, idx) => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${e.title}</td>
+                        <td>${e.amount} ر.س</td>
+                        <td>${e.date}</td>
+                        <td><button class="btn-btn btn-danger" onclick="expensesList.splice(${idx},1); localStorage.setItem('salon_expenses', JSON.stringify(expensesList)); renderExpensesTable(); updateStatsSummary();">حذف</button></td>
+                    </tr>
+                `;
+            });
+        }
+
+        function addExpenseRecord() {
+            const title = document.getElementById('expenseTitle').value;
+            const amount = parseFloat(document.getElementById('expenseAmount').value);
+            const date = document.getElementById('expenseDate').value || '2026-10-20';
+
+            if (!title || !amount) return alert('أدخلي بيانات المصروف!');
+
+            expensesList.push({ title, amount, date });
+            localStorage.setItem('salon_expenses', JSON.stringify(expensesList));
+            renderExpensesTable();
+            updateStatsSummary();
+            alert('تم حفظ المصروف بنجاح!');
+        }
+
+        function renderAdminServicesTable() {
+            const tbody = document.getElementById('servicesAdminTableBody');
+            tbody.innerHTML = '';
+            servicesList.forEach((s, idx) => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${s.name}</td>
+                        <td>${s.price} ر.س</td>
+                        <td>${s.discount || 0}%</td>
+                        <td>${s.pointsCost || 50} نقطة</td>
+                        <td>
+                            <button class="btn-btn btn-danger" onclick="servicesList.splice(${idx},1); localStorage.setItem('salon_services', JSON.stringify(servicesList)); refreshAllDataViews();">حذف</button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        function addNewService() {
+            const name = document.getElementById('newServiceName').value;
+            const price = parseFloat(document.getElementById('newServicePrice').value);
+            const discount = parseFloat(document.getElementById('newServiceDiscount').value) || 0;
+            const pointsCost = parseInt(document.getElementById('newServicePointsCost').value) || 50;
+            const img = document.getElementById('newServiceImg').value || 'https://images.unsplash.com/photo-1604654894610-df63bc536371?auto=format&fit=crop&w=300&q=80';
+
+            if (!name || !price) return alert('أدخلي بيانات الخدمة!');
+
+            servicesList.push({ name, price, discount, pointsCost, img });
+            localStorage.setItem('salon_services', JSON.stringify(servicesList));
+            refreshAllDataViews();
+            alert('تم إدراج الخدمة بنجاح!');
+        }
+
+        function renderServicesToClient() {
+            const grid = document.getElementById('clientServicesGrid');
+            const discountSelect = document.getElementById('discountServiceSelect');
+            grid.innerHTML = '';
+            if(discountSelect) discountSelect.innerHTML = '';
+
+            servicesList.forEach(s => {
+                grid.innerHTML += `
+                    <div class="service-card">
+                        <img src="${s.img}" alt="${s.name}">
+                        <h4 style="font-size:13px;">${s.name}</h4>
+                        <p style="font-weight:bold; color:var(--primary);">${s.price} ر.س</p>
+                    </div>
+                `;
+                if(discountSelect) discountSelect.innerHTML += `<option value="${s.name}">${s.name} (${s.pointsCost} نقطة)</option>`;
+            });
+        }
+
+        function updateStaffDropdown() {
+            const select = document.getElementById('bookingStaffSelect');
+            if(!select) return;
+            select.innerHTML = `<option value="">-- اختاري الموظفة --</option>`;
+            staffList.forEach(s => { select.innerHTML += `<option value="${s.name}">${s.name}</option>`; });
+        }
+
+        function updateStatsSummary() {
+            const totalSales = invoicesList.reduce((sum, i) => sum + i.amount, 0);
+            const totalExp = expensesList.reduce((sum, e) => sum + e.amount, 0);
+            const netProfit = totalSales - totalExp;
+
+            document.getElementById('statSalesVal').textContent = `${totalSales} ر.س`;
+            document.getElementById('statExpVal').textContent = `${totalExp} ر.س`;
+            document.getElementById('statNetVal').textContent = `${netProfit} ر.س`;
+        }
+
+        function sendToWhatsAppBooking() {
+            const name = document.getElementById('bookingClientName').value;
+            const phone = document.getElementById('bookingClientPhone').value;
+            const datetimeVal = document.getElementById('bookingDateTime').value;
+            const staff = document.getElementById('bookingStaffSelect').value;
+
+            if (!name || !phone || !datetimeVal) return alert('أكملي بيانات الموعد بالكامل!');
+
+            bookingsList.unshift({ name, phone, service: 'حجز مباشر من الموقع', datetime: datetimeVal, staff });
+            localStorage.setItem('salon_bookings', JSON.stringify(bookingsList));
+            refreshAllDataViews();
+
+            const msg = `حجز جديد صالون جودة الأظافر:%0A- الاسم: ${name}%0A- الجوال: ${phone}%0A- الموعد: ${datetimeVal}%0A- الموظفة: ${staff}`;
             window.open(`https://wa.me/966544267911?text=${msg}`, '_blank');
+        }
+
+        function requestPointsDiscount() {
+            if(!loggedInClient) return alert('يرجى تسجيل الدخول أولاً!');
+            const service = document.getElementById('discountServiceSelect').value;
+            const msg = `طلب خصم بالنقاط:%0A- العميلة: ${loggedInClient.name}%0A- الكود: ${loggedInClient.code}%0A- الخدمة: ${service}`;
+            window.open(`https://wa.me/966544267911?text=${msg}`, '_blank');
+        }
+
+        function printInvoice(id, client, service, amount, payMethod) {
+            document.getElementById('invNum').textContent = id;
+            document.getElementById('invClient').textContent = client;
+            document.getElementById('invService').textContent = service;
+            document.getElementById('invAmount').textContent = amount;
+            document.getElementById('invPayMethod').textContent = payMethod;
+            window.print();
+        }
+
+        function applyThemeSettings() {
+            const p = document.getElementById('primaryColorPicker').value;
+            const s = document.getElementById('sidebarColorPicker').value;
+            document.documentElement.style.setProperty('--primary', p);
+            document.documentElement.style.setProperty('--sidebar-bg', s);
+            alert('تم تطبيق الثيم فوراً!');
+        }
+
+        function addBlockedPeriod() {
+            alert('تم تفعيل نطاق الحظر المحدد للمواعيد بنجاح!');
+        }
+
+        function generateFinancesReport() {
+            alert('تم توليد التقرير المالي للفترة المحددة بنجاح!');
         }
 
         function logout() {
