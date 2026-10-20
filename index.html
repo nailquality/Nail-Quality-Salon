@@ -21,7 +21,6 @@
         * { box-sizing: border-box; font-family: 'Tajawal', sans-serif; margin: 0; padding: 0; }
         body { background-color: var(--body-bg); color: var(--text-dark); direction: rtl; min-height: 100vh; font-size: 14px; transition: background-color 0.3s; }
 
-        /* شريط المناسبات العلوى */
         #eventBanner {
             display: none;
             background: var(--primary);
@@ -32,7 +31,6 @@
             font-size: 13px;
         }
 
-        /* شاشة تسجيل الدخول */
         #login-screen {
             display: flex;
             justify-content: center;
@@ -115,7 +113,6 @@
             transition: 0.3s;
         }
 
-        /* الهيكل الرئيسي */
         #app-container { display: none; min-height: 100vh; flex-direction: column; }
 
         @media (min-width: 769px) {
@@ -227,7 +224,6 @@
 </head>
 <body>
 
-    <!-- شريط المناسبات والخصومات -->
     <div id="eventBanner"></div>
 
     <!-- 1. تسجيل الدخول -->
@@ -268,8 +264,7 @@
                 <ul class="sidebar-menu" id="sidebarMenu"></ul>
             </div>
             <div class="sidebar-footer">
-                <button class="btn-btn" style="background: #e67e22; color: white; flex:1;" id="btnFireplace" onclick="alert('تم تشغيل الفاير بليس وحفظ البيانات بنجاح! 🔥')">🔥 الفاير بليس</button>
-                <button class="btn-btn btn-danger" style="flex:1;" id="btnLogout" onclick="logout()">خروج 🔒</button>
+                <button class="btn-btn btn-danger" style="width:100%;" id="btnLogout" onclick="logout()">خروج 🔒</button>
             </div>
         </div>
 
@@ -284,8 +279,21 @@
                 </div>
             </div>
 
-            <!-- الرئيسية -->
+            <!-- الرئيسية (حسب الصورة المطلوبة) -->
             <div id="page-dashboard" class="page-section">
+                <!-- أزرار الاختصارات السريعة -->
+                <div class="card">
+                    <h3 style="color:var(--primary); margin-bottom:10px;">⚡ متطلباتي السريعة</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px;">
+                        <button class="btn-btn btn-primary" onclick="showPage('pos')">🛒 كاشير جديد</button>
+                        <button class="btn-btn btn-action" onclick="showPage('clients-list')">👤 إضافة/إدارة عميل</button>
+                        <button class="btn-btn" style="background:#4a7c59; color:white;" onclick="showPage('services')">📦 إضافة منتج/خدمة</button>
+                        <button class="btn-btn" style="background:#e67e22; color:white;" onclick="showPage('invoices')">📄 فاتورة جديدة</button>
+                        <button class="btn-btn" style="background:#8e44ad; color:white;" onclick="showPage('finances')">📊 تقرير المبيعات</button>
+                        <button class="btn-btn" style="background:#2c3e50; color:white;" onclick="showPage('staff')">👩‍🦰 موظف جديد</button>
+                    </div>
+                </div>
+
                 <div class="stats-grid">
                     <div class="stat-card"><h3 id="txtStatBookings">حجوزات اليوم</h3><div class="value" id="dashboardBookingsCount">0 حجز</div></div>
                     <div class="stat-card"><h3 id="txtStatSales">إجمالي المبيعات</h3><div class="value">10,870 ر.س</div></div>
@@ -295,22 +303,33 @@
 
                 <div class="grid-2">
                     <div class="card">
-                        <div class="card-header"><h3 id="txtRecentInvoices">أحدث الفواتير</h3><button class="btn-btn btn-primary" id="btnViewAllInvoices" onclick="showPage('invoices')">عرض الكل</button></div>
+                        <div class="card-header"><h3 id="txtRecentInvoices">أحدث الفواتير</h3><button class="btn-btn btn-primary" onclick="showPage('invoices')">عرض الكل</button></div>
                         <table>
-                            <thead><tr><th id="thClient">العميلة</th><th id="thService">الخدمة</th><th id="thAmount">المبلغ</th></tr></thead>
+                            <thead><tr><th>العميل</th><th>المبلغ</th><th>الحالة</th></tr></thead>
                             <tbody>
-                                <tr><td>سارة محمد</td><td>مناكير كلاسيك</td><td>320 ر.س</td></tr>
-                                <tr><td>نورة القحطاني</td><td>بدكير أظافر</td><td>450 ر.س</td></tr>
+                                <tr><td>سارة محمد</td><td>320 ر.س</td><td><span style="color:green; font-weight:bold;">مدفوعة</span></td></tr>
+                                <tr><td>نورة القحطاني</td><td>450 ر.س</td><td><span style="color:green; font-weight:bold;">مدفوعة</span></td></tr>
                             </tbody>
                         </table>
                     </div>
                     <div class="card">
                         <div class="card-header"><h3 id="txtTodayAppointments">مواعيد اليوم</h3></div>
                         <table>
-                            <thead><tr><th id="thClient2">العميلة</th><th id="thTime">الوقت</th></tr></thead>
+                            <thead><tr><th>العميلة</th><th>الوقت</th></tr></thead>
                             <tbody id="todayAppointmentsTable"></tbody>
                         </table>
                     </div>
+                </div>
+            </div>
+
+            <!-- واجهة الكاشير (POS) السريعة -->
+            <div id="page-pos" class="page-section" style="display:none;">
+                <div class="card">
+                    <h3>🛒 نقطة البيع السريعة (الكاشير)</h3>
+                    <input type="text" id="posClientName" class="form-control" placeholder="اسم العميلة الكريمة">
+                    <input type="tel" id="posClientPhone" class="form-control" placeholder="رقم الجوال أو الكود">
+                    <select id="posServiceSelect" class="form-control"></select>
+                    <button class="btn-submit" onclick="completePosCheckout()">إصدار الفاتورة وطباعتها 🖨️</button>
                 </div>
             </div>
 
@@ -351,7 +370,7 @@
                         <div style="text-align: right; background: #f9f9f9; padding: 12px; border-radius: 8px; border: 1px solid #eee;">
                             <h4 id="txtRequestDiscountTitle" style="margin-bottom: 8px; color:#333;">طلب خصم بالنقاط لخدمة معينة:</h4>
                             <select id="discountServiceSelect" class="form-control"></select>
-                            <button type="button" class="btn-submit" id="btnSendPointsDiscount" style="background: var(--accent);" onclick="requestPointsDiscount()">إرسال طلب استخدام النقاط 📩</button>
+                            <button type="button" class="btn-submit" id="btnSendPointsDiscount" style="background: var(--accent);" onclick="requestPointsDiscount()">إرسال طلب استخدام النقاط عبر الواتساب 📩</button>
                         </div>
                     </div>
                 </div>
@@ -362,16 +381,16 @@
                 <div class="card">
                     <h3 id="txtStaffScheduleTitle" style="color: var(--primary); margin-bottom: 10px;">جدول مواعيدك اليومية 📅</h3>
                     <table>
-                        <thead><tr><th id="thStaffTime">الوقت</th><th id="thStaffClient">العميلة</th><th id="thStaffService">الخدمة</th><th id="thStaffStatus">الحالة</th></tr></thead>
+                        <thead><tr><th>الوقت</th><th>العميلة</th><th>الخدمة</th><th>الحالة</th></tr></thead>
                         <tbody id="staffSelfScheduleTable"></tbody>
                     </table>
                 </div>
                 <div class="card">
                     <h3 id="txtStaffInfoTitle" style="color: #333; margin-bottom: 10px;">معلومات الراتب والإقامة والإجازات 📄</h3>
                     <div style="line-height: 2; font-size: 13px;" id="staffSelfInfo">
-                        <p><strong id="lblBaseSalary">الراتب الأساسي:</strong> 4,000 ريال سعودي</p>
-                        <p><strong id="lblResidencyExp">تاريخ انتهاء الإقامة:</strong> 2027/05/12م</p>
-                        <p><strong id="lblLeaveBal">رصيد الإجازات المتبقي:</strong> 14 يوم</p>
+                        <p><strong>الراتب الأساسي:</strong> 4,000 ريال سعودي</p>
+                        <p><strong>تاريخ انتهاء الإقامة:</strong> 2027/05/12م</p>
+                        <p><strong>رصيد الإجازات المتبقي:</strong> 14 يوم</p>
                     </div>
                 </div>
             </div>
@@ -381,34 +400,37 @@
                 <div class="card">
                     <h3 id="txtBookingsListTitle">قائمة الحجوزات الحالية (تعديل / إلغاء / إرجاع) 📅</h3>
                     <table>
-                        <thead><tr><th id="thBkDate">الموعد والتاريخ</th><th id="thBkClient">العميلة</th><th id="thBkService">الخدمة</th><th id="thBkActions">الإجراءات</th></tr></thead>
+                        <thead><tr><th>الموعد والتاريخ</th><th>العميلة</th><th>الخدمة</th><th>الإجراءات</th></tr></thead>
                         <tbody id="bookingsAdminTable"></tbody>
                     </table>
                 </div>
 
                 <div class="card">
-                    <h3 id="txtBlockPeriodTitle">حظر المواعيد بالفترة المحددة (من .. إلى .. حتى سنة 2050) 🚫</h3>
+                    <h3>حظر المواعيد بالفترة المحددة (من .. إلى .. حتى سنة 2050) 🚫</h3>
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
                         <div>
-                            <label id="lblFromDate" style="font-size:11px;">من تاريخ ووقت:</label>
+                            <label style="font-size:11px;">من تاريخ ووقت:</label>
                             <input type="datetime-local" id="blockFromDate" class="form-control" max="2050-12-31T23:59">
                         </div>
                         <div>
-                            <label id="lblToDate" style="font-size:11px;">إلى تاريخ ووقت:</label>
+                            <label style="font-size:11px;">إلى تاريخ ووقت:</label>
                             <input type="datetime-local" id="blockToDate" class="form-control" max="2050-12-31T23:59">
                         </div>
                     </div>
-                    <button class="btn-btn btn-danger" id="btnBlockAction" style="width:100%; padding:10px;" onclick="addBlockedPeriod()">حظر هذا النطاق الزمني 🚫</button>
+                    <button class="btn-btn btn-danger" style="width:100%; padding:10px;" onclick="addBlockedPeriod()">حظر هذا النطاق الزمني 🚫</button>
                 </div>
             </div>
 
-            <!-- سجل العملاء والنقاط -->
+            <!-- سجل العملاء ونقاط الولاء مع قائمة البحث بالكود -->
             <div id="page-clients-list" class="page-section" style="display:none;">
                 <div class="card">
-                    <h3 id="txtClientsLogTitle">👥 سجل العملاء ونقاط الولاء</h3>
-                    <p id="txtClientsLogSub" style="font-size:12px; color:#666; margin-bottom:12px;">استعراض أرقام العميلات ورصيد النقاط لكل عميلة وتعديلها:</p>
+                    <h3>👥 سجل حسابات العملاء ونقاط الولاء والأكواد الخاصة</h3>
+                    <p style="font-size:12px; color:#666; margin-bottom:12px;">ابحثي برقم الكود أو الاسم لاستعراض رصيد النقاط والطلبات الماضية:</p>
+                    
+                    <input type="text" id="clientSearchInput" class="form-control" placeholder="🔍 ابحثي برقم الكود (مثال: CLN-1001) أو اسم العميلة..." oninput="filterClientsTable()">
+
                     <table>
-                        <thead><tr><th id="thClName">اسم العميلة</th><th id="thClPhone">رقم الجوال</th><th id="thClPoints">رصيد النقاط</th><th id="thClActions">الإجراءات</th></tr></thead>
+                        <thead><tr><th>كود الحساب</th><th>اسم العميلة</th><th>رقم الجوال</th><th>رصيد النقاط</th><th>الطلبات الماضية</th><th>الإجراءات</th></tr></thead>
                         <tbody id="clientsPointsTableBody"></tbody>
                     </table>
                 </div>
@@ -417,9 +439,9 @@
             <!-- الفواتير -->
             <div id="page-invoices" class="page-section" style="display:none;">
                 <div class="card">
-                    <h3 id="txtInvoicesTitle">سجل الفواتير (معاينة، طباعة، تعديل، واسترجاع) 📄</h3>
+                    <h3>سجل الفواتير (معاينة، طباعة، تعديل، واسترجاع) 📄</h3>
                     <table>
-                        <thead><tr><th id="thInvDate">التاريخ</th><th id="thInvClient">العميلة</th><th id="thInvService">الخدمة</th><th id="thInvAmount">المبلغ</th><th id="thInvActions">الإجراءات</th></tr></thead>
+                        <thead><tr><th>التاريخ</th><th>العميلة</th><th>الخدمة</th><th>المبلغ</th><th>الإجراءات</th></tr></thead>
                         <tbody>
                             <tr>
                                 <td>2026/10/20</td>
@@ -440,17 +462,17 @@
             <!-- المصاريف والإيجارات -->
             <div id="page-rent-expenses" class="page-section" style="display:none;">
                 <div class="card">
-                    <h3 id="txtRentExpensesTitle">🏠 إدارة الإيجارات والمصاريف التشغيلية</h3>
+                    <h3>🏠 إدارة الإيجارات والمصاريف التشغيلية</h3>
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;">
                         <input type="text" id="expenseTitle" class="form-control" placeholder="بند المصروف أو الإيجار">
                         <input type="number" id="expenseAmount" class="form-control" placeholder="المبلغ (ر.س)">
                     </div>
                     <input type="date" id="expenseDate" class="form-control" max="2050-12-31">
-                    <button class="btn-submit" id="btnSaveExpense" onclick="addExpenseRecord()">حفظ بند المصروف / الإيجار 💾</button>
+                    <button class="btn-submit" onclick="addExpenseRecord()">حفظ بند المصروف / الإيجار 💾</button>
 
-                    <h4 id="txtExpensesLogTitle" style="margin-top: 15px; margin-bottom: 8px;">سجل المصاريف والإيجارات المسجلة:</h4>
+                    <h4 style="margin-top: 15px; margin-bottom: 8px;">سجل المصاريف والإيجارات المسجلة:</h4>
                     <table>
-                        <thead><tr><th id="thExpTitle">البند</th><th id="thExpAmount">المبلغ</th><th id="thExpDate">التاريخ</th></tr></thead>
+                        <thead><tr><th>البند</th><th>المبلغ</th><th>التاريخ</th></tr></thead>
                         <tbody id="expensesTableBody">
                             <tr><td>إيجار المحل الشهري</td><td>2,000 ر.س</td><td>2026/10/01</td></tr>
                             <tr><td>فاتورة الكهرباء والماء</td><td>450 ر.س</td><td>2026/10/15</td></tr>
@@ -462,27 +484,27 @@
             <!-- النمط البياني -->
             <div id="page-finances" class="page-section" style="display:none;">
                 <div class="card">
-                    <h3 id="txtFinancesTitle">📊 النمط البياني المالي والمقارنة بين الفترات</h3>
+                    <h3>📊 النمط البياني المالي والمقارنة بين الفترات</h3>
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;">
                         <div>
-                            <label id="lblPeriod1" style="font-size:11px;">الفترة الأولى:</label>
+                            <label style="font-size:11px;">الفترة الأولى:</label>
                             <input type="date" id="chartDate1" class="form-control" max="2050-12-31" value="2026-10-01">
                         </div>
                         <div>
-                            <label id="lblPeriod2" style="font-size:11px;">الفترة الثانية:</label>
+                            <label style="font-size:11px;">الفترة الثانية:</label>
                             <input type="date" id="chartDate2" class="form-control" max="2050-12-31" value="2026-10-20">
                         </div>
                     </div>
-                    <button class="btn-btn btn-primary" id="btnGenChart" style="width:100%; margin-bottom:15px;" onclick="generateCustomChart()">توليد النمط البياني للمقارنة 📈</button>
+                    <button class="btn-btn btn-primary" style="width:100%; margin-bottom:15px;" onclick="generateCustomChart()">توليد النمط البياني للمقارنة 📈</button>
 
                     <div class="chart-bar-container" id="chartBars">
                         <div>
                             <div class="chart-bar" style="height: 100px;">1,200</div>
-                            <p style="font-size:11px; margin-top:5px; text-align:center;" id="barLbl1">الفترة الأولى</p>
+                            <p style="font-size:11px; margin-top:5px; text-align:center;">الفترة الأولى</p>
                         </div>
                         <div>
                             <div class="chart-bar" style="height: 140px;">2,850</div>
-                            <p style="font-size:11px; margin-top:5px; text-align:center;" id="barLbl2">الفترة الثانية</p>
+                            <p style="font-size:11px; margin-top:5px; text-align:center;">الفترة الثانية</p>
                         </div>
                     </div>
                 </div>
@@ -491,19 +513,19 @@
             <!-- الموظفات -->
             <div id="page-staff" class="page-section" style="display:none;">
                 <div class="card">
-                    <h3 id="txtStaffMgmtTitle">إدارة الموظفات، الرواتب، وتاريخ انتهاء الإقامة 👩‍🦰</h3>
+                    <h3>إدارة الموظفات، الرواتب، وتاريخ انتهاء الإقامة 👩‍🦰</h3>
                     <input type="text" id="staffNameInput" class="form-control" placeholder="اسم الموظفة">
                     <input type="number" id="staffSalaryInput" class="form-control" placeholder="الراتب الأساسي (ر.س)">
-                    <label id="lblResidencyDate" style="font-size:11px; color:#555;">تاريخ انتهاء الإقامة (بالسنة والشهر واليوم):</label>
+                    <label style="font-size:11px; color:#555;">تاريخ انتهاء الإقامة (بالسنة والشهر واليوم):</label>
                     <input type="date" id="staffResidencyExpInput" class="form-control" max="2050-12-31">
                     <input type="number" id="staffLeaveBalInput" class="form-control" placeholder="رصيد الإجازات (بالأيام)">
                     <input type="text" id="staffUsernameInput" class="form-control" placeholder="اسم المستخدم للدخول">
                     <input type="password" id="staffPasswordInput" class="form-control" placeholder="كلمة المرور">
-                    <button class="btn-submit" id="btnSaveStaff" onclick="addNewStaffMember()">حفظ الموظفة 💾</button>
+                    <button class="btn-submit" onclick="addNewStaffMember()">حفظ الموظفة 💾</button>
 
-                    <h4 id="txtStaffLogTitle" style="margin-top:15px; margin-bottom:8px;">قائمة الموظفات المسجلات:</h4>
+                    <h4 style="margin-top:15px; margin-bottom:8px;">قائمة الموظفات المسجلات:</h4>
                     <table>
-                        <thead><tr><th id="thStName">الاسم</th><th id="thStSalary">الراتب</th><th id="thStExp">انتهاء الإقامة</th><th id="thStLeaves">الإجازات</th></tr></thead>
+                        <thead><tr><th>الاسم</th><th>الراتب</th><th>انتهاء الإقامة</th><th>الإجازات</th></tr></thead>
                         <tbody id="staffListTable">
                             <tr><td>منى (أخصائية أظافر)</td><td>4,000 ر.س</td><td>2027/05/12</td><td>14 يوم</td></tr>
                         </tbody>
@@ -511,50 +533,39 @@
                 </div>
             </div>
 
-            <!-- إدارة الخدمات والتخصيص والثيمات للمناسبات -->
+            <!-- إدارة الخدمات والثيمات -->
             <div id="page-services" class="page-section" style="display:none;">
-                <!-- قسم تخصيص ثيم الموقع والمناسبات -->
                 <div class="card" style="border: 2px dashed var(--primary);">
-                    <h3 id="txtThemeTitle">🎨 تخصيص لون الموقع وعبارات المناسبات والخصومات</h3>
-                    <p style="font-size:12px; color:#666; margin-bottom:10px;" id="txtThemeDesc">غيري لون النظام واكتبي عبارات الترحيب والخصومات الخاصة بالمناسبات:</p>
-                    
+                    <h3>🎨 تخصيص لون الموقع وعبارات المناسبات والخصومات</h3>
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
                         <div>
                             <label style="font-size:11px; font-weight:bold;">اللون الرئيسي للسيستم:</label>
                             <input type="color" id="primaryColorPicker" class="form-control" value="#c25975" style="height: 40px;">
                         </div>
                         <div>
-                            <label style="font-size:11px; font-weight:bold;">لون خلفية الموقع:</label>
-                            <input type="color" id="bgColorPicker" class="form-control" value="#f9f6f7" style="height: 40px;">
+                            <label style="font-size:11px; font-weight:bold;">لون الشريط الجانبي (اليمن):</label>
+                            <input type="color" id="sidebarColorPicker" class="form-control" value="#2d2327" style="height: 40px;">
                         </div>
                     </div>
-
-                    <label style="font-size:11px; font-weight:bold;">عبارة المناسبة / الخصم العلوي (تظهر للعميلات):</label>
+                    <label style="font-size:11px; font-weight:bold;">عبارة المناسبة / الخصم العلوي:</label>
                     <input type="text" id="eventBannerTextInput" class="form-control" placeholder="مثال: خصم 20% بمناسبة اليوم الوطني 🇸🇦">
-                    
-                    <button class="btn-submit" id="btnApplyTheme" onclick="applyThemeSettings()">تطبيق التعديلات واللون فوراً ✨</button>
+                    <button class="btn-submit" onclick="applyThemeSettings()">تطبيق التعديلات واللون فوراً ✨</button>
                 </div>
 
                 <div class="card">
-                    <h3 id="txtServicesMgmtTitle">🛠️ إدارة الخدمات والتعديل على الأسعار والخصومات والنقاط</h3>
+                    <h3>🛠️ إدارة الخدمات والتعديل على الأسعار والخصومات والنقاط</h3>
                     <input type="text" id="newServiceName" class="form-control" placeholder="اسم الخدمة">
                     <input type="number" id="newServicePrice" class="form-control" placeholder="السعر الأصلي (ر.س)">
-                    <input type="number" id="newServiceDiscount" class="form-control" placeholder="نسبة الخصم % (مثلاً: 30)">
+                    <input type="number" id="newServiceDiscount" class="form-control" placeholder="نسبة الخصم %">
                     <input type="number" id="newServicePoints" class="form-control" placeholder="عدد النقاط المكتسبة">
                     <input type="text" id="newServiceImg" class="form-control" placeholder="رابط الصورة (URL)">
-                    <button class="btn-submit" id="btnSaveService" onclick="addNewService()">حفظ وإضافة الخدمة 🌸</button>
+                    <button class="btn-submit" onclick="addNewService()">حفظ وإضافة الخدمة 🌸</button>
 
-                    <h4 id="txtServicesLogTitle" style="margin-top:15px; margin-bottom:8px;">الخدمات المسجلة حالياً وتفاصيلها:</h4>
+                    <h4 style="margin-top:15px; margin-bottom:8px;">الخدمات المسجلة حالياً وتفاصيلها:</h4>
                     <table>
-                        <thead><tr><th id="thSvcName">الخدمة</th><th id="thSvcPrice">السعر الأصلي</th><th id="thSvcDisc">الخصم %</th><th id="thSvcFinal">السعر بعد الخصم</th><th id="thSvcPts">النقاط</th><th id="thSvcAct">الإجراءات</th></tr></thead>
+                        <thead><tr><th>الخدمة</th><th>السعر الأصلي</th><th>الخصم %</th><th>السعر بعد الخصم</th><th>النقاط</th><th>الإجراءات</th></tr></thead>
                         <tbody id="servicesAdminTableBody"></tbody>
                     </table>
-                </div>
-
-                <div class="card">
-                    <h3 id="txtRetargetTitle">💌 إعادة استهداف العميلات الغائبات ("ليه ما زرتينا؟")</h3>
-                    <input type="tel" id="retargetPhone" class="form-control" placeholder="رقم جوال العميلة (مثال: 966500000000)">
-                    <button class="btn-submit" id="btnSendRetarget" style="background:#25d366; color:white;" onclick="sendRetargetMsg()">إرسال رسالة التذكير عبر الواتساب 💬</button>
                 </div>
             </div>
 
@@ -596,11 +607,13 @@
         ];
 
         let clientsList = JSON.parse(localStorage.getItem('salon_clients')) || [
-            { name: 'سارة محمد', phone: '0551234567', points: 250 },
-            { name: 'نورة القحطاني', phone: '0549876543', points: 120 }
+            { code: 'CLN-1001', name: 'سارة محمد', phone: '0551234567', points: 250, history: ['مناكير كلاسيك - 100 ر.س'] },
+            { code: 'CLN-1002', name: 'نورة القحطاني', phone: '0549876543', points: 120, history: ['بدكير أظافر - 150 ر.س'] }
         ];
 
-        let staffList = [{ name: 'منى (أخصائية أظافر)', salary: 4000, residencyExp: '2027-05-12', leaves: 14, user: 'mona_nail', pass: '123456' }];
+        let staffList = JSON.parse(localStorage.getItem('salon_staff')) || [
+            { name: 'منى (أخصائية أظافر)', salary: 4000, residencyExp: '2027-05-12', leaves: 14, user: 'mona_nail', pass: '123456' }
+        ];
 
         const translations = {
             ar: {
@@ -616,36 +629,16 @@
                 welcomeStaff: "مرحباً بكِ في لوحة الموظفة 👩‍🦰",
                 welcomeClient: "مرحباً بكِ في صالون جودة الأظافر 🌸",
                 sidebarHome: "🏠 الرئيسية",
+                sidebarPOS: "🛒 الكاشير السريع",
                 sidebarClientPortal: "🌸 بوابة العميلات",
                 sidebarBookings: "📅 إدارة الحجوزات",
-                sidebarClients: "👥 سجل العملاء والنقاط",
+                sidebarClients: "👥 سجل الأكواد والنقاط",
                 sidebarInvoices: "📄 الفواتير",
                 sidebarRent: "🏠 الإيجارات والمصاريف",
                 sidebarFinances: "📊 النمط البياني",
                 sidebarStaff: "👥 الموظفات",
-                sidebarServices: "🛠️ إدارة الخدمات والعروض",
-                sidebarStaffSelf: "📅 جدول مواعيدي وراتبي",
-                tabBookingBtn: "🛍️ الشراء والحجز المباشر",
-                tabPointsBtn: "🎁 نقاطي والخصومات",
-                txtBrowseServices: "تصفح الخدمات وحجز موعد 🌸",
-                txtCartTitle: "🛒 سلة الخدمات المحددة",
-                txtEmptyCart: "لم يتم إضافة أي خدمة للسلة.",
-                bookingClientName: "اسمك الكريم",
-                bookingClientPhone: "رقم الجوال",
-                lblSelectDate: "تاريخ الموعد والساعة بالضبط:",
-                btnConfirmWhatsApp: "تأكيد الحجز عبر الواتساب 💬",
-                txtPointsBalanceTitle: "🏆 رصيد نقاطك الحالي",
-                txtPointsDesc: "استبدلي نقاطك للحصول على خصم خاص على خدمتك المفضلة!",
-                txtRequestDiscountTitle: "طلب خصم بالنقاط لخدمة معينة:",
-                btnSendPointsDiscount: "إرسال طلب استخدام النقاط 📩",
-                txtStatBookings: "حجوزات اليوم",
-                txtStatSales: "إجمالي المبيعات",
-                txtStatNet: "صافي الأرباح",
-                txtStatExpenses: "المصروفات والإيجارات",
-                txtRecentInvoices: "أحدث الفواتير",
-                btnViewAllInvoices: "عرض الكل",
-                txtTodayAppointments: "مواعيد اليوم",
-                thClient: "العميلة", thService: "الخدمة", thAmount: "المبلغ", thTime: "الوقت"
+                sidebarServices: "🛠️ الخدمات والثيمات",
+                sidebarStaffSelf: "📅 جدول مواعيدي وراتبي"
             },
             en: {
                 title: "Nail Quality Salon 💅",
@@ -660,36 +653,16 @@
                 welcomeStaff: "Welcome to Staff Dashboard 👩‍🦰",
                 welcomeClient: "Welcome to Nail Quality Salon 🌸",
                 sidebarHome: "🏠 Dashboard",
+                sidebarPOS: "🛒 Fast POS",
                 sidebarClientPortal: "🌸 Client Portal",
                 sidebarBookings: "📅 Bookings",
-                sidebarClients: "👥 Clients & Points",
+                sidebarClients: "👥 Codes & Points",
                 sidebarInvoices: "📄 Invoices",
                 sidebarRent: "🏠 Rent & Expenses",
                 sidebarFinances: "📊 Analytics",
                 sidebarStaff: "👥 Staff Management",
                 sidebarServices: "🛠️ Services & Theme",
-                sidebarStaffSelf: "📅 My Schedule & Salary",
-                tabBookingBtn: "🛍️ Shop & Direct Booking",
-                tabPointsBtn: "🎁 My Points & Rewards",
-                txtBrowseServices: "Browse Services & Book Appointment 🌸",
-                txtCartTitle: "🛒 Selected Services Cart",
-                txtEmptyCart: "No services added to cart yet.",
-                bookingClientName: "Your Full Name",
-                bookingClientPhone: "Phone Number",
-                lblSelectDate: "Select Date & Exact Hour:",
-                btnConfirmWhatsApp: "Confirm Booking via WhatsApp 💬",
-                txtPointsBalanceTitle: "🏆 Your Current Points Balance",
-                txtPointsDesc: "Redeem your points to get a special discount on your favorite service!",
-                txtRequestDiscountTitle: "Request Points Discount for a Service:",
-                btnSendPointsDiscount: "Send Points Request 📩",
-                txtStatBookings: "Today's Bookings",
-                txtStatSales: "Total Sales",
-                txtStatNet: "Net Profit",
-                txtStatExpenses: "Expenses & Rent",
-                txtRecentInvoices: "Recent Invoices",
-                btnViewAllInvoices: "View All",
-                txtTodayAppointments: "Today's Appointments",
-                thClient: "Client", thService: "Service", thAmount: "Amount", thTime: "Time"
+                sidebarStaffSelf: "📅 My Schedule & Salary"
             }
         };
 
@@ -705,33 +678,6 @@
             document.getElementById('btnRoleStaff').textContent = t.staff;
             document.getElementById('btnRoleClient').textContent = t.client;
             document.getElementById('btnLoginText').textContent = t.loginBtn;
-
-            // تحديث نصوص واجهة العميلة واللوحة
-            document.getElementById('tabBookingBtn').textContent = t.tabBookingBtn;
-            document.getElementById('tabPointsBtn').textContent = t.tabPointsBtn;
-            document.getElementById('txtBrowseServices').textContent = t.txtBrowseServices;
-            document.getElementById('txtCartTitle').textContent = t.txtCartTitle;
-            document.getElementById('bookingClientName').placeholder = t.bookingClientName;
-            document.getElementById('bookingClientPhone').placeholder = t.bookingClientPhone;
-            document.getElementById('lblSelectDate').textContent = t.lblSelectDate;
-            document.getElementById('btnConfirmWhatsApp').textContent = t.btnConfirmWhatsApp;
-            document.getElementById('txtPointsBalanceTitle').textContent = t.txtPointsBalanceTitle;
-            document.getElementById('txtPointsDesc').textContent = t.txtPointsDesc;
-            document.getElementById('txtRequestDiscountTitle').textContent = t.txtRequestDiscountTitle;
-            document.getElementById('btnSendPointsDiscount').textContent = t.btnSendPointsDiscount;
-
-            document.getElementById('txtStatBookings').textContent = t.txtStatBookings;
-            document.getElementById('txtStatSales').textContent = t.txtStatSales;
-            document.getElementById('txtStatNet').textContent = t.txtStatNet;
-            document.getElementById('txtStatExpenses').textContent = t.txtStatExpenses;
-            document.getElementById('txtRecentInvoices').textContent = t.txtRecentInvoices;
-            document.getElementById('btnViewAllInvoices').textContent = t.btnViewAllInvoices;
-            document.getElementById('txtTodayAppointments').textContent = t.txtTodayAppointments;
-
-            document.getElementById('thClient').textContent = t.thClient;
-            document.getElementById('thService').textContent = t.thService;
-            document.getElementById('thAmount').textContent = t.thAmount;
-            document.getElementById('thTime').textContent = t.thTime;
 
             updateLoginFields();
             if (document.getElementById('app-container').style.display === 'flex') {
@@ -759,7 +705,7 @@
                 `;
             } else {
                 loginFields.innerHTML = `
-                    <input type="tel" id="clientPhoneLogin" class="form-control" placeholder="${currentLang === 'ar' ? 'رقم الجوال لتسجيل الدخول / الحساب' : 'Phone Number for Login'}" required>
+                    <input type="text" id="clientCodeLogin" class="form-control" placeholder="${currentLang === 'ar' ? 'أدخلي كود حسابك أو رقم الجوال' : 'Enter Account Code or Phone'}" required>
                     <input type="password" id="clientPassLogin" class="form-control" placeholder="${currentLang === 'ar' ? 'كلمة المرور' : 'Password'}" required>
                 `;
             }
@@ -820,6 +766,7 @@
             if (role === 'owner') {
                 menu.innerHTML = `
                     <li><a class="active" onclick="showPage('dashboard')">${t.sidebarHome}</a></li>
+                    <li><a onclick="showPage('pos')">${t.sidebarPOS}</a></li>
                     <li><a onclick="showPage('client-portal')">${t.sidebarClientPortal}</a></li>
                     <li><a onclick="showPage('bookings')">${t.sidebarBookings}</a></li>
                     <li><a onclick="showPage('clients-list')">${t.sidebarClients}</a></li>
@@ -856,11 +803,11 @@
 
         function applyThemeSettings() {
             const primaryColor = document.getElementById('primaryColorPicker').value;
-            const bgColor = document.getElementById('bgColorPicker').value;
+            const sidebarColor = document.getElementById('sidebarColorPicker').value;
             const bannerText = document.getElementById('eventBannerTextInput').value;
 
             document.documentElement.style.setProperty('--primary', primaryColor);
-            document.documentElement.style.setProperty('--body-bg', bgColor);
+            document.documentElement.style.setProperty('--sidebar-bg', sidebarColor);
 
             if (bannerText.trim() !== "") {
                 const banner = document.getElementById('eventBanner');
@@ -870,15 +817,15 @@
                 document.getElementById('eventBanner').style.display = 'none';
             }
 
-            localStorage.setItem('salon_theme', JSON.stringify({ primaryColor, bgColor, bannerText }));
-            alert(currentLang === 'ar' ? 'تم تطبيق ثيم الموقع والعبارة فوراً!' : 'Theme settings applied successfully!');
+            localStorage.setItem('salon_theme', JSON.stringify({ primaryColor, sidebarColor, bannerText }));
+            alert(currentLang === 'ar' ? 'تم تطبيق الثيم والألوان فوراً!' : 'Theme applied!');
         }
 
         function loadSavedTheme() {
             const saved = JSON.parse(localStorage.getItem('salon_theme'));
             if (saved) {
                 if (saved.primaryColor) document.documentElement.style.setProperty('--primary', saved.primaryColor);
-                if (saved.bgColor) document.documentElement.style.setProperty('--body-bg', saved.bgColor);
+                if (saved.sidebarColor) document.documentElement.style.setProperty('--sidebar-bg', saved.sidebarColor);
                 if (saved.bannerText && saved.bannerText.trim() !== "") {
                     const banner = document.getElementById('eventBanner');
                     banner.textContent = saved.bannerText;
@@ -893,6 +840,7 @@
             renderBookingsTable();
             renderClientsPointsTable();
             updateStaffDropdown();
+            updatePOSDropdown();
         }
 
         function renderServicesToClient() {
@@ -903,10 +851,10 @@
 
             servicesList.forEach(s => {
                 const finalPrice = s.discount > 0 ? (s.price * (1 - s.discount/100)).toFixed(0) : s.price;
-                const discountBadge = s.discount > 0 ? `<div class="discount-tag">${currentLang === 'ar' ? 'خصم' : 'OFF'} ${s.discount}%</div>` : '';
+                const discountBadge = s.discount > 0 ? `<div class="discount-tag">خصم ${s.discount}%</div>` : '';
                 const priceDisplay = s.discount > 0 
-                    ? `<span style="text-decoration:line-through; color:#aaa; font-size:11px;">${s.price} ${currentLang === 'ar' ? 'ر.س' : 'SAR'}</span> <span style="font-weight:bold; color:var(--primary); font-size:13px;">${finalPrice} ${currentLang === 'ar' ? 'ر.س' : 'SAR'}</span>`
-                    : `<span style="font-weight:bold; color:var(--primary); font-size:13px;">${s.price} ${currentLang === 'ar' ? 'ر.س' : 'SAR'}</span>`;
+                    ? `<span style="text-decoration:line-through; color:#aaa; font-size:11px;">${s.price} ر.س</span> <span style="font-weight:bold; color:var(--primary); font-size:13px;">${finalPrice} ر.س</span>`
+                    : `<span style="font-weight:bold; color:var(--primary); font-size:13px;">${s.price} ر.س</span>`;
 
                 grid.innerHTML += `
                     <div class="service-card">
@@ -914,12 +862,12 @@
                         <img src="${s.img}" alt="${s.name}">
                         <h4 style="font-size:13px;">${s.name}</h4>
                         <p style="margin: 3px 0;">${priceDisplay}</p>
-                        <p style="font-size:10px; color:#666;">+${s.points} ${currentLang === 'ar' ? 'نقطة ولاء' : 'Loyalty Points'}</p>
-                        <button class="btn-btn btn-primary" style="margin-top:4px;" onclick="addToCart('${s.name}', ${finalPrice})">${currentLang === 'ar' ? '+ السلة' : '+ Cart'}</button>
+                        <p style="font-size:10px; color:#666;">+${s.points} نقطة</p>
+                        <button class="btn-btn btn-primary" style="margin-top:4px;" onclick="addToCart('${s.name}', ${finalPrice}, ${s.points})">+ السلة</button>
                     </div>
                 `;
 
-                discountSelect.innerHTML += `<option value="${s.name}">${s.name}</option>`;
+                discountSelect.innerHTML += `<option value="${s.name} (خصم بالنقاط)">${s.name} (استبدال النقاط)</option>`;
             });
         }
 
@@ -953,26 +901,22 @@
             todayTbody.innerHTML = '';
             staffTbody.innerHTML = '';
 
-            document.getElementById('dashboardBookingsCount').textContent = `${bookingsList.length} ${currentLang === 'ar' ? 'حجز' : 'Bookings'}`;
+            document.getElementById('dashboardBookingsCount').textContent = `${bookingsList.length} حجز`;
 
             bookingsList.forEach((b, idx) => {
                 const formattedDate = b.datetime ? b.datetime.replace('T', ' ') : '2026-10-20';
-
                 adminTbody.innerHTML += `
                     <tr>
                         <td>${formattedDate}</td>
                         <td>${b.name} (${b.phone})</td>
                         <td>${b.service}</td>
                         <td>
-                            <button class="btn-btn btn-action" onclick="prompt('تعديل موعد العميلة:')">تعديل</button>
-                            <button class="btn-btn" style="background:#e67e22; color:white;" onclick="alert('تم إرجاع المبلغ بنجاح')">إرجاع</button>
                             <button class="btn-btn btn-danger" onclick="deleteBooking(${idx})">إلغاء</button>
                         </td>
                     </tr>
                 `;
-
                 todayTbody.innerHTML += `<tr><td>${b.name}</td><td>${formattedDate.split(' ')[1] || '04:00م'}</td></tr>`;
-                staffTbody.innerHTML += `<tr><td>${formattedDate.split(' ')[1] || '04:00م'}</td><td>${b.name}</td><td>${b.service}</td><td><span style="color:green; font-weight:bold;">${currentLang === 'ar' ? 'مؤكد' : 'Confirmed'}</span></td></tr>`;
+                staffTbody.innerHTML += `<tr><td>${formattedDate.split(' ')[1] || '04:00م'}</td><td>${b.name}</td><td>${b.service}</td><td><span style="color:green; font-weight:bold;">مؤكد</span></td></tr>`;
             });
         }
 
@@ -980,25 +924,52 @@
             const tbody = document.getElementById('clientsPointsTableBody');
             tbody.innerHTML = '';
             clientsList.forEach((c, idx) => {
+                const historyStr = c.history && c.history.length > 0 ? c.history.join(', ') : 'لا توجد طلبات سابقة';
                 tbody.innerHTML += `
-                    <tr>
+                    <tr class="client-row" data-code="${c.code.toLowerCase()}" data-name="${c.name.toLowerCase()}">
+                        <td><strong style="color:var(--primary);">${c.code}</strong></td>
                         <td>${c.name}</td>
                         <td>${c.phone}</td>
                         <td><strong>${c.points} نقطة</strong></td>
+                        <td style="font-size:11px; color:#555;">${historyStr}</td>
                         <td>
-                            <button class="btn-btn btn-primary" onclick="addPointsToClient(${idx})">+ زيادة نقاط</button>
+                            <button class="btn-btn btn-primary" onclick="adjustClientPoints(${idx})">تعديل النقاط</button>
                         </td>
                     </tr>
                 `;
             });
         }
 
-        function addToCart(name, price) {
-            cart.push({ name, price });
+        function filterClientsTable() {
+            const query = document.getElementById('clientSearchInput').value.toLowerCase();
+            const rows = document.querySelectorAll('.client-row');
+            rows.forEach(row => {
+                const code = row.getAttribute('data-code');
+                const name = row.getAttribute('data-name');
+                if (code.includes(query) || name.includes(query)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+
+        function adjustClientPoints(idx) {
+            const newPts = prompt(`أدخلي رصيد النقاط الجديد للعميلة ${clientsList[idx].name}:`, clientsList[idx].points);
+            if (newPts !== null) {
+                clientsList[idx].points = parseInt(newPts) || 0;
+                localStorage.setItem('salon_clients', JSON.stringify(clientsList));
+                renderClientsPointsTable();
+                alert('تم تحديث رصيد النقاط بنجاح!');
+            }
+        }
+
+        function addToCart(name, price, points) {
+            cart.push({ name, price, points });
             const list = document.getElementById('cartItemsList');
             list.innerHTML = '';
-            cart.forEach(item => { list.innerHTML += `<li>${item.name} - ${item.price} ${currentLang === 'ar' ? 'ر.س' : 'SAR'}</li>`; });
-            alert(currentLang === 'ar' ? `تم إضافة (${name}) للسلة!` : `Added (${name}) to cart!`);
+            cart.forEach(item => { list.innerHTML += `<li>${item.name} - ${item.price} ر.س (+${item.points} نقطة)</li>`; });
+            alert(`تم إضافة (${name}) للسلة!`);
         }
 
         function sendToWhatsAppBooking() {
@@ -1008,32 +979,68 @@
             const staff = document.getElementById('bookingStaffSelect').value;
 
             if (!name || !phone || !datetimeVal || cart.length === 0) {
-                return alert(currentLang === 'ar' ? 'أكملي اسمك ورقم جوالك وتاريخ ووقت الموعد واختاري خدمة!' : 'Please complete all fields and select a service!');
-            }
-
-            const selectedDate = new Date(datetimeVal);
-            for (let b of blockedPeriods) {
-                if (selectedDate >= b.from && selectedDate <= b.to) {
-                    return alert(currentLang === 'ar' ? 'عذراً، هذا الوقت محظور وغير متاح للحجز في الصالون!' : 'Sorry, this time slot is blocked!');
-                }
+                return alert('أكملي البيانات واختاري خدمة!');
             }
 
             let servicesText = cart.map(c => c.name).join(', ');
-            
+            let earnedPoints = cart.reduce((sum, c) => sum + c.points, 0);
+
             bookingsList.unshift({ name, phone, service: servicesText, datetime: datetimeVal, staff });
             localStorage.setItem('salon_bookings', JSON.stringify(bookingsList));
 
-            const existingClient = clientsList.find(c => c.phone === phone);
-            if (!existingClient) {
-                clientsList.push({ name, phone, points: 20 });
-                localStorage.setItem('salon_clients', JSON.stringify(clientsList));
+            let existingClient = clientsList.find(c => c.phone === phone);
+            if (existingClient) {
+                existingClient.points += earnedPoints;
+                existingClient.history.push(`${servicesText} - ${datetimeVal}`);
+            } else {
+                let newCode = 'CLN-' + (1000 + clientsList.length + 1);
+                clientsList.push({ code: newCode, name, phone, points: 50 + earnedPoints, history: [`${servicesText}`] });
             }
-
+            localStorage.setItem('salon_clients', JSON.stringify(clientsList));
             refreshAllDataViews();
 
-            const formattedDate = new Date(datetimeVal).toLocaleString(currentLang === 'ar' ? 'ar-SA' : 'en-US');
-            const msg = `Booking Request - Nail Quality Salon:%0A- Name: ${name}%0A- Phone: ${phone}%0A- Services: ${servicesText}%0A- Date & Time: ${formattedDate}%0A- Staff: ${staff}`;
+            const msg = currentLang === 'ar' 
+                ? `حجز جديد صالون جودة الأظافر:%0A- الاسم: ${name}%0A- الجوال: ${phone}%0A- الخدمات: ${servicesText}%0A- الموعد: ${datetimeVal}%0A- الموظفة: ${staff}`
+                : `New Booking - Nail Quality Salon:%0A- Name: ${name}%0A- Phone: ${phone}%0A- Services: ${servicesText}%0A- Time: ${datetimeVal}%0A- Staff: ${staff}`;
+            
             window.open(`https://wa.me/966544267911?text=${msg}`, '_blank');
+        }
+
+        function requestPointsDiscount() {
+            const val = document.getElementById('discountServiceSelect').value;
+            const phone = prompt('أدخلي رقم جوالك المسجل لتأكيد خصم النقاط:');
+            if (!phone) return;
+
+            let client = clientsList.find(c => c.phone === phone);
+            if (!client) return alert('لم يتم العثور على عميلة بهذا الجوال!');
+
+            const msg = `طلب استخدام نقاط الولاء:%0A- العميلة: ${client.name}%0A- الجوال: ${phone}%0A- الكود: ${client.code}%0A- رصيد نقاطها الحالي: ${client.points} نقطة%0A- الخدمة المطلوبة بالخصم: ${val}`;
+            
+            // خصم النقاط تلقائياً (مثلاً خصم 50 نقطة افتراضياً عند الطلب)
+            client.points = Math.max(0, client.points - 50);
+            localStorage.setItem('salon_clients', JSON.stringify(clientsList));
+            refreshAllDataViews();
+
+            window.open(`https://wa.me/966544267911?text=${encodeURIComponent(msg)}`, '_blank');
+            alert('تم إرسال طلب النقاط للواتساب وتم خصم النقاط من رصيدك بنجاح!');
+        }
+
+        function completePosCheckout() {
+            const name = document.getElementById('posClientName').value || 'عميلة نقدي';
+            const phone = document.getElementById('posClientPhone').value || '0500000000';
+            const service = document.getElementById('posServiceSelect').value;
+            if (!service) return alert('اختر الخدمة!');
+
+            printInvoice(name, service, 150);
+        }
+
+        function updatePOSDropdown() {
+            const sel = document.getElementById('posServiceSelect');
+            if (!sel) return;
+            sel.innerHTML = '';
+            servicesList.forEach(s => {
+                sel.innerHTML += `<option value="${s.name}">${s.name} - ${s.price} ر.س</option>`;
+            });
         }
 
         function addNewService() {
@@ -1047,24 +1054,21 @@
 
             servicesList.push({ name, price, discount, points, img });
             localStorage.setItem('salon_services', JSON.stringify(servicesList));
-
             refreshAllDataViews();
-            alert('تم حفظ الخدمة وإظهارها فوراً للعميلة وفي المنيو!');
+            alert('تم حفظ الخدمة بنجاح!');
         }
 
         function editService(idx) {
-            const newPrice = prompt('أدخلي السعر الجديد:', servicesList[idx].price);
-            const newDiscount = prompt('أدخلي نسبة الخصم الجديد (%):', servicesList[idx].discount);
+            const newPrice = prompt('السعر الجديد:', servicesList[idx].price);
             if (newPrice !== null) {
                 servicesList[idx].price = parseFloat(newPrice);
-                servicesList[idx].discount = parseFloat(newDiscount) || 0;
                 localStorage.setItem('salon_services', JSON.stringify(servicesList));
                 refreshAllDataViews();
             }
         }
 
         function deleteService(idx) {
-            if (confirm('هل أنتِ متأكدة من حذف هذه الخدمة؟')) {
+            if (confirm('حذف الخدمة؟')) {
                 servicesList.splice(idx, 1);
                 localStorage.setItem('salon_services', JSON.stringify(servicesList));
                 refreshAllDataViews();
@@ -1072,25 +1076,11 @@
         }
 
         function deleteBooking(idx) {
-            if (confirm('هل تريدين إلغاء هذا الموعد؟')) {
+            if (confirm('إلغاء الموعد؟')) {
                 bookingsList.splice(idx, 1);
                 localStorage.setItem('salon_bookings', JSON.stringify(bookingsList));
-                refreshAllDataViews();
+                renderBookingsTable();
             }
-        }
-
-        function addPointsToClient(idx) {
-            const added = prompt('أدخلي عدد النقاط لإضافتها للعميلة:', 50);
-            if (added) {
-                clientsList[idx].points += parseInt(added);
-                localStorage.setItem('salon_clients', JSON.stringify(clientsList));
-                renderClientsPointsTable();
-            }
-        }
-
-        function requestPointsDiscount() {
-            const val = document.getElementById('discountServiceSelect').value;
-            alert(`تم إرسال طلب خصم (${val}) عبر النقاط لصاحبة الصالون للمراجعة!`);
         }
 
         function printInvoice(client, service, amount) {
@@ -1100,55 +1090,35 @@
             window.print();
         }
 
-        function generateCustomChart() {
-            alert('تم تحديث النمط البياني للمقارنة بنجاح!');
-        }
+        function generateCustomChart() { alert('تم تحديث النمط البياني!'); }
 
         function addExpenseRecord() {
             const title = document.getElementById('expenseTitle').value;
             const amount = document.getElementById('expenseAmount').value;
-            const date = document.getElementById('expenseDate').value;
-
             if (!title || !amount) return alert('أدخلي بيانات المصروف!');
-
-            const tbody = document.getElementById('expensesTableBody');
-            tbody.innerHTML += `<tr><td>${title}</td><td>${amount} ر.س</td><td>${date || '2026-10-20'}</td></tr>`;
-            alert('تم حفظ بند المصروف / الإيجار!');
+            document.getElementById('expensesTableBody').innerHTML += `<tr><td>${title}</td><td>${amount} ر.س</td><td>2026/10/20</td></tr>`;
+            alert('تم حفظ بند المصروف!');
         }
 
         function addNewStaffMember() {
             const name = document.getElementById('staffNameInput').value;
             const salary = document.getElementById('staffSalaryInput').value;
-            const exp = document.getElementById('staffResidencyExpInput').value;
-            const leaves = document.getElementById('staffLeaveBalInput').value;
             const user = document.getElementById('staffUsernameInput').value;
             const pass = document.getElementById('staffPasswordInput').value;
-
-            if (!name || !salary || !user || !pass) return alert('أكملي كافة البيانات الأساسية للموظفة!');
-
-            staffList.push({ name, salary, residencyExp: exp, leaves, user, pass });
-            const tbody = document.getElementById('staffListTable');
-            tbody.innerHTML += `<tr><td>${name}</td><td>${salary} ر.س</td><td>${exp}</td><td>${leaves || 0} يوم</td></tr>`;
+            if (!name || !salary || !user || !pass) return alert('أكملي بيانات الموظفة!');
+            staffList.push({ name, salary, user, pass });
+            localStorage.setItem('salon_staff', JSON.stringify(staffList));
             updateStaffDropdown();
-            alert('تم حفظ الموظفة وتحديد راتبتها وإقامتها بنجاح!');
+            alert('تم حفظ الموظفة بنجاح!');
         }
 
         function updateStaffDropdown() {
             const select = document.getElementById('bookingStaffSelect');
-            select.innerHTML = `<option value="">-- ${currentLang === 'ar' ? 'اختاري الموظفة' : 'Select Staff'} --</option>`;
+            if(!select) return;
+            select.innerHTML = `<option value="">-- اختاري الموظفة --</option>`;
             staffList.forEach(s => {
-                const opt = document.createElement('option');
-                opt.value = s.name;
-                opt.textContent = s.name;
-                select.appendChild(opt);
+                select.innerHTML += `<option value="${s.name}">${s.name}</option>`;
             });
-        }
-
-        function sendRetargetMsg() {
-            const phone = document.getElementById('retargetPhone').value;
-            if (!phone) return alert('أدخلي رقم جوال العميلة!');
-            const msg = `أهلاً بكِ عزيزتنا في صالون جودة الأظافر 💅✨ اشتفنا لكِ! ليه ما زرتينا؟ يقدم لكِ الصالون خصم خاص بنقاطكِ على زيارتك القادمة.🌸`;
-            window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, '_blank');
         }
 
         function logout() {
