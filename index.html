@@ -19,15 +19,26 @@
         }
 
         * { box-sizing: border-box; font-family: 'Tajawal', sans-serif; margin: 0; padding: 0; }
-        body { background-color: var(--body-bg); color: var(--text-dark); direction: rtl; min-height: 100vh; font-size: 14px; }
+        body { background-color: var(--body-bg); color: var(--text-dark); direction: rtl; min-height: 100vh; font-size: 14px; transition: background-color 0.3s; }
 
-        /* --- شاشة تسجيل الدخول --- */
+        /* شريط المناسبات العلوى */
+        #eventBanner {
+            display: none;
+            background: var(--primary);
+            color: #ffffff;
+            text-align: center;
+            padding: 8px 12px;
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        /* شاشة تسجيل الدخول */
         #login-screen {
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background: linear-gradient(135deg, #2d2327 0%, #c25975 100%);
+            background: linear-gradient(135deg, #2d2327 0%, var(--primary) 100%);
             padding: 15px;
         }
 
@@ -103,20 +114,21 @@
             cursor: pointer;
             transition: 0.3s;
         }
-        .btn-submit:hover { background: var(--primary-dark); }
 
-        /* --- الهيكل الرئيسي للوحة التحكم --- */
+        /* الهيكل الرئيسي */
         #app-container { display: none; min-height: 100vh; flex-direction: column; }
 
         @media (min-width: 769px) {
             #app-container { flex-direction: row; }
             .sidebar { width: 250px; height: 100vh; position: fixed; right: 0; top: 0; }
             .main-content { margin-right: 250px; padding: 25px; flex-grow: 1; }
+            body[dir="ltr"] .main-content { margin-right: 0; margin-left: 250px; }
+            body[dir="ltr"] .sidebar { right: auto; left: 0; }
         }
 
         @media (max-width: 768px) {
             .sidebar { width: 100%; height: auto; position: relative; }
-            .main-content { padding: 12px; width: 100%; margin-right: 0; }
+            .main-content { padding: 12px; width: 100%; margin-right: 0 !important; margin-left: 0 !important; }
             .grid-2 { grid-template-columns: 1fr !important; }
             .stats-grid { grid-template-columns: 1fr 1fr !important; gap: 10px !important; }
             .top-bar { flex-direction: column; text-align: center; gap: 10px; }
@@ -170,7 +182,7 @@
         .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
 
         table { width: 100%; border-collapse: collapse; margin-top: 8px; }
-        th, td { padding: 9px 10px; text-align: right; border-bottom: 1px solid rgba(0,0,0,0.05); font-size: 13px; }
+        th, td { padding: 9px 10px; text-align: inherit; border-bottom: 1px solid rgba(0,0,0,0.05); font-size: 13px; }
         th { background-color: rgba(0,0,0,0.02); color: var(--text-light); }
 
         .btn-btn { padding: 7px 11px; border-radius: 6px; border: none; cursor: pointer; font-weight: 600; font-size: 12px; transition: 0.3s; }
@@ -178,36 +190,33 @@
         .btn-danger { background-color: #d9534f; color: white; }
         .btn-action { background-color: #31708f; color: white; margin-left: 3px; }
 
-        /* --- واجهة العميلة المبسطة --- */
         .client-tabs { display: flex; gap: 10px; margin-bottom: 15px; }
         .client-tab-btn { flex: 1; padding: 12px; border: none; border-radius: 10px; background: #e0d5d8; font-weight: bold; cursor: pointer; color: #444; }
         .client-tab-btn.active { background: var(--primary); color: white; }
 
         .service-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin-bottom: 15px; }
-        .service-card { background: #fff; border: 1.5px solid #f2d6de; border-radius: 10px; padding: 10px; text-align: center; }
+        .service-card { background: #fff; border: 1.5px solid #f2d6de; border-radius: 10px; padding: 10px; text-align: center; position: relative; }
         .service-card img { width: 100%; height: 85px; object-fit: cover; border-radius: 6px; margin-bottom: 8px; }
+        .discount-tag { position: absolute; top: 6px; right: 6px; background: #d9534f; color: white; padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: bold; }
 
-        /* --- الرسم البياني المتناسق الألوان --- */
         .chart-bar-container { display: flex; align-items: flex-end; justify-content: space-around; height: 180px; padding-top: 20px; border-bottom: 2px solid #eee; gap: 15px; }
-        .chart-bar { width: 60px; background: linear-gradient(180deg, #c25975 0%, #7e3247 100%); border-radius: 6px 6px 0 0; text-align: center; color: white; font-size: 11px; padding-top: 6px; transition: 0.4s; }
+        .chart-bar { width: 60px; background: linear-gradient(180deg, var(--primary) 0%, #7e3247 100%); border-radius: 6px 6px 0 0; text-align: center; color: white; font-size: 11px; padding-top: 6px; transition: 0.4s; }
 
-        /* --- الفاتورة المحدثة الأنيقة والواضحة للطباعة --- */
         #printableInvoice {
             display: none;
             width: 100%;
             max-width: 380px;
             margin: 0 auto;
             padding: 20px;
-            border: 2px solid #c25975;
+            border: 2px solid var(--primary);
             border-radius: 12px;
             background: #fff;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
 
-        .inv-header { text-align: center; border-bottom: 2px dashed #c25975; padding-bottom: 10px; margin-bottom: 12px; }
-        .inv-header h2 { color: #c25975; font-size: 20px; font-weight: bold; }
+        .inv-header { text-align: center; border-bottom: 2px dashed var(--primary); padding-bottom: 10px; margin-bottom: 12px; }
+        .inv-header h2 { color: var(--primary); font-size: 20px; font-weight: bold; }
         .inv-details p { font-size: 13px; line-height: 1.8; color: #222; font-weight: 500; }
-        .inv-footer { text-align: center; border-top: 2px dashed #c25975; padding-top: 10px; margin-top: 12px; font-size: 12px; color: #555; }
+        .inv-footer { text-align: center; border-top: 2px dashed var(--primary); padding-top: 10px; margin-top: 12px; font-size: 12px; color: #555; }
 
         @media print {
             body * { visibility: hidden; }
@@ -218,7 +227,10 @@
 </head>
 <body>
 
-    <!-- 1. شاشة تسجيل الدخول -->
+    <!-- شريط المناسبات والخصومات -->
+    <div id="eventBanner"></div>
+
+    <!-- 1. تسجيل الدخول -->
     <div id="login-screen">
         <div class="login-card">
             <h2 id="loginTitle">صالون جودة الأظافر 💅</h2>
@@ -239,7 +251,6 @@
 
             <form id="loginForm" onsubmit="handleLogin(event)">
                 <div id="login-fields">
-                    <!-- صاحبة الصالون فقط بكلمة المرور السرية الطويلة -->
                     <input type="password" id="loginPassword" class="form-control" placeholder="أدخلي كلمة المرور السرية" required>
                 </div>
                 <button type="submit" class="btn-submit" id="btnLoginText">دخول النظام 🔐</button>
@@ -249,7 +260,6 @@
 
     <!-- 2. النظام الرئيسي -->
     <div id="app-container">
-        <!-- القائمة الجانبية -->
         <div class="sidebar" id="mainSidebar">
             <div>
                 <div class="sidebar-header">
@@ -263,7 +273,6 @@
             </div>
         </div>
 
-        <!-- المحتوى الرئيسي -->
         <div class="main-content">
             <div class="top-bar">
                 <div class="welcome-msg">
@@ -275,18 +284,18 @@
                 </div>
             </div>
 
-            <!-- أ. لوحة الرئيسية الإدارية -->
+            <!-- الرئيسية -->
             <div id="page-dashboard" class="page-section">
                 <div class="stats-grid">
-                    <div class="stat-card"><h3 id="lblStatBookings">حجوزات اليوم</h3><div class="value">18 حجز</div></div>
-                    <div class="stat-card"><h3 id="lblStatSales">إجمالي المبيعات</h3><div class="value">10,870 ر.س</div></div>
-                    <div class="stat-card"><h3 id="lblStatNet">صافي الأرباح</h3><div class="value">8,420 ر.س</div></div>
-                    <div class="stat-card"><h3 id="lblStatExpenses">إجمالي المصروفات والإيجارات</h3><div class="value">2,450 ر.س</div></div>
+                    <div class="stat-card"><h3 id="txtStatBookings">حجوزات اليوم</h3><div class="value" id="dashboardBookingsCount">0 حجز</div></div>
+                    <div class="stat-card"><h3 id="txtStatSales">إجمالي المبيعات</h3><div class="value">10,870 ر.س</div></div>
+                    <div class="stat-card"><h3 id="txtStatNet">صافي الأرباح</h3><div class="value">8,420 ر.س</div></div>
+                    <div class="stat-card"><h3 id="txtStatExpenses">المصروفات والإيجارات</h3><div class="value">2,450 ر.س</div></div>
                 </div>
 
                 <div class="grid-2">
                     <div class="card">
-                        <div class="card-header"><h3 id="lblRecentInvoices">أحدث الفواتير</h3><button class="btn-btn btn-primary" onclick="showPage('invoices')">عرض الكل</button></div>
+                        <div class="card-header"><h3 id="txtRecentInvoices">أحدث الفواتير</h3><button class="btn-btn btn-primary" id="btnViewAllInvoices" onclick="showPage('invoices')">عرض الكل</button></div>
                         <table>
                             <thead><tr><th id="thClient">العميلة</th><th id="thService">الخدمة</th><th id="thAmount">المبلغ</th></tr></thead>
                             <tbody>
@@ -296,133 +305,121 @@
                         </table>
                     </div>
                     <div class="card">
-                        <div class="card-header"><h3 id="lblTodayAppointments">مواعيد اليوم</h3></div>
+                        <div class="card-header"><h3 id="txtTodayAppointments">مواعيد اليوم</h3></div>
                         <table>
                             <thead><tr><th id="thClient2">العميلة</th><th id="thTime">الوقت</th></tr></thead>
-                            <tbody>
-                                <tr><td>سارة محمد</td><td>04:00 م</td></tr>
-                                <tr><td>نورة القحطاني</td><td>06:30 م</td></tr>
-                            </tbody>
+                            <tbody id="todayAppointmentsTable"></tbody>
                         </table>
                     </div>
                 </div>
             </div>
 
-            <!-- ب. واجهة العميلة المبسطة المجهزة للجوال برابطين فقط -->
+            <!-- واجهة العميلة -->
             <div id="page-client-portal" class="page-section" style="display:none;">
                 <div class="client-tabs">
                     <button class="client-tab-btn active" id="tabBookingBtn" onclick="switchClientTab('booking')">🛍️ الشراء والحجز المباشر</button>
                     <button class="client-tab-btn" id="tabPointsBtn" onclick="switchClientTab('points')">🎁 نقاطي والخصومات</button>
                 </div>
 
-                <!-- خيار الشراء والحجز -->
                 <div id="clientTabBooking">
                     <div class="card">
-                        <h3 id="lblBrowseServices" style="color: var(--primary); text-align: center; margin-bottom: 10px;">تصفح الخدمات وحجز موعد 🌸</h3>
+                        <h3 id="txtBrowseServices" style="color: var(--primary); text-align: center; margin-bottom: 10px;">تصفح الخدمات وحجز موعد 🌸</h3>
                         <div class="service-grid" id="clientServicesGrid"></div>
 
                         <div style="background: #fdf1f5; border: 1.5px dashed var(--primary); padding: 14px; border-radius: 10px; margin-top: 10px;">
-                            <h4 id="lblCartTitle" style="color: var(--primary); margin-bottom: 8px;">🛒 سلة الخدمات المحددة</h4>
-                            <ul id="cartItemsList" style="margin-right: 18px; margin-bottom: 12px; font-size: 13px; color: #444;">
-                                <li>لم يتم إضافة أي خدمة للسلة.</li>
+                            <h4 id="txtCartTitle" style="color: var(--primary); margin-bottom: 8px;">🛒 سلة الخدمات المحددة</h4>
+                            <ul id="cartItemsList" style="margin-right: 18px; margin-left: 18px; margin-bottom: 12px; font-size: 13px; color: #444;">
+                                <li id="txtEmptyCart">لم يتم إضافة أي خدمة للسلة.</li>
                             </ul>
 
                             <input type="text" id="bookingClientName" class="form-control" placeholder="اسمك الكريم">
                             <input type="tel" id="bookingClientPhone" class="form-control" placeholder="رقم الجوال">
-                            
-                            <label style="font-size:12px; font-weight:bold; color:#555;" id="lblSelectDate">تاريخ الموعد والساعة بالضبط:</label>
+                            <label id="lblSelectDate" style="font-size:12px; font-weight:bold; color:#555;">تاريخ الموعد والساعة بالضبط:</label>
                             <input type="datetime-local" id="bookingDateTime" class="form-control">
-                            
                             <select id="bookingStaffSelect" class="form-control"><option value="">-- اختاري الموظفة --</option></select>
-                            <button type="button" class="btn-submit" onclick="sendToWhatsAppBooking()">تأكيد الحجز عبر الواتساب 💬</button>
+                            <button type="button" class="btn-submit" id="btnConfirmWhatsApp" onclick="sendToWhatsAppBooking()">تأكيد الحجز عبر الواتساب 💬</button>
                         </div>
                     </div>
                 </div>
 
-                <!-- خيار نقاطي وتخفيضات العميلات -->
                 <div id="clientTabPoints" style="display:none;">
                     <div class="card" style="text-align: center;">
-                        <h3 style="color: var(--primary); margin-bottom: 8px;">🏆 رصيد نقاطك الحالي</h3>
-                        <div style="font-size: 32px; font-weight: bold; color: var(--accent); margin-bottom: 10px;">250 نقطة</div>
-                        <p style="color: #666; font-size: 12px; margin-bottom: 15px;">يمكنك استبدال نقاطك لخصم خدماتك المفضلة!</p>
+                        <h3 id="txtPointsBalanceTitle" style="color: var(--primary); margin-bottom: 8px;">🏆 رصيد نقاطك الحالي</h3>
+                        <div style="font-size: 32px; font-weight: bold; color: var(--accent); margin-bottom: 10px;" id="clientMyPointsDisplay">250 نقطة</div>
+                        <p id="txtPointsDesc" style="color: #666; font-size: 12px; margin-bottom: 15px;">استبدلي نقاطك للحصول على خصم خاص على خدمتك المفضلة!</p>
 
                         <div style="text-align: right; background: #f9f9f9; padding: 12px; border-radius: 8px; border: 1px solid #eee;">
-                            <h4 style="margin-bottom: 8px; color:#333;">طلب خصم بالنقاط لخدمة معينة:</h4>
-                            <select id="discountServiceSelect" class="form-control">
-                                <option value="مناكير كلاسيك (خصم 50 نقطة)">مناكير كلاسيك (خصم 50 نقطة)</option>
-                                <option value="بدكير أظافر (خصم 100 نقطة)">بدكير أظافر (خصم 100 نقطة)</option>
-                            </select>
-                            <button type="button" class="btn-submit" style="background: var(--accent);" onclick="requestPointsDiscount()">إرسال طلب استخدام النقاط 📩</button>
+                            <h4 id="txtRequestDiscountTitle" style="margin-bottom: 8px; color:#333;">طلب خصم بالنقاط لخدمة معينة:</h4>
+                            <select id="discountServiceSelect" class="form-control"></select>
+                            <button type="button" class="btn-submit" id="btnSendPointsDiscount" style="background: var(--accent);" onclick="requestPointsDiscount()">إرسال طلب استخدام النقاط 📩</button>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- ج. واجهة الموظفة المخصصة (عرض جدولها وراتبها وإقامتها) -->
+            <!-- واجهة الموظفة -->
             <div id="page-staff-view" class="page-section" style="display:none;">
                 <div class="card">
-                    <h3 id="lblStaffScheduleTitle" style="color: var(--primary); margin-bottom: 10px;">جدول مواعيدك اليومية 📅</h3>
+                    <h3 id="txtStaffScheduleTitle" style="color: var(--primary); margin-bottom: 10px;">جدول مواعيدك اليومية 📅</h3>
                     <table>
-                        <thead><tr><th>الوقت</th><th>العميلة</th><th>الخدمة</th><th>الحالة</th></tr></thead>
-                        <tbody>
-                            <tr><td>04:00 م</td><td>سارة محمد</td><td>مناكير جل</td><td><span style="color:green; font-weight:bold;">مؤكد</span></td></tr>
-                            <tr><td>06:30 م</td><td>ريم العتيبي</td><td>بدكير أظافر</td><td><span style="color:orange; font-weight:bold;">انتظار</span></td></tr>
-                        </tbody>
+                        <thead><tr><th id="thStaffTime">الوقت</th><th id="thStaffClient">العميلة</th><th id="thStaffService">الخدمة</th><th id="thStaffStatus">الحالة</th></tr></thead>
+                        <tbody id="staffSelfScheduleTable"></tbody>
                     </table>
                 </div>
                 <div class="card">
-                    <h3 id="lblStaffDetailsTitle" style="color: #333; margin-bottom: 10px;">معلومات الراتب والإقامة والإجازات 📄</h3>
+                    <h3 id="txtStaffInfoTitle" style="color: #333; margin-bottom: 10px;">معلومات الراتب والإقامة والإجازات 📄</h3>
                     <div style="line-height: 2; font-size: 13px;" id="staffSelfInfo">
-                        <p><strong>الراتب الأساسي:</strong> 4,000 ريال سعودي</p>
-                        <p><strong>تاريخ انتهاء الإقامة:</strong> 2027/05/12م</p>
-                        <p><strong>رصيد الإجازات المتبقي:</strong> 14 يوم</p>
+                        <p><strong id="lblBaseSalary">الراتب الأساسي:</strong> 4,000 ريال سعودي</p>
+                        <p><strong id="lblResidencyExp">تاريخ انتهاء الإقامة:</strong> 2027/05/12م</p>
+                        <p><strong id="lblLeaveBal">رصيد الإجازات المتبقي:</strong> 14 يوم</p>
                     </div>
                 </div>
             </div>
 
-            <!-- د. إدارة المحجوزات وحظر الأوقات بالفترة -->
+            <!-- إدارة المحجوزات -->
             <div id="page-bookings" class="page-section" style="display:none;">
                 <div class="card">
-                    <h3>قائمة الحجوزات الحالية (تعديل / إلغاء / إرجاع) 📅</h3>
+                    <h3 id="txtBookingsListTitle">قائمة الحجوزات الحالية (تعديل / إلغاء / إرجاع) 📅</h3>
                     <table>
-                        <thead><tr><th>الموعد والتاريخ</th><th>العميلة</th><th>الخدمة</th><th>الإجراءات</th></tr></thead>
-                        <tbody id="bookingsAdminTable">
-                            <tr>
-                                <td>2026/10/20 - 04:00م</td>
-                                <td>سارة محمد (0551234567)</td>
-                                <td>مناكير كلاسيك</td>
-                                <td>
-                                    <button class="btn-btn btn-action" onclick="prompt('تعديل موعد العميلة:')">تعديل</button>
-                                    <button class="btn-btn" style="background:#e67e22; color:white;" onclick="alert('تم إرجاع المبلغ للعميلة بنجاح')">إرجاع</button>
-                                    <button class="btn-btn btn-danger" onclick="this.closest('tr').remove()">إلغاء</button>
-                                </td>
-                            </tr>
-                        </tbody>
+                        <thead><tr><th id="thBkDate">الموعد والتاريخ</th><th id="thBkClient">العميلة</th><th id="thBkService">الخدمة</th><th id="thBkActions">الإجراءات</th></tr></thead>
+                        <tbody id="bookingsAdminTable"></tbody>
                     </table>
                 </div>
 
                 <div class="card">
-                    <h3>حظر المواعيد بالفترة المحددة (من .. إلى .. حتى سنة 2050) 🚫</h3>
+                    <h3 id="txtBlockPeriodTitle">حظر المواعيد بالفترة المحددة (من .. إلى .. حتى سنة 2050) 🚫</h3>
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
                         <div>
-                            <label style="font-size:11px;">من تاريخ ووقت:</label>
+                            <label id="lblFromDate" style="font-size:11px;">من تاريخ ووقت:</label>
                             <input type="datetime-local" id="blockFromDate" class="form-control" max="2050-12-31T23:59">
                         </div>
                         <div>
-                            <label style="font-size:11px;">إلى تاريخ ووقت:</label>
+                            <label id="lblToDate" style="font-size:11px;">إلى تاريخ ووقت:</label>
                             <input type="datetime-local" id="blockToDate" class="form-control" max="2050-12-31T23:59">
                         </div>
                     </div>
-                    <button class="btn-btn btn-danger" style="width:100%; padding:10px;" onclick="addBlockedPeriod()">حظر هذا النطاق الزمني ومنع الحجز فيه 🚫</button>
+                    <button class="btn-btn btn-danger" id="btnBlockAction" style="width:100%; padding:10px;" onclick="addBlockedPeriod()">حظر هذا النطاق الزمني 🚫</button>
                 </div>
             </div>
 
-            <!-- هـ. سجل الفواتير المتقدم -->
+            <!-- سجل العملاء والنقاط -->
+            <div id="page-clients-list" class="page-section" style="display:none;">
+                <div class="card">
+                    <h3 id="txtClientsLogTitle">👥 سجل العملاء ونقاط الولاء</h3>
+                    <p id="txtClientsLogSub" style="font-size:12px; color:#666; margin-bottom:12px;">استعراض أرقام العميلات ورصيد النقاط لكل عميلة وتعديلها:</p>
+                    <table>
+                        <thead><tr><th id="thClName">اسم العميلة</th><th id="thClPhone">رقم الجوال</th><th id="thClPoints">رصيد النقاط</th><th id="thClActions">الإجراءات</th></tr></thead>
+                        <tbody id="clientsPointsTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- الفواتير -->
             <div id="page-invoices" class="page-section" style="display:none;">
                 <div class="card">
-                    <h3>سجل الفواتير (معاينة، طباعة، تعديل، واسترجاع) 📄</h3>
+                    <h3 id="txtInvoicesTitle">سجل الفواتير (معاينة، طباعة، تعديل، واسترجاع) 📄</h3>
                     <table>
-                        <thead><tr><th>التاريخ</th><th>العميلة</th><th>الخدمة</th><th>المبلغ</th><th>الإجراءات</th></tr></thead>
+                        <thead><tr><th id="thInvDate">التاريخ</th><th id="thInvClient">العميلة</th><th id="thInvService">الخدمة</th><th id="thInvAmount">المبلغ</th><th id="thInvActions">الإجراءات</th></tr></thead>
                         <tbody>
                             <tr>
                                 <td>2026/10/20</td>
@@ -440,20 +437,20 @@
                 </div>
             </div>
 
-            <!-- و. شريط المصاريف والإيجارات المستقل -->
+            <!-- المصاريف والإيجارات -->
             <div id="page-rent-expenses" class="page-section" style="display:none;">
                 <div class="card">
-                    <h3>🏠 إدارة الإيجارات والمصاريف التشغيلية</h3>
+                    <h3 id="txtRentExpensesTitle">🏠 إدارة الإيجارات والمصاريف التشغيلية</h3>
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;">
                         <input type="text" id="expenseTitle" class="form-control" placeholder="بند المصروف أو الإيجار">
                         <input type="number" id="expenseAmount" class="form-control" placeholder="المبلغ (ر.س)">
                     </div>
                     <input type="date" id="expenseDate" class="form-control" max="2050-12-31">
-                    <button class="btn-submit" onclick="addExpenseRecord()">حفظ بند المصروف / الإيجار 💾</button>
+                    <button class="btn-submit" id="btnSaveExpense" onclick="addExpenseRecord()">حفظ بند المصروف / الإيجار 💾</button>
 
-                    <h4 style="margin-top: 15px; margin-bottom: 8px;">سجل المصاريف والإيجارات المسجلة:</h4>
+                    <h4 id="txtExpensesLogTitle" style="margin-top: 15px; margin-bottom: 8px;">سجل المصاريف والإيجارات المسجلة:</h4>
                     <table>
-                        <thead><tr><th>البند</th><th>المبلغ</th><th>التاريخ</th></tr></thead>
+                        <thead><tr><th id="thExpTitle">البند</th><th id="thExpAmount">المبلغ</th><th id="thExpDate">التاريخ</th></tr></thead>
                         <tbody id="expensesTableBody">
                             <tr><td>إيجار المحل الشهري</td><td>2,000 ر.س</td><td>2026/10/01</td></tr>
                             <tr><td>فاتورة الكهرباء والماء</td><td>450 ر.س</td><td>2026/10/15</td></tr>
@@ -462,23 +459,21 @@
                 </div>
             </div>
 
-            <!-- ز. النمط البياني المالي المطور بمرونة المقارنة والألوان المتناسقة -->
+            <!-- النمط البياني -->
             <div id="page-finances" class="page-section" style="display:none;">
                 <div class="card">
-                    <h3>📊 النمط البياني المالي والمقارنة بين الفترات</h3>
-                    <p style="color: #666; margin-bottom: 12px; font-size:12px;">حددي الفترات المراد مقارنتها بمرونة كاملة حتى عام 2050:</p>
-
+                    <h3 id="txtFinancesTitle">📊 النمط البياني المالي والمقارنة بين الفترات</h3>
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;">
                         <div>
-                            <label style="font-size:11px;">الفترة الأولى:</label>
+                            <label id="lblPeriod1" style="font-size:11px;">الفترة الأولى:</label>
                             <input type="date" id="chartDate1" class="form-control" max="2050-12-31" value="2026-10-01">
                         </div>
                         <div>
-                            <label style="font-size:11px;">الفترة الثانية:</label>
+                            <label id="lblPeriod2" style="font-size:11px;">الفترة الثانية:</label>
                             <input type="date" id="chartDate2" class="form-control" max="2050-12-31" value="2026-10-20">
                         </div>
                     </div>
-                    <button class="btn-btn btn-primary" style="width:100%; margin-bottom:15px;" onclick="generateCustomChart()">توليد النمط البياني للمقارنة 📈</button>
+                    <button class="btn-btn btn-primary" id="btnGenChart" style="width:100%; margin-bottom:15px;" onclick="generateCustomChart()">توليد النمط البياني للمقارنة 📈</button>
 
                     <div class="chart-bar-container" id="chartBars">
                         <div>
@@ -493,24 +488,22 @@
                 </div>
             </div>
 
-            <!-- ح. إدارة الموظفات والإقامات والرواتب -->
+            <!-- الموظفات -->
             <div id="page-staff" class="page-section" style="display:none;">
                 <div class="card">
-                    <h3>إدارة الموظفات، الرواتب، وتاريخ انتهاء الإقامة 👩‍🦰</h3>
+                    <h3 id="txtStaffMgmtTitle">إدارة الموظفات، الرواتب، وتاريخ انتهاء الإقامة 👩‍🦰</h3>
                     <input type="text" id="staffNameInput" class="form-control" placeholder="اسم الموظفة">
                     <input type="number" id="staffSalaryInput" class="form-control" placeholder="الراتب الأساسي (ر.س)">
-                    
-                    <label style="font-size:11px; color:#555;">تاريخ انتهاء الإقامة (بالسنة والشهر واليوم):</label>
+                    <label id="lblResidencyDate" style="font-size:11px; color:#555;">تاريخ انتهاء الإقامة (بالسنة والشهر واليوم):</label>
                     <input type="date" id="staffResidencyExpInput" class="form-control" max="2050-12-31">
-                    
                     <input type="number" id="staffLeaveBalInput" class="form-control" placeholder="رصيد الإجازات (بالأيام)">
                     <input type="text" id="staffUsernameInput" class="form-control" placeholder="اسم المستخدم للدخول">
                     <input type="password" id="staffPasswordInput" class="form-control" placeholder="كلمة المرور">
-                    <button class="btn-submit" onclick="addNewStaffMember()">حفظ الموظفة 💾</button>
+                    <button class="btn-submit" id="btnSaveStaff" onclick="addNewStaffMember()">حفظ الموظفة 💾</button>
 
-                    <h4 style="margin-top:15px; margin-bottom:8px;">قائمة الموظفات المسجلات:</h4>
+                    <h4 id="txtStaffLogTitle" style="margin-top:15px; margin-bottom:8px;">قائمة الموظفات المسجلات:</h4>
                     <table>
-                        <thead><tr><th>الاسم</th><th>الراتب</th><th>انتهاء الإقامة</th><th>الإجازات</th></tr></thead>
+                        <thead><tr><th id="thStName">الاسم</th><th id="thStSalary">الراتب</th><th id="thStExp">انتهاء الإقامة</th><th id="thStLeaves">الإجازات</th></tr></thead>
                         <tbody id="staffListTable">
                             <tr><td>منى (أخصائية أظافر)</td><td>4,000 ر.س</td><td>2027/05/12</td><td>14 يوم</td></tr>
                         </tbody>
@@ -518,30 +511,57 @@
                 </div>
             </div>
 
-            <!-- ط. إدارة الخدمات ورصد النقاط -->
+            <!-- إدارة الخدمات والتخصيص والثيمات للمناسبات -->
             <div id="page-services" class="page-section" style="display:none;">
-                <div class="card">
-                    <h3>إضافة خدمة جديدة وتخصيص نقاط الولاء 🛠️</h3>
-                    <input type="text" id="newServiceName" class="form-control" placeholder="اسم الخدمة">
-                    <input type="number" id="newServicePrice" class="form-control" placeholder="السعر (ر.س)">
-                    <input type="number" id="newServicePoints" class="form-control" placeholder="عدد النقاط المكتسبة للخدمة">
-                    <input type="text" id="newServiceImg" class="form-control" placeholder="رابط الصورة (URL)">
-                    <button class="btn-submit" onclick="addNewService()">إضافة الخدمة 🌸</button>
+                <!-- قسم تخصيص ثيم الموقع والمناسبات -->
+                <div class="card" style="border: 2px dashed var(--primary);">
+                    <h3 id="txtThemeTitle">🎨 تخصيص لون الموقع وعبارات المناسبات والخصومات</h3>
+                    <p style="font-size:12px; color:#666; margin-bottom:10px;" id="txtThemeDesc">غيري لون النظام واكتبي عبارات الترحيب والخصومات الخاصة بالمناسبات:</p>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
+                        <div>
+                            <label style="font-size:11px; font-weight:bold;">اللون الرئيسي للسيستم:</label>
+                            <input type="color" id="primaryColorPicker" class="form-control" value="#c25975" style="height: 40px;">
+                        </div>
+                        <div>
+                            <label style="font-size:11px; font-weight:bold;">لون خلفية الموقع:</label>
+                            <input type="color" id="bgColorPicker" class="form-control" value="#f9f6f7" style="height: 40px;">
+                        </div>
+                    </div>
+
+                    <label style="font-size:11px; font-weight:bold;">عبارة المناسبة / الخصم العلوي (تظهر للعميلات):</label>
+                    <input type="text" id="eventBannerTextInput" class="form-control" placeholder="مثال: خصم 20% بمناسبة اليوم الوطني 🇸🇦">
+                    
+                    <button class="btn-submit" id="btnApplyTheme" onclick="applyThemeSettings()">تطبيق التعديلات واللون فوراً ✨</button>
                 </div>
 
-                <!-- قسم إعادة استهداف العميلات الغائبات -->
                 <div class="card">
-                    <h3>💌 إعادة استهداف العميلات الغائبات ("ليه ما زرتينا؟")</h3>
-                    <p style="font-size:12px; color:#666; margin-bottom:10px;">إرسال رسائل تذكيرية ودية للعميلات عبر الواتساب مباشرة:</p>
+                    <h3 id="txtServicesMgmtTitle">🛠️ إدارة الخدمات والتعديل على الأسعار والخصومات والنقاط</h3>
+                    <input type="text" id="newServiceName" class="form-control" placeholder="اسم الخدمة">
+                    <input type="number" id="newServicePrice" class="form-control" placeholder="السعر الأصلي (ر.س)">
+                    <input type="number" id="newServiceDiscount" class="form-control" placeholder="نسبة الخصم % (مثلاً: 30)">
+                    <input type="number" id="newServicePoints" class="form-control" placeholder="عدد النقاط المكتسبة">
+                    <input type="text" id="newServiceImg" class="form-control" placeholder="رابط الصورة (URL)">
+                    <button class="btn-submit" id="btnSaveService" onclick="addNewService()">حفظ وإضافة الخدمة 🌸</button>
+
+                    <h4 id="txtServicesLogTitle" style="margin-top:15px; margin-bottom:8px;">الخدمات المسجلة حالياً وتفاصيلها:</h4>
+                    <table>
+                        <thead><tr><th id="thSvcName">الخدمة</th><th id="thSvcPrice">السعر الأصلي</th><th id="thSvcDisc">الخصم %</th><th id="thSvcFinal">السعر بعد الخصم</th><th id="thSvcPts">النقاط</th><th id="thSvcAct">الإجراءات</th></tr></thead>
+                        <tbody id="servicesAdminTableBody"></tbody>
+                    </table>
+                </div>
+
+                <div class="card">
+                    <h3 id="txtRetargetTitle">💌 إعادة استهداف العميلات الغائبات ("ليه ما زرتينا؟")</h3>
                     <input type="tel" id="retargetPhone" class="form-control" placeholder="رقم جوال العميلة (مثال: 966500000000)">
-                    <button class="btn-submit" style="background:#25d366; color:white;" onclick="sendRetargetMsg()">إرسال رسالة التذكير عبر الواتساب 💬</button>
+                    <button class="btn-submit" id="btnSendRetarget" style="background:#25d366; color:white;" onclick="sendRetargetMsg()">إرسال رسالة التذكير عبر الواتساب 💬</button>
                 </div>
             </div>
 
         </div>
     </div>
 
-    <!-- نموذج الفاتورة المحدث المزيّن الأنيق والمعد للطباعة -->
+    <!-- الفاتورة للطباعة -->
     <div id="printableInvoice">
         <div class="inv-header">
             <h2>صالون جودة الأظافر 💅</h2>
@@ -557,23 +577,30 @@
         </div>
         <div class="inv-footer">
             <p>شكراً لزيارتك صالون جودة الأظافر ✨</p>
-            <p style="font-size:10px; color:#888;">نتطلع لرؤيتكِ مجدداً!</p>
         </div>
     </div>
 
-    <!-- البرمجة والمنطق المتكامل -->
     <script>
         let currentRole = 'owner';
         let currentLang = 'ar';
         let blockedPeriods = [];
+        let cart = [];
 
-        let servicesList = [
-            { name: 'مناكير كلاسيك', price: 100, points: 10, img: 'https://images.unsplash.com/photo-1604654894610-df63bc536371?auto=format&fit=crop&w=300&q=80' },
-            { name: 'بدكير أظافر', price: 150, points: 15, img: 'https://images.unsplash.com/photo-1519014816548-bf5fe059798b?auto=format&fit=crop&w=300&q=80' }
+        let servicesList = JSON.parse(localStorage.getItem('salon_services')) || [
+            { name: 'مناكير كلاسيك', price: 100, discount: 0, points: 10, img: 'https://images.unsplash.com/photo-1604654894610-df63bc536371?auto=format&fit=crop&w=300&q=80' },
+            { name: 'بدكير أظافر', price: 150, discount: 30, points: 15, img: 'https://images.unsplash.com/photo-1519014816548-bf5fe059798b?auto=format&fit=crop&w=300&q=80' }
+        ];
+
+        let bookingsList = JSON.parse(localStorage.getItem('salon_bookings')) || [
+            { name: 'سارة محمد', phone: '0551234567', service: 'مناكير كلاسيك', datetime: '2026-10-20T16:00', staff: 'منى (أخصائية أظافر)' }
+        ];
+
+        let clientsList = JSON.parse(localStorage.getItem('salon_clients')) || [
+            { name: 'سارة محمد', phone: '0551234567', points: 250 },
+            { name: 'نورة القحطاني', phone: '0549876543', points: 120 }
         ];
 
         let staffList = [{ name: 'منى (أخصائية أظافر)', salary: 4000, residencyExp: '2027-05-12', leaves: 14, user: 'mona_nail', pass: '123456' }];
-        let cart = [];
 
         const translations = {
             ar: {
@@ -589,14 +616,36 @@
                 welcomeStaff: "مرحباً بكِ في لوحة الموظفة 👩‍🦰",
                 welcomeClient: "مرحباً بكِ في صالون جودة الأظافر 🌸",
                 sidebarHome: "🏠 الرئيسية",
-                sidebarClient: "🌸 بوابة العميلات",
+                sidebarClientPortal: "🌸 بوابة العميلات",
                 sidebarBookings: "📅 إدارة الحجوزات",
+                sidebarClients: "👥 سجل العملاء والنقاط",
                 sidebarInvoices: "📄 الفواتير",
                 sidebarRent: "🏠 الإيجارات والمصاريف",
                 sidebarFinances: "📊 النمط البياني",
                 sidebarStaff: "👥 الموظفات",
-                sidebarServices: "🛠️ الخدمات والنقاط",
-                sidebarStaffSelf: "📅 جدول مواعيدي وراتبي"
+                sidebarServices: "🛠️ إدارة الخدمات والعروض",
+                sidebarStaffSelf: "📅 جدول مواعيدي وراتبي",
+                tabBookingBtn: "🛍️ الشراء والحجز المباشر",
+                tabPointsBtn: "🎁 نقاطي والخصومات",
+                txtBrowseServices: "تصفح الخدمات وحجز موعد 🌸",
+                txtCartTitle: "🛒 سلة الخدمات المحددة",
+                txtEmptyCart: "لم يتم إضافة أي خدمة للسلة.",
+                bookingClientName: "اسمك الكريم",
+                bookingClientPhone: "رقم الجوال",
+                lblSelectDate: "تاريخ الموعد والساعة بالضبط:",
+                btnConfirmWhatsApp: "تأكيد الحجز عبر الواتساب 💬",
+                txtPointsBalanceTitle: "🏆 رصيد نقاطك الحالي",
+                txtPointsDesc: "استبدلي نقاطك للحصول على خصم خاص على خدمتك المفضلة!",
+                txtRequestDiscountTitle: "طلب خصم بالنقاط لخدمة معينة:",
+                btnSendPointsDiscount: "إرسال طلب استخدام النقاط 📩",
+                txtStatBookings: "حجوزات اليوم",
+                txtStatSales: "إجمالي المبيعات",
+                txtStatNet: "صافي الأرباح",
+                txtStatExpenses: "المصروفات والإيجارات",
+                txtRecentInvoices: "أحدث الفواتير",
+                btnViewAllInvoices: "عرض الكل",
+                txtTodayAppointments: "مواعيد اليوم",
+                thClient: "العميلة", thService: "الخدمة", thAmount: "المبلغ", thTime: "الوقت"
             },
             en: {
                 title: "Nail Quality Salon 💅",
@@ -611,14 +660,36 @@
                 welcomeStaff: "Welcome to Staff Dashboard 👩‍🦰",
                 welcomeClient: "Welcome to Nail Quality Salon 🌸",
                 sidebarHome: "🏠 Dashboard",
-                sidebarClient: "🌸 Client Portal",
+                sidebarClientPortal: "🌸 Client Portal",
                 sidebarBookings: "📅 Bookings",
+                sidebarClients: "👥 Clients & Points",
                 sidebarInvoices: "📄 Invoices",
                 sidebarRent: "🏠 Rent & Expenses",
                 sidebarFinances: "📊 Analytics",
                 sidebarStaff: "👥 Staff Management",
-                sidebarServices: "🛠️ Services & Points",
-                sidebarStaffSelf: "📅 My Schedule & Salary"
+                sidebarServices: "🛠️ Services & Theme",
+                sidebarStaffSelf: "📅 My Schedule & Salary",
+                tabBookingBtn: "🛍️ Shop & Direct Booking",
+                tabPointsBtn: "🎁 My Points & Rewards",
+                txtBrowseServices: "Browse Services & Book Appointment 🌸",
+                txtCartTitle: "🛒 Selected Services Cart",
+                txtEmptyCart: "No services added to cart yet.",
+                bookingClientName: "Your Full Name",
+                bookingClientPhone: "Phone Number",
+                lblSelectDate: "Select Date & Exact Hour:",
+                btnConfirmWhatsApp: "Confirm Booking via WhatsApp 💬",
+                txtPointsBalanceTitle: "🏆 Your Current Points Balance",
+                txtPointsDesc: "Redeem your points to get a special discount on your favorite service!",
+                txtRequestDiscountTitle: "Request Points Discount for a Service:",
+                btnSendPointsDiscount: "Send Points Request 📩",
+                txtStatBookings: "Today's Bookings",
+                txtStatSales: "Total Sales",
+                txtStatNet: "Net Profit",
+                txtStatExpenses: "Expenses & Rent",
+                txtRecentInvoices: "Recent Invoices",
+                btnViewAllInvoices: "View All",
+                txtTodayAppointments: "Today's Appointments",
+                thClient: "Client", thService: "Service", thAmount: "Amount", thTime: "Time"
             }
         };
 
@@ -635,7 +706,37 @@
             document.getElementById('btnRoleClient').textContent = t.client;
             document.getElementById('btnLoginText').textContent = t.loginBtn;
 
+            // تحديث نصوص واجهة العميلة واللوحة
+            document.getElementById('tabBookingBtn').textContent = t.tabBookingBtn;
+            document.getElementById('tabPointsBtn').textContent = t.tabPointsBtn;
+            document.getElementById('txtBrowseServices').textContent = t.txtBrowseServices;
+            document.getElementById('txtCartTitle').textContent = t.txtCartTitle;
+            document.getElementById('bookingClientName').placeholder = t.bookingClientName;
+            document.getElementById('bookingClientPhone').placeholder = t.bookingClientPhone;
+            document.getElementById('lblSelectDate').textContent = t.lblSelectDate;
+            document.getElementById('btnConfirmWhatsApp').textContent = t.btnConfirmWhatsApp;
+            document.getElementById('txtPointsBalanceTitle').textContent = t.txtPointsBalanceTitle;
+            document.getElementById('txtPointsDesc').textContent = t.txtPointsDesc;
+            document.getElementById('txtRequestDiscountTitle').textContent = t.txtRequestDiscountTitle;
+            document.getElementById('btnSendPointsDiscount').textContent = t.btnSendPointsDiscount;
+
+            document.getElementById('txtStatBookings').textContent = t.txtStatBookings;
+            document.getElementById('txtStatSales').textContent = t.txtStatSales;
+            document.getElementById('txtStatNet').textContent = t.txtStatNet;
+            document.getElementById('txtStatExpenses').textContent = t.txtStatExpenses;
+            document.getElementById('txtRecentInvoices').textContent = t.txtRecentInvoices;
+            document.getElementById('btnViewAllInvoices').textContent = t.btnViewAllInvoices;
+            document.getElementById('txtTodayAppointments').textContent = t.txtTodayAppointments;
+
+            document.getElementById('thClient').textContent = t.thClient;
+            document.getElementById('thService').textContent = t.thService;
+            document.getElementById('thAmount').textContent = t.thAmount;
+            document.getElementById('thTime').textContent = t.thTime;
+
             updateLoginFields();
+            if (document.getElementById('app-container').style.display === 'flex') {
+                renderSidebar(currentRole);
+            }
         }
 
         function selectRole(role) {
@@ -694,18 +795,18 @@
             document.getElementById('app-container').style.display = 'flex';
             document.getElementById('userWelcomeTitle').textContent = welcomeText;
 
-            // إخفاء القائمة الجانبية وتوسيع المحتوى عند دخول العميلة لتناسب الجوال
             if (role === 'client') {
                 document.getElementById('mainSidebar').style.display = 'none';
                 document.querySelector('.main-content').style.marginRight = '0';
+                document.querySelector('.main-content').style.marginLeft = '0';
                 document.querySelector('.main-content').style.width = '100%';
             } else {
                 document.getElementById('mainSidebar').style.display = 'flex';
             }
 
             renderSidebar(role);
-            renderServicesToClient();
-            updateStaffDropdown();
+            refreshAllDataViews();
+            loadSavedTheme();
 
             if (role === 'client') showPage('client-portal');
             else if (role === 'staff') showPage('staff-view');
@@ -719,8 +820,9 @@
             if (role === 'owner') {
                 menu.innerHTML = `
                     <li><a class="active" onclick="showPage('dashboard')">${t.sidebarHome}</a></li>
-                    <li><a onclick="showPage('client-portal')">${t.sidebarClient}</a></li>
+                    <li><a onclick="showPage('client-portal')">${t.sidebarClientPortal}</a></li>
                     <li><a onclick="showPage('bookings')">${t.sidebarBookings}</a></li>
+                    <li><a onclick="showPage('clients-list')">${t.sidebarClients}</a></li>
                     <li><a onclick="showPage('invoices')">${t.sidebarInvoices}</a></li>
                     <li><a onclick="showPage('rent-expenses')">${t.sidebarRent}</a></li>
                     <li><a onclick="showPage('finances')">${t.sidebarFinances}</a></li>
@@ -730,7 +832,7 @@
             } else if (role === 'staff') {
                 menu.innerHTML = `<li><a class="active" onclick="showPage('staff-view')">${t.sidebarStaffSelf}</a></li>`;
             } else {
-                menu.innerHTML = `<li><a class="active" onclick="showPage('client-portal')">${t.sidebarClient}</a></li>`;
+                menu.innerHTML = `<li><a class="active" onclick="showPage('client-portal')">${t.sidebarClientPortal}</a></li>`;
             }
         }
 
@@ -752,17 +854,141 @@
             }
         }
 
+        function applyThemeSettings() {
+            const primaryColor = document.getElementById('primaryColorPicker').value;
+            const bgColor = document.getElementById('bgColorPicker').value;
+            const bannerText = document.getElementById('eventBannerTextInput').value;
+
+            document.documentElement.style.setProperty('--primary', primaryColor);
+            document.documentElement.style.setProperty('--body-bg', bgColor);
+
+            if (bannerText.trim() !== "") {
+                const banner = document.getElementById('eventBanner');
+                banner.textContent = bannerText;
+                banner.style.display = 'block';
+            } else {
+                document.getElementById('eventBanner').style.display = 'none';
+            }
+
+            localStorage.setItem('salon_theme', JSON.stringify({ primaryColor, bgColor, bannerText }));
+            alert(currentLang === 'ar' ? 'تم تطبيق ثيم الموقع والعبارة فوراً!' : 'Theme settings applied successfully!');
+        }
+
+        function loadSavedTheme() {
+            const saved = JSON.parse(localStorage.getItem('salon_theme'));
+            if (saved) {
+                if (saved.primaryColor) document.documentElement.style.setProperty('--primary', saved.primaryColor);
+                if (saved.bgColor) document.documentElement.style.setProperty('--body-bg', saved.bgColor);
+                if (saved.bannerText && saved.bannerText.trim() !== "") {
+                    const banner = document.getElementById('eventBanner');
+                    banner.textContent = saved.bannerText;
+                    banner.style.display = 'block';
+                }
+            }
+        }
+
+        function refreshAllDataViews() {
+            renderServicesToClient();
+            renderAdminServicesTable();
+            renderBookingsTable();
+            renderClientsPointsTable();
+            updateStaffDropdown();
+        }
+
         function renderServicesToClient() {
             const grid = document.getElementById('clientServicesGrid');
+            const discountSelect = document.getElementById('discountServiceSelect');
             grid.innerHTML = '';
+            discountSelect.innerHTML = '';
+
             servicesList.forEach(s => {
+                const finalPrice = s.discount > 0 ? (s.price * (1 - s.discount/100)).toFixed(0) : s.price;
+                const discountBadge = s.discount > 0 ? `<div class="discount-tag">${currentLang === 'ar' ? 'خصم' : 'OFF'} ${s.discount}%</div>` : '';
+                const priceDisplay = s.discount > 0 
+                    ? `<span style="text-decoration:line-through; color:#aaa; font-size:11px;">${s.price} ${currentLang === 'ar' ? 'ر.س' : 'SAR'}</span> <span style="font-weight:bold; color:var(--primary); font-size:13px;">${finalPrice} ${currentLang === 'ar' ? 'ر.س' : 'SAR'}</span>`
+                    : `<span style="font-weight:bold; color:var(--primary); font-size:13px;">${s.price} ${currentLang === 'ar' ? 'ر.س' : 'SAR'}</span>`;
+
                 grid.innerHTML += `
                     <div class="service-card">
+                        ${discountBadge}
                         <img src="${s.img}" alt="${s.name}">
                         <h4 style="font-size:13px;">${s.name}</h4>
-                        <p style="font-weight:bold; color:var(--primary); font-size:12px; margin: 3px 0;">${s.price} ر.س</p>
-                        <button class="btn-btn btn-primary" onclick="addToCart('${s.name}', ${s.price})">+ السلة</button>
+                        <p style="margin: 3px 0;">${priceDisplay}</p>
+                        <p style="font-size:10px; color:#666;">+${s.points} ${currentLang === 'ar' ? 'نقطة ولاء' : 'Loyalty Points'}</p>
+                        <button class="btn-btn btn-primary" style="margin-top:4px;" onclick="addToCart('${s.name}', ${finalPrice})">${currentLang === 'ar' ? '+ السلة' : '+ Cart'}</button>
                     </div>
+                `;
+
+                discountSelect.innerHTML += `<option value="${s.name}">${s.name}</option>`;
+            });
+        }
+
+        function renderAdminServicesTable() {
+            const tbody = document.getElementById('servicesAdminTableBody');
+            tbody.innerHTML = '';
+            servicesList.forEach((s, idx) => {
+                const finalPrice = s.discount > 0 ? (s.price * (1 - s.discount/100)).toFixed(0) : s.price;
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${s.name}</td>
+                        <td>${s.price} ر.س</td>
+                        <td>${s.discount}%</td>
+                        <td><strong>${finalPrice} ر.س</strong></td>
+                        <td>${s.points} نقطة</td>
+                        <td>
+                            <button class="btn-btn btn-action" onclick="editService(${idx})">تعديل</button>
+                            <button class="btn-btn btn-danger" onclick="deleteService(${idx})">حذف</button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        function renderBookingsTable() {
+            const adminTbody = document.getElementById('bookingsAdminTable');
+            const todayTbody = document.getElementById('todayAppointmentsTable');
+            const staffTbody = document.getElementById('staffSelfScheduleTable');
+
+            adminTbody.innerHTML = '';
+            todayTbody.innerHTML = '';
+            staffTbody.innerHTML = '';
+
+            document.getElementById('dashboardBookingsCount').textContent = `${bookingsList.length} ${currentLang === 'ar' ? 'حجز' : 'Bookings'}`;
+
+            bookingsList.forEach((b, idx) => {
+                const formattedDate = b.datetime ? b.datetime.replace('T', ' ') : '2026-10-20';
+
+                adminTbody.innerHTML += `
+                    <tr>
+                        <td>${formattedDate}</td>
+                        <td>${b.name} (${b.phone})</td>
+                        <td>${b.service}</td>
+                        <td>
+                            <button class="btn-btn btn-action" onclick="prompt('تعديل موعد العميلة:')">تعديل</button>
+                            <button class="btn-btn" style="background:#e67e22; color:white;" onclick="alert('تم إرجاع المبلغ بنجاح')">إرجاع</button>
+                            <button class="btn-btn btn-danger" onclick="deleteBooking(${idx})">إلغاء</button>
+                        </td>
+                    </tr>
+                `;
+
+                todayTbody.innerHTML += `<tr><td>${b.name}</td><td>${formattedDate.split(' ')[1] || '04:00م'}</td></tr>`;
+                staffTbody.innerHTML += `<tr><td>${formattedDate.split(' ')[1] || '04:00م'}</td><td>${b.name}</td><td>${b.service}</td><td><span style="color:green; font-weight:bold;">${currentLang === 'ar' ? 'مؤكد' : 'Confirmed'}</span></td></tr>`;
+            });
+        }
+
+        function renderClientsPointsTable() {
+            const tbody = document.getElementById('clientsPointsTableBody');
+            tbody.innerHTML = '';
+            clientsList.forEach((c, idx) => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${c.name}</td>
+                        <td>${c.phone}</td>
+                        <td><strong>${c.points} نقطة</strong></td>
+                        <td>
+                            <button class="btn-btn btn-primary" onclick="addPointsToClient(${idx})">+ زيادة نقاط</button>
+                        </td>
+                    </tr>
                 `;
             });
         }
@@ -771,17 +997,8 @@
             cart.push({ name, price });
             const list = document.getElementById('cartItemsList');
             list.innerHTML = '';
-            cart.forEach(item => { list.innerHTML += `<li>${item.name} - ${item.price} ر.س</li>`; });
-            alert(`تم إضافة (${name}) للسلة!`);
-        }
-
-        function addBlockedPeriod() {
-            const from = document.getElementById('blockFromDate').value;
-            const to = document.getElementById('blockToDate').value;
-
-            if (!from || !to) return alert('يرجى تحديد بداية ونهاية فترة الحظر!');
-            blockedPeriods.push({ from: new Date(from), to: new Date(to) });
-            alert('تم حظر المواعيد في هذه الفترة بنجاح ومُنعت العميلات من اختيارها!');
+            cart.forEach(item => { list.innerHTML += `<li>${item.name} - ${item.price} ${currentLang === 'ar' ? 'ر.س' : 'SAR'}</li>`; });
+            alert(currentLang === 'ar' ? `تم إضافة (${name}) للسلة!` : `Added (${name}) to cart!`);
         }
 
         function sendToWhatsAppBooking() {
@@ -791,22 +1008,84 @@
             const staff = document.getElementById('bookingStaffSelect').value;
 
             if (!name || !phone || !datetimeVal || cart.length === 0) {
-                return alert('أكملي اسمك ورقم جوالك وتاريخ ووقت الموعد واختاري خدمة!');
+                return alert(currentLang === 'ar' ? 'أكملي اسمك ورقم جوالك وتاريخ ووقت الموعد واختاري خدمة!' : 'Please complete all fields and select a service!');
             }
 
-            // التحقق مما إذا كان الموعد يقع ضمن فترة محظورة
             const selectedDate = new Date(datetimeVal);
             for (let b of blockedPeriods) {
                 if (selectedDate >= b.from && selectedDate <= b.to) {
-                    return alert('عذراً، هذا الوقت محظور وغير متاح للحجز في الصالون! يرجى اختيار وقت آخر.');
+                    return alert(currentLang === 'ar' ? 'عذراً، هذا الوقت محظور وغير متاح للحجز في الصالون!' : 'Sorry, this time slot is blocked!');
                 }
             }
 
             let servicesText = cart.map(c => c.name).join(', ');
-            const formattedDate = new Date(datetimeVal).toLocaleString('ar-SA');
             
-            const msg = `حجز جديد صالون جودة الأظافر:%0A- الاسم: ${name}%0A- الجوال: ${phone}%0A- الخدمات: ${servicesText}%0A- التاريخ والساعة بالضبط: ${formattedDate}%0A- الموظفة المطلوبة: ${staff}`;
+            bookingsList.unshift({ name, phone, service: servicesText, datetime: datetimeVal, staff });
+            localStorage.setItem('salon_bookings', JSON.stringify(bookingsList));
+
+            const existingClient = clientsList.find(c => c.phone === phone);
+            if (!existingClient) {
+                clientsList.push({ name, phone, points: 20 });
+                localStorage.setItem('salon_clients', JSON.stringify(clientsList));
+            }
+
+            refreshAllDataViews();
+
+            const formattedDate = new Date(datetimeVal).toLocaleString(currentLang === 'ar' ? 'ar-SA' : 'en-US');
+            const msg = `Booking Request - Nail Quality Salon:%0A- Name: ${name}%0A- Phone: ${phone}%0A- Services: ${servicesText}%0A- Date & Time: ${formattedDate}%0A- Staff: ${staff}`;
             window.open(`https://wa.me/966544267911?text=${msg}`, '_blank');
+        }
+
+        function addNewService() {
+            const name = document.getElementById('newServiceName').value;
+            const price = parseFloat(document.getElementById('newServicePrice').value);
+            const discount = parseFloat(document.getElementById('newServiceDiscount').value) || 0;
+            const points = parseInt(document.getElementById('newServicePoints').value) || 10;
+            const img = document.getElementById('newServiceImg').value || 'https://images.unsplash.com/photo-1604654894610-df63bc536371?auto=format&fit=crop&w=300&q=80';
+
+            if (!name || !price) return alert('أدخلي بيانات الخدمة!');
+
+            servicesList.push({ name, price, discount, points, img });
+            localStorage.setItem('salon_services', JSON.stringify(servicesList));
+
+            refreshAllDataViews();
+            alert('تم حفظ الخدمة وإظهارها فوراً للعميلة وفي المنيو!');
+        }
+
+        function editService(idx) {
+            const newPrice = prompt('أدخلي السعر الجديد:', servicesList[idx].price);
+            const newDiscount = prompt('أدخلي نسبة الخصم الجديد (%):', servicesList[idx].discount);
+            if (newPrice !== null) {
+                servicesList[idx].price = parseFloat(newPrice);
+                servicesList[idx].discount = parseFloat(newDiscount) || 0;
+                localStorage.setItem('salon_services', JSON.stringify(servicesList));
+                refreshAllDataViews();
+            }
+        }
+
+        function deleteService(idx) {
+            if (confirm('هل أنتِ متأكدة من حذف هذه الخدمة؟')) {
+                servicesList.splice(idx, 1);
+                localStorage.setItem('salon_services', JSON.stringify(servicesList));
+                refreshAllDataViews();
+            }
+        }
+
+        function deleteBooking(idx) {
+            if (confirm('هل تريدين إلغاء هذا الموعد؟')) {
+                bookingsList.splice(idx, 1);
+                localStorage.setItem('salon_bookings', JSON.stringify(bookingsList));
+                refreshAllDataViews();
+            }
+        }
+
+        function addPointsToClient(idx) {
+            const added = prompt('أدخلي عدد النقاط لإضافتها للعميلة:', 50);
+            if (added) {
+                clientsList[idx].points += parseInt(added);
+                localStorage.setItem('salon_clients', JSON.stringify(clientsList));
+                renderClientsPointsTable();
+            }
         }
 
         function requestPointsDiscount() {
@@ -822,10 +1101,6 @@
         }
 
         function generateCustomChart() {
-            const d1 = document.getElementById('chartDate1').value;
-            const d2 = document.getElementById('chartDate2').value;
-            document.getElementById('barLbl1').textContent = d1 || 'الفترة الأولى';
-            document.getElementById('barLbl2').textContent = d2 || 'الفترة الثانية';
             alert('تم تحديث النمط البياني للمقارنة بنجاح!');
         }
 
@@ -852,17 +1127,15 @@
             if (!name || !salary || !user || !pass) return alert('أكملي كافة البيانات الأساسية للموظفة!');
 
             staffList.push({ name, salary, residencyExp: exp, leaves, user, pass });
-            
             const tbody = document.getElementById('staffListTable');
             tbody.innerHTML += `<tr><td>${name}</td><td>${salary} ر.س</td><td>${exp}</td><td>${leaves || 0} يوم</td></tr>`;
-            
             updateStaffDropdown();
             alert('تم حفظ الموظفة وتحديد راتبتها وإقامتها بنجاح!');
         }
 
         function updateStaffDropdown() {
             const select = document.getElementById('bookingStaffSelect');
-            select.innerHTML = `<option value="">-- اختاري الموظفة --</option>`;
+            select.innerHTML = `<option value="">-- ${currentLang === 'ar' ? 'اختاري الموظفة' : 'Select Staff'} --</option>`;
             staffList.forEach(s => {
                 const opt = document.createElement('option');
                 opt.value = s.name;
@@ -871,22 +1144,10 @@
             });
         }
 
-        function addNewService() {
-            const name = document.getElementById('newServiceName').value;
-            const price = document.getElementById('newServicePrice').value;
-            const points = document.getElementById('newServicePoints').value || 10;
-            const img = document.getElementById('newServiceImg').value || 'https://images.unsplash.com/photo-1604654894610-df63bc536371?auto=format&fit=crop&w=300&q=80';
-
-            if (!name || !price) return alert('أدخلي بيانات الخدمة!');
-            servicesList.push({ name, price, points, img });
-            renderServicesToClient();
-            alert('تمت إضافة الخدمة ورصد النقاط لها بنجاح!');
-        }
-
         function sendRetargetMsg() {
             const phone = document.getElementById('retargetPhone').value;
             if (!phone) return alert('أدخلي رقم جوال العميلة!');
-            const msg = `أهلاً بكِ عزيزتنا في صالون جودة الأظافر 💅✨ اشتفنا لكِ! ليه ما زرتينا؟ يقدم لكِ الصالون خصم خاص بنقاطكِ على زيارتك القادمة. لحجز موعد استجيبي لهذه الرسالة!🌸`;
+            const msg = `أهلاً بكِ عزيزتنا في صالون جودة الأظافر 💅✨ اشتفنا لكِ! ليه ما زرتينا؟ يقدم لكِ الصالون خصم خاص بنقاطكِ على زيارتك القادمة.🌸`;
             window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, '_blank');
         }
 
