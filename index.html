@@ -1,48 +1,1231 @@
-10px}.card<!doctype html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#68445c"><title>صالون جودة الأظافر</title>
-<style>
-:root{--bg:#f7f4f7;--card:#fff;--ink:#2d2630;--muted:#817683;--line:#e9e1e9;--brand:#68445c;--soft:#f3eaf1;--green:#20845c;--red:#b64555;--amber:#a36b12}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Tahoma,Arial,sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer}.hidden{display:none!important}.wrap{max-width:1200px;margin:auto;padding:18px}.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;margin:12px 0;box-shadow:0 8px 25px #3823380b}.login{max-width:420px;margin:7vh auto}.brand{font-weight:850;font-size:24px;color:var(--brand);margin-bottom:4px}.muted{color:var(--muted);font-size:13px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}.field{display:grid;gap:6px;margin:10px 0;font-size:13px}.field input,.field select,.field textarea,input,select,textarea{min-width:0;border:1px solid var(--line);border-radius:9px;padding:11px;background:#fff;color:var(--ink);width:100%}.btn{border:0;border-radius:9px;padding:10px 13px;font-weight:700;font-size:13px}.primary{background:var(--brand);color:#fff}.ghost{background:#fff;border:1px solid var(--line);color:var(--ink)}.danger{background:#fbe8eb;color:var(--red)}.ok{background:#e5f5ed;color:var(--green)}.amber{background:#fff3d8;color:#94630e}.top{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}.nav{display:flex;gap:7px;flex-wrap:wrap;margin:14px 0}.nav button.active{background:var(--brand);color:#fff}.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}.stat{padding:15px;border-radius:12px;background:var(--soft)}.stat b{display:block;font-size:24px;margin-top:8px}.tablewrap{overflow:auto}table{width:100%;border-collapse:collapse;white-space:nowrap}th,td{text-align:right;border-bottom:1px solid var(--line);padding:11px;font-size:12px}th{color:var(--muted);background:#fbf8fb}.actions{display:flex;gap:6px;flex-wrap:wrap}.notice{padding:12px;background:#fff6e4;border-radius:10px;font-size:13px;line-height:1.8}.pill{display:inline-block;padding:4px 8px;border-radius:20px;background:#eee;font-size:11px}.error{color:var(--red);white-space:pre-wrap;font-size:13px}.success{color:var(--green);font-size:13px}.section-title{margin:4px 0 14px}.right{margin-right:auto}.footer{color:var(--muted);font-size:11px;text-align:center;padding:20px}@media(max-width:600px){.wrap{padding:{padding:13px}.top h1{font-size:20px}}
-</style>
-</head><body><div class="wrap">
-<section id="loginView" class="card login"><div class="brand">✿ جودة الأظافر</div><div class="muted">تسجيل الدخول إلى نظام الصالون</div><div class="notice" style="margin-top:15px">تسجيل الدخول يتم عبر Firebase Authentication. لا تستخدم كلمة مرور مكتوبة داخل الموقع.</div><form id="loginForm"><label class="field">البريد الإلكتروني<input id="email" type="email" autocomplete="username" required></label><label class="field">كلمة المرور<input id="password" type="password" autocomplete="current-password" required></label><button class="btn primary" style="width:100%">تسجيل الدخول</button></form><p id="loginMsg" class="error"></p><p class="muted">حساب المالكة ينشأ من Firebase Console، ثم تُضبط له صلاحية المالكة من سكربت الإدارة المرفق.</p></section>
-<section id="appView" class="hidden"><header class="top"><div><div class="brand">✿ جودة الأظافر</div><div class="muted" id="identity"></div></div><div class="actions"><button id="refreshBtn" class="btn ghost">تحديث</button><button id="logoutBtn" class="btn danger">تسجيل الخروج</button></div></header><nav class="nav" id="nav"></nav><div id="notice"></div><main id="content"></main><div class="footer">صالون جودة الأظافر · Firebase · تأكد من إعداد قواعد الأمان قبل إدخال بيانات حقيقية</div></section>
-</div>
-<script type="module">
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
-import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
-import { getFirestore, collection, getDocs, addDoc, doc, getDoc, setDoc, updateDoc, deleteDoc, query, where, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
-import { getFunctions, httpsCallable } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-functions.js';
-const firebaseConfig={apiKey:"AIzaSyA31G1qjrzq-Ykxu4EojR8KkhL3zS_MuGY",authDomain:"nailqualitysalon.firebaseapp.com",projectId:"nailqualitysalon",storageBucket:"nailqualitysalon.firebasestorage.app",messagingSenderId:"596122867385",appId:"1:596122867385:web:0d3f8d4bcf3e04b51f6d68"};
-const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app),functions=getFunctions(app,'us-central1');
-const $=id=>document.getElementById(id);let user=null,claims=null,view='dashboard',cache={services:[],staff:[],clients:[],bookings:[],blocks:[],invoices:[],expenses:[],inventory:[],loyaltyLedger:[]};
-const call=name=>httpsCallable(functions,name);const money=n=>`${Number(n||0).toLocaleString('ar-SA')} ر.س`;const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));const today=()=>new Date().toLocaleDateString('en-CA',{timeZone:'Asia/Riyadh'});const salon=()=>claims?.salonId;
-const paths=['services','staff','clients','bookings','blocks','invoices','expenses','inventory','loyaltyLedger'];function refPath(c){return collection(db,'salons',salon(),c)}
-function say(msg,type='notice'){ $('notice').innerHTML=`<div class="${type==='error'?'error':type==='success'?'success':'notice'}">${esc(msg)}</div>`;setTimeout(()=>{$('notice').innerHTML=''},6500)}
-function fmtDate(d){if(!d)return '—';if(typeof d==='string')return d;return d.toDate?d.toDate().toLocaleString('ar-SA'):String(d)}
-$('loginForm').addEventListener('submit',async e=>{e.preventDefault();$('loginMsg').textContent='';try{await signInWithEmailAndPassword(auth,$('email').value.trim(),$('password').value)}catch(err){$('loginMsg').textContent=authError(err)}});
-function authError(e){return ({'auth/invalid-credential':'البريد أو كلمة المرور غير صحيحة.','auth/too-many-requests':'محاولات كثيرة، حاول لاحقًا.','auth/network-request-failed':'تحقق من اتصال الإنترنت.'})[e.code]||e.message||'تعذر تسجيل الدخول'}
-$('logoutBtn').onclick=()=>signOut(auth);$('refreshBtn').onclick=()=>loadData().then(render).catch(e=>say(e.message,'error'));
-onAuthStateChanged(auth,async u=>{user=u;if(!u){$('loginView').classList.remove('hidden');$('appView').classList.add('hidden');return}try{claims=await u.getIdTokenResult(true);claims=claims.claims;if(!claims.role||!claims.salonId)throw new Error('الحساب لم تُضف له صلاحية role وsalonId من الإدارة بعد. راجع README.md.');$('loginView').classList.add('hidden');$('appView').classList.remove('hidden');$('identity').textContent=`${u.email} · ${roleName(claims.role)}`;setupNav();await loadData();render()}catch(e){$('loginView').classList.remove('hidden');$('appView').classList.add('hidden');$('loginMsg').textContent=e.message;await signOut(auth)}});
-function roleName(r){return ({owner:'المالكة',staff:'موظفة',client:'عميلة'})[r]||r}
-function setupNav(){const all=[['dashboard','الرئيسية',['owner']],['bookings','الحجوزات والموافقة',['owner']],['blocks','حظر المواعيد',['owner']],['staffview','جدول المواعيد',['staff','owner']],['services','الخدمات',['owner']],['staff','الموظفات',['owner']],['clients','العميلات والنقاط',['owner','staff']],['cashier','الكاشير والفواتير',['owner']],['finance','المصروفات وصافي الربح',['owner']],['inventory','المخزون',['owner','staff']],['settings','الإعدادات',['owner']],['newbooking','طلب حجز',['client','owner']]];const list=all.filter(x=>x[2].includes(claims.role));$('nav').innerHTML=list.map(x=>`<button class="btn ghost ${x[0]===view?'active':''}" data-view="${x[0]}">${x[1]}</button>`).join('');$('nav').querySelectorAll('button').forEach(b=>b.onclick=()=>{view=b.dataset.view;render()})}
-async function loadData(){for(const c of paths){cache[c]=[]}const allowed=claims.role==='owner'?paths:claims.role==='staff'?['services','staff','clients','bookings','invoices','inventory','loyaltyLedger']:['services','staff'];for(const c of allowed){try{let snap;if(c==='bookings'&&claims.role==='staff')snap=await getDocs(query(refPath(c),where('staffId','==',user.uid)));else if(c==='bookings'&&claims.role==='client')snap=await getDocs(query(refPath(c),where('clientUid','==',user.uid)));else if(c==='clients'&&claims.role==='client'){const one=await getDoc(doc(refPath(c),user.uid));cache[c]=one.exists()?[{id:one.id,...one.data()}]:[];continue}else snap=await getDocs(refPath(c));cache[c]=snap.docs.map(d=>({id:d.id,...d.data()}))}catch(e){if(c==='blocks'||c==='expenses'||c==='loyaltyLedger')cache[c]=[];else throw e}}}
-function page(title,html){$('content').innerHTML=`<div class="top"><h2 class="section-title">${title}</h2><span class="pill">${esc(roleName(claims.role))}</span></div>${html}`}
-function table(headers,rows){return `<div class="card tablewrap"><table><thead><tr>${headers.map(h=>`<th>${h}</th>`).join('')}</tr></thead><tbody>${rows||`<tr><td colspan="${headers.length}" style="text-align:center;padding:25px">لا توجد بيانات</td></tr>`}</tbody></table></div>`}
-function render(){setupNav();if(view==='dashboard')return dashboard();if(view==='newbooking')return bookingPage();if(view==='bookings')return bookingsPage();if(view==='blocks')return blocksPage();if(view==='staffview')return staffPage();if(view==='services')return servicesPage();if(view==='staff')return staffManage();if(view==='clients')return clientsPage();if(view==='cashier')return cashierPage();if(view==='finance')return financePage();if(view==='inventory')return inventoryPage();if(view==='settings')return settingsPage();dashboard()}
-function dashboard(){const approved=cache.bookings.filter(b=>b.status==='مقبول'),pending=cache.bookings.filter(b=>b.status==='بانتظار الموافقة'),sales=cache.invoices.reduce((a,x)=>a+Number(x.total||0),0),expenses=cache.expenses.reduce((a,x)=>a+Number(x.amount||0),0);page('نظرة عامة',`<div class="stats"><div class="card">طلبات بانتظار الموافقة<b>${pending.length}</b></div><div class="card">حجوزات مقبولة<b>${approved.length}</b></div><div class="card">إجمالي المبيعات<b>${money(sales)}</b></div><div class="card">صافي الربح المبدئي<b>${money(sales-expenses)}</b></div></div><div class="card"><h3>آخر طلبات الحجز</h3>${table(['العميلة','الخدمة','الموظفة','الموعد','الحالة'],cache.bookings.slice().sort((a,b)=>String(b.date).localeCompare(String(a.date))).slice(0,8).map(b=>`<tr><td>${esc(b.clientName)}</td><td>${esc(b.serviceName)}</td><td>${esc(b.staffName)}</td><td>${esc(b.date)} ${esc(b.time)}</td><td>${esc(b.status)}</td></tr>`).join(''))}</div><div class="notice">صافي الربح هنا = المبيعات المسجلة ناقص المصروفات المسجلة فقط؛ يلزم إدخال الرواتب وتكاليف المواد حتى يعكس الربح الفعلي.</div>`)}
-function bookingsPage(){if(claims.role!=='owner')return dashboard();const rows=cache.bookings.slice().sort((a,b)=>String(a.date).localeCompare(String(b.date))).map(b=>`<tr><td>${esc(b.clientName)}<br><span class="muted">${esc(b.clientPhone)}</span></td><td>${esc(b.serviceName)}</td><td>${esc(b.staffName)}</td><td>${esc(b.date)} ${esc(b.time)}</td><td>${money(b.amount)}</td><td><span class="pill">${esc(b.status)}</span>${b.conflict?' <span class="pill">متعارض</span>':''}</td><td><div class="actions">${b.status==='بانتظار الموافقة'?`<button class="btn ok" data-approve="${b.id}">موافقة</button><button class="btn danger" data-reject="${b.id}">رفض</button>`:''}<button class="btn ghost" data-cancel="${b.id}">إلغاء</button></div></td></tr>`).join('');page('الحجوزات والموافقة',`<div class="notice">الطلبات المتعارضة تظهر هنا للمالكة فقط. يمكن قبول طلب واحد للموظفة في الفترة نفسها؛ الموافقة تفحص الحظر والحجوزات المقبولة من الخادم.</div>${table(['العميلة','الخدمة','الموظفة','التاريخ والوقت','المبلغ','الحالة','الإجراء'],rows)}`);$('content').querySelectorAll('[data-approve]').forEach(b=>b.onclick=()=>decide(b.dataset.approve,'approve'));$('content').querySelectorAll('[data-reject]').forEach(b=>b.onclick=()=>decide(b.dataset.reject,'reject'));$('content').querySelectorAll('[data-cancel]').forEach(b=>b.onclick=()=>decide(b.dataset.cancel,'cancel'))}
-async function decide(id,decision){if(!confirm('تأكيد الإجراء؟'))return;try{await call('decideBooking')({bookingId:id,decision});await loadData();render();say('تم تحديث حالة الحجز','success')}catch(e){say(e.message,'error')}}
-function blocksPage(){const rows=cache.blocks.map(b=>`<tr><td>${esc(b.startAt)}</td><td>${esc(b.endAt)}</td><td>${esc(b.staffId==='*'?'كل الموظفات':(cache.staff.find(s=>s.id===b.staffId)?.name||b.staffId))}</td><td>${esc(b.reason||'—')}</td><td><button class="btn danger" data-unblock="${b.id}">إلغاء الحظر</button></td></tr>`).join('');page('حظر المواعيد',`<div class="card"><h3>إضافة حظر جديد</h3><form id="blockForm" class="grid"><label class="field">من التاريخ والوقت<input name="startAt" type="datetime-local" required></label><label class="field">إلى التاريخ والوقت<input name="endAt" type="datetime-local" required></label><label class="field">النطاق<select name="staffId"><option value="*">كل الموظفات</option>${cache.staff.map(s=>`<option value="${esc(s.id)}">${esc(s.name)}</option>`).join('')}</select></label><label class="field">السبب<input name="reason" placeholder="إجازة / ظرف خاص"></label><button class="btn primary">حفظ الحظر</button></form></div>${table(['من','إلى','النطاق','السبب','إجراء'],rows)}`);$('blockForm').onsubmit=async e=>{e.preventDefault();const f=new FormData(e.target);try{await call('saveBlock')({startAt:f.get('startAt'),endAt:f.get('endAt'),staffId:f.get('staffId'),reason:f.get('reason')});await loadData();render();say('تم حفظ الحظر','success')}catch(err){say(err.message,'error')}};$('content').querySelectorAll('[data-unblock]').forEach(b=>b.onclick=async()=>{try{await call('saveBlock')({blockId:b.dataset.unblock,delete:true});await loadData();render()}catch(e){say(e.message,'error')}})}
-function staffPage(){const rows=cache.bookings.filter(b=>b.staffId===user.uid||b.staffId===claims.staffId).sort((a,b)=>String(a.date).localeCompare(String(b.date))).map(b=>`<tr><td>${esc(b.date)}</td><td>${esc(b.time)}</td><td>${esc(b.clientName)}</td><td>${esc(b.serviceName)}</td><td>${esc(b.status)}</td></tr>`).join('');page('جدول المواعيد',`<div class="notice">هذه الصفحة للعرض فقط. الموافقة والرفض والحظر من صلاحيات المالكة وحدها.</div>${table(['التاريخ','الوقت','العميلة','الخدمة','الحالة'],rows)}`)}
-function servicesPage(){const rows=cache.services.map(s=>`<tr><td>${esc(s.name)}</td><td>${money(s.price)}</td><td>${esc(s.duration||30)} دقيقة</td><td><button class="btn danger" data-del-service="${s.id}">حذف</button></td></tr>`).join('');page('الخدمات',`<div class="card"><form id="serviceForm" class="grid"><label class="field">اسم الخدمة<input name="name" required></label><label class="field">السعر<input name="price" type="number" min="0" step="0.5" required></label><label class="field">المدة بالدقائق<input name="duration" type="number" min="15" max="480" value="30" required></label><button class="btn primary">إضافة خدمة</button></form></div>${table(['الخدمة','السعر','المدة','إجراء'],rows)}`);$('serviceForm').onsubmit=async e=>{e.preventDefault();const f=new FormData(e.target);try{await addDoc(refPath('services'),{name:f.get('name').trim(),price:Number(f.get('price')),duration:Number(f.get('duration')),createdAt:serverTimestamp()});await loadData();render()}catch(err){say(err.message,'error')}};$('content').querySelectorAll('[data-del-service]').forEach(b=>b.onclick=async()=>{if(confirm('حذف الخدمة؟')){await deleteDoc(doc(refPath('services'),b.dataset.delService));await loadData();render()}})}
-function staffManage(){const rows=cache.staff.map(s=>`<tr><td>${esc(s.name)}</td><td>${esc(s.email||'—')}</td><td>${money(s.salary)}</td><td>${esc(s.iqamaExpiry||'—')}</td></tr>`).join('');page('الموظفات',`<div class="notice">تُنشأ حسابات الموظفات عبر Firebase Authentication، ثم تُربط بمعرّف UID وصلاحية موظفة. لا يتم حفظ كلمات المرور في Firestore.</div><div class="card"><form id="staffForm" class="grid"><label class="field">UID من Firebase Authentication<input name="uid" required></label><label class="field">اسم الموظفة<input name="name" required></label><label class="field">البريد الإلكتروني<input name="email" type="email"></label><label class="field">الراتب الشهري<input name="salary" type="number" min="0"></label><label class="field">انتهاء الإقامة<input name="iqamaExpiry" type="date"></label><button class="btn primary">حفظ بيانات الموظفة</button></form></div>${table(['الاسم','البريد','الراتب','انتهاء الإقامة'],rows)}`);$('staffForm').onsubmit=async e=>{e.preventDefault();const f=new FormData(e.target),uid=String(f.get('uid')).trim();try{await setDoc(doc(refPath('staff'),uid),{name:f.get('name').trim(),email:f.get('email'),salary:Number(f.get('salary')||0),iqamaExpiry:f.get('iqamaExpiry')||'',uid,updatedAt:serverTimestamp()},{merge:true});await loadData();render()}catch(err){say(err.message,'error')}}}
-function clientsPage(){const rows=cache.clients.map(c=>`<tr><td>${esc(c.name)}</td><td>${esc(c.phone||'')}</td><td>${esc(c.code||c.id)}</td><td>${Number(c.points||0)}</td></tr>`).join('');page('العميلات والنقاط',`${table(['الاسم','الجوال','الكود','النقاط'],rows)}<div class="card"><h3>استبدال النقاط</h3><form id="redeemForm" class="grid"><label class="field">UID / معرّف العميلة<input name="clientUid" required></label><label class="field">عدد النقاط<input name="points" type="number" min="1" required></label><label class="field">السبب<input name="reason" value="استبدال نقاط"></label><button class="btn primary">اعتماد الخصم</button></form></div>`);$('redeemForm').onsubmit=async e=>{e.preventDefault();const f=new FormData(e.target);try{await call('redeemPoints')({clientUid:f.get('clientUid'),points:Number(f.get('points')),reason:f.get('reason')});await loadData();render();say('تم خصم النقاط وتسجيل العملية','success')}catch(err){say(err.message,'error')}}}
-function cashierPage(){const rows=cache.invoices.slice().sort((a,b)=>String(b.createdAt||'').localeCompare(String(a.createdAt||''))).map(i=>`<tr><td>${esc(i.number||i.id)}</td><td>${esc(i.clientName||'عميلة مباشرة')}</td><td>${money(i.total)}</td><td>${esc(i.paymentMethod||'—')}</td><td>${esc(fmtDate(i.createdAt))}</td></tr>`).join('');page('الكاشير والفواتير',`<div class="card"><form id="invoiceForm" class="grid"><label class="field">العميلة<input name="clientName" placeholder="عميلة مباشرة"></label><label class="field">وصف الخدمة/المبيعات<input name="description" required></label><label class="field">المبلغ الإجمالي<input name="total" type="number" min="0" step="0.5" required></label><label class="field">طريقة الدفع<select name="paymentMethod"><option value="شبكة">شبكة</option><option value="نقدي">نقدي</option><option value="تحويل">تحويل</option></select></label><button class="btn primary">إصدار فاتورة</button></form></div>${table(['رقم الفاتورة','العميلة','الإجمالي','الدفع','التاريخ'],rows)}`);$('invoiceForm').onsubmit=async e=>{e.preventDefault();const f=new FormData(e.target);try{await addDoc(refPath('invoices'),{number:'INV-'+Date.now(),clientName:f.get('clientName'),description:f.get('description'),total:Number(f.get('total')),paymentMethod:f.get('paymentMethod'),createdAt:serverTimestamp(),createdBy:user.uid});await loadData();render();say('تم تسجيل الفاتورة','success')}catch(err){say(err.message,'error')}}}
-function financePage(){const rows=cache.expenses.map(x=>`<tr><td>${esc(x.description)}</td><td>${money(x.amount)}</td><td>${esc(x.date||'')}</td></tr>`).join(''),sales=cache.invoices.reduce((a,x)=>a+Number(x.total||0),0),expenses=cache.expenses.reduce((a,x)=>a+Number(x.amount||0),0);page('المصروفات وصافي الربح',`<div class="stats"><div class="card">المبيعات<b>${money(sales)}</b></div><div class="card">المصروفات<b>${money(expenses)}</b></div><div class="card">الصافي<b>${money(sales-expenses)}</b></div></div><div class="card"><form id="expenseForm" class="grid"><label class="field">وصف المصروف<input name="description" required></label><label class="field">المبلغ<input name="amount" type="number" min="0" step="0.5" required></label><label class="field">التاريخ<input name="date" type="date" value="${today()}" required></label><button class="btn primary">إضافة مصروف</button></form></div>${table(['الوصف','المبلغ','التاريخ'],rows)}`);$('expenseForm').onsubmit=async e=>{e.preventDefault();const f=new FormData(e.target);try{await addDoc(refPath('expenses'),{description:f.get('description'),amount:Number(f.get('amount')),date:f.get('date'),createdAt:serverTimestamp()});await loadData();render()}catch(err){say(err.message,'error')}}}
-function inventoryPage(){const rows=cache.inventory.map(x=>`<tr><td>${esc(x.name)}</td><td>${Number(x.quantity||0)}</td><td>${Number(x.minQuantity||0)}</td><td>${Number(x.quantity||0)<=Number(x.minQuantity||0)?'<span class="pill">مخزون منخفض</span>':'—'}</td><td><button class="btn ghost" data-qty="${x.id}">تعديل الكمية</button></td></tr>`).join('');page('المخزون',`<div class="card"><form id="inventoryForm" class="grid"><label class="field">اسم المنتج<input name="name" required></label><label class="field">الكمية<input name="quantity" type="number" min="0" value="0" required></label><label class="field">حد التنبيه<input name="minQuantity" type="number" min="0" value="2" required></label><button class="btn primary">إضافة منتج</button></form></div>${table(['المنتج','الكمية','حد التنبيه','الحالة','إجراء'],rows)}`);$('inventoryForm').onsubmit=async e=>{e.preventDefault();const f=new FormData(e.target);try{await addDoc(refPath('inventory'),{name:f.get('name'),quantity:Number(f.get('quantity')),minQuantity:Number(f.get('minQuantity')),updatedAt:serverTimestamp()});await loadData();render()}catch(err){say(err.message,'error')}};$('content').querySelectorAll('[data-qty]').forEach(b=>b.onclick=async()=>{const old=cache.inventory.find(x=>x.id===b.dataset.qty);const q=prompt('أدخل الكمية الجديدة',String(old.quantity||0));if(q===null||!Number.isFinite(Number(q))||Number(q)<0)return;try{await updateDoc(doc(refPath('inventory'),old.id),{quantity:Number(q),updatedAt:serverTimestamp()});await loadData();render()}catch(e){say(e.message,'error')}})}
-function settingsPage(){page('الإعدادات',`<div class="card"><h3>بيانات المنشأة</h3><p class="muted">معرّف الصالون: ${esc(salon())}</p><p class="muted">إعداد الألوان والعبارات وتغيير اللغة يمكن إضافته ضمن إعدادات Firestore؛ لا تُحفظ كلمات مرور داخل هذه الصفحة.</p><button class="btn ghost" id="exportBtn">تصدير نسخة JSON من البيانات المتاحة</button></div><div class="notice">الأرشفة الشهرية تعمل من الدالة المجدولة بعد نشرها. هذا النظام ليس بحد ذاته اعتمادًا للفوترة الإلكترونية السعودية.</div>`);$('exportBtn').onclick=()=>{const blob=new Blob([JSON.stringify(cache,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='salon-backup.json';a.click();URL.revokeObjectURL(url)}}
-// Authenticated users submit a pending request; only the owner decides.
-function bookingPage(){page('طلب حجز',`<div class="card"><form id="bookingForm" class="grid"><label class="field">الاسم<input name="clientName" required></label><label class="field">الجوال<input name="clientPhone" required></label><label class="field">الخدمة<select name="serviceId" required>${cache.services.map(s=>`<option value="${esc(s.id)}">${esc(s.name)} — ${money(s.price)}</option>`).join('')}</select></label><label class="field">الموظفة<select name="staffId" required>${cache.staff.map(s=>`<option value="${esc(s.id)}">${esc(s.name)}</option>`).join('')}</select></label><label class="field">التاريخ<input name="date" type="date" min="${today()}" required></label><label class="field">الوقت<input name="time" type="time" required></label><button class="btn primary">إرسال طلب الحجز</button></form></div><div class="notice">طلب الحجز لا يصبح مؤكدًا حتى توافق صاحبة الصالون. إذا تعارض مع طلب آخر، يظهر التعارض في لوحة المالكة.</div>`);$('bookingForm').onsubmit=async e=>{e.preventDefault();const f=new FormData(e.target);try{const res=await call('createBooking')({clientName:f.get('clientName'),clientPhone:f.get('clientPhone'),serviceId:f.get('serviceId'),staffId:f.get('staffId'),date:f.get('date'),time:f.get('time')});say('وصل طلبك إلى صاحبة الصالون وبانتظار الموافقة. رقم الطلب: '+res.data.bookingId,'success');if(claims.role==='owner')view='bookings';await loadData();render()}catch(err){say(err.message,'error')}}}
-</script></body></html>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>صالون نيل كوالتي</title>
+  <style>
+    :root {
+      --primary: #d96b87;
+      --secondary: #f8dde7;
+      --text: #2c1c22;
+      --bg: #fff5f7;
+      --card: #ffffff;
+      --muted: #7d5d66;
+      --line: #efd5dd;
+      --success: #1e9f73;
+      --warning: #f3b34d;
+      --danger: #d85a5a;
+    }
+
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Segoe UI", Tahoma, sans-serif;
+    }
+
+    body { min-height: 100vh; }
+
+    .hidden { display: none !important; }
+
+    .login-wrap {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, #fff9fb, #f9edf3);
+      padding: 20px;
+    }
+
+    .login-box {
+      width: min(520px, 100%);
+      background: #fff;
+      border-radius: 24px;
+      padding: 30px;
+      border: 1px solid var(--line);
+      box-shadow: 0 18px 36px rgba(217,107,135,0.12);
+    }
+
+    .login-box h2 {
+      margin: 0 0 18px;
+      text-align: center;
+      font-size: 2rem;
+      color: var(--primary);
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    label {
+      font-weight: 700;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    input, select, textarea, button {
+      font: inherit;
+      border-radius: 12px;
+      outline: none;
+    }
+
+    input, select, textarea {
+      border: 1px solid var(--line);
+      padding: 12px 14px;
+      background: #fffdfd;
+      color: var(--text);
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(217,107,135,0.12);
+    }
+
+    button {
+      border: none;
+      cursor: pointer;
+      font-weight: 700;
+      transition: 0.2s ease;
+    }
+
+    .primary-btn {
+      background: linear-gradient(135deg, var(--primary), #df7f9d);
+      color: white;
+      padding: 13px 18px;
+      width: 100%;
+      box-shadow: 0 10px 20px rgba(217,107,135,0.18);
+    }
+    .primary-btn:hover { filter: brightness(1.03); }
+
+    .topbar {
+      background: linear-gradient(135deg, var(--primary), #e590a7);
+      color: #fff;
+      padding: 18px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 2rem;
+    }
+
+    .brand small {
+      opacity: 0.92;
+    }
+
+    .user-chip {
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-weight: 700;
+    }
+
+    .tabs {
+      background: #fff;
+      border-bottom: 1px solid var(--line);
+      padding: 14px 16px 0;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .tab {
+      background: var(--secondary);
+      color: var(--text);
+      border: none;
+      padding: 12px 18px;
+      border-radius: 12px 12px 0 0;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .tab.active {
+      background: #fff;
+      color: var(--primary);
+      box-shadow: inset 0 -2px 0 var(--primary);
+    }
+
+    .content {
+      display: none;
+      padding: 20px;
+    }
+
+    .content.active {
+      display: block;
+    }
+
+    .grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .two-col { grid-template-columns: 1.2fr 0.8fr; }
+    .three-col { grid-template-columns: repeat(3, minmax(200px, 1fr)); }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 18px;
+      box-shadow: 0 8px 18px rgba(58,30,37,0.04);
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+
+    .section-head h3 {
+      margin: 0;
+      font-size: 1.2rem;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(170px, 1fr));
+      gap: 14px;
+    }
+
+    .field.full { grid-column: 1 / -1; }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(150px, 1fr));
+      gap: 16px;
+    }
+
+    .stat {
+      background: linear-gradient(135deg, #fff, #fff7f9);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 18px;
+    }
+
+    .stat .label {
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .stat .value {
+      font-size: 1.8rem;
+      font-weight: 800;
+      margin-top: 8px;
+      color: var(--primary);
+    }
+
+    .list {
+      display: grid;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .item {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 14px 16px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .item-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .title {
+      font-weight: 800;
+    }
+
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      font-size: 0.88rem;
+      color: var(--muted);
+    }
+
+    .pill {
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .pill.confirmed {
+      background: rgba(30,159,115,0.12);
+      color: var(--success);
+    }
+
+    .pill.pending {
+      background: rgba(243,179,77,0.12);
+      color: #b77800;
+    }
+
+    .pill.canceled {
+      background: rgba(216,90,90,0.12);
+      color: var(--danger);
+    }
+
+    .actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .success-btn, .danger-btn, .ghost-btn {
+      border: none;
+      padding: 9px 12px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .success-btn {
+      background: rgba(30,159,115,0.12);
+      color: var(--success);
+    }
+
+    .danger-btn {
+      background: rgba(216,90,90,0.12);
+      color: var(--danger);
+    }
+
+    .ghost-btn {
+      background: #f4e9ee;
+      color: var(--text);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    th, td {
+      padding: 12px 10px;
+      border-bottom: 1px solid var(--line);
+      text-align: center;
+    }
+
+    th {
+      background: #fff5f8;
+      color: var(--primary);
+    }
+
+    .empty {
+      border: 1px dashed var(--line);
+      border-radius: 12px;
+      padding: 18px;
+      text-align: center;
+      color: var(--muted);
+      background: #fffafc;
+    }
+
+    @media (max-width: 900px) {
+      .two-col, .three-col, .stats, .form-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="loginScreen" class="login-wrap">
+    <div class="login-box">
+      <h2>تسجيل الدخول</h2>
+
+      <form id="loginForm">
+        <div class="field">
+          <label>البريد الإلكتروني</label>
+          <input type="email" id="loginEmail" placeholder="example@email.com" required />
+        </div>
+
+        <div class="field">
+          <label>كلمة المرور</label>
+          <input type="password" id="loginPassword" placeholder="••••••••" required />
+        </div>
+
+        <button type="submit" class="primary-btn">دخول</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="appScreen" class="hidden">
+    <header class="topbar">
+      <div class="brand">
+        <h1 id="brandName">صالون نيل كوالتي</h1>
+        <small id="brandSlogan">أجمل جلسات العناية والاهتمام</small>
+      </div>
+      <div class="user-chip" id="userChip">المستخدم</div>
+    </header>
+
+    <div class="tabs">
+      <button class="tab active" data-panel="ownerPanel">المالك</button>
+      <button class="tab" data-panel="staffPanel">الموظفات</button>
+      <button class="tab" data-panel="clientPanel">العميلات</button>
+      <button class="tab" data-panel="cashierPanel">الكاشير</button>
+      <button class="tab" data-panel="inventoryPanel">المخزون</button>
+      <button class="ghost-btn" id="logoutBtn" style="margin-right:auto; padding:12px 18px; border-radius:12px;">تسجيل الخروج</button>
+    </div>
+
+    <div id="ownerPanel" class="content active">
+      <div class="grid two-col">
+        <div class="card">
+          <div class="section-head">
+            <h3>إضافة خدمة</h3>
+          </div>
+          <form id="serviceForm">
+            <div class="form-grid">
+              <div class="field">
+                <label>اسم الخدمة</label>
+                <input type="text" id="serviceName" required />
+              </div>
+
+              <div class="field">
+                <label>السعر</label>
+                <input type="number" id="servicePrice" min="0" step="0.01" required />
+              </div>
+
+              <div class="field full">
+                <label>الوصف</label>
+                <textarea id="serviceDesc"></textarea>
+              </div>
+            </div>
+
+            <button type="submit" class="primary-btn" style="margin-top:12px;">حفظ الخدمة</button>
+          </form>
+        </div>
+
+        <div class="card">
+          <div class="section-head">
+            <h3>إضافة موظفة</h3>
+          </div>
+          <form id="staffForm">
+            <div class="form-grid">
+              <div class="field">
+                <label>اسم الموظفة</label>
+                <input type="text" id="staffName" required />
+              </div>
+
+              <div class="field">
+                <label>الراتب</label>
+                <input type="number" id="staffSalary" min="0" step="0.01" required />
+              </div>
+
+              <div class="field">
+                <label>البريد الإلكتروني</label>
+                <input type="email" id="staffEmail" required />
+              </div>
+
+              <div class="field">
+                <label>كلمة المرور</label>
+                <input type="password" id="staffPass" required />
+              </div>
+            </div>
+
+            <button type="submit" class="primary-btn" style="margin-top:12px;">إضافة موظفة</button>
+          </form>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:18px;">
+        <div class="section-head">
+          <h3>تعديل الثيم العام</h3>
+        </div>
+
+        <form id="themeForm">
+          <div class="form-grid">
+            <div class="field">
+              <label>لون الأساسي</label>
+              <input type="color" id="primaryColor" value="#d96b87" />
+            </div>
+
+            <div class="field">
+              <label>لون الثانوي</label>
+              <input type="color" id="secondaryColor" value="#f8dde7" />
+            </div>
+
+            <div class="field">
+              <label>لون النص</label>
+              <input type="color" id="textColor" value="#2c1c22" />
+            </div>
+
+            <div class="field">
+              <label>لون الخلفية</label>
+              <input type="color" id="backgroundColor" value="#fff5f7" />
+            </div>
+
+            <div class="field">
+              <label>اسم الصالون</label>
+              <input type="text" id="logoText" value="صالون نيل كوالتي" />
+            </div>
+
+            <div class="field">
+              <label>العبارة</label>
+              <input type="text" id="sloganText" value="أجمل جلسات العناية والاهتمام" />
+            </div>
+          </div>
+
+          <button type="submit" class="primary-btn" style="margin-top:14px;">حفظ الثيم</button>
+        </form>
+      </div>
+
+      <div class="card" style="margin-top:18px;">
+        <div class="section-head">
+          <h3>حالة الموظفات</h3>
+        </div>
+        <div id="onlineStaffList" class="list"></div>
+      </div>
+
+      <div class="card" style="margin-top:18px;">
+        <div class="section-head">
+          <h3>سجل الحضور</h3>
+        </div>
+        <div id="attendanceList" class="list"></div>
+      </div>
+
+      <div class="card" style="margin-top:18px;">
+        <div class="section-head">
+          <h3>الإجازات</h3>
+        </div>
+        <div id="vacationList" class="list"></div>
+      </div>
+    </div>
+
+    <div id="staffPanel" class="content">
+      <div class="card">
+        <div class="section-head">
+          <h3>حضور الموظفة</h3>
+        </div>
+
+        <div class="form-grid">
+          <div class="field">
+            <label>بداية الدوام</label>
+            <input type="datetime-local" id="startWorkTime" />
+          </div>
+
+          <div class="field">
+            <label>نهاية الدوام</label>
+            <input type="datetime-local" id="endWorkTime" />
+          </div>
+        </div>
+
+        <button class="primary-btn" id="saveAttendanceBtn" style="margin-top:12px;">حفظ الحضور</button>
+      </div>
+
+      <div class="card" style="margin-top:18px;">
+        <div class="section-head">
+          <h3>طلب إجازة</h3>
+        </div>
+
+        <div class="form-grid">
+          <div class="field">
+            <label>تاريخ البداية</label>
+            <input type="date" id="leaveStart" />
+          </div>
+
+          <div class="field">
+            <label>تاريخ النهاية</label>
+            <input type="date" id="leaveEnd" />
+          </div>
+
+          <div class="field full">
+            <label>سبب الإجازة</label>
+            <textarea id="leaveReason"></textarea>
+          </div>
+        </div>
+
+        <button class="primary-btn" id="requestLeaveBtn" style="margin-top:12px;">إرسال طلب الإجازة</button>
+      </div>
+    </div>
+
+    <div id="clientPanel" class="content">
+      <div class="card">
+        <div class="section-head">
+          <h3>بيانات العميلة</h3>
+        </div>
+        <div id="clientProfile" class="list"></div>
+      </div>
+    </div>
+
+    <div id="cashierPanel" class="content">
+      <div class="grid two-col">
+        <div class="card">
+          <div class="section-head">
+            <h3>الكاشير السريع</h3>
+          </div>
+
+          <div class="form-grid">
+            <div class="field">
+              <label>اسم العميلة</label>
+              <input type="text" id="cashierClientName" />
+            </div>
+
+            <div class="field">
+              <label>طريقة الدفع</label>
+              <select id="paymentMethod">
+                <option value="كاش">كاش</option>
+                <option value="بطاقة">بطاقة</option>
+                <option value="شبكة">شبكة</option>
+              </select>
+            </div>
+          </div>
+
+          <div id="cashierServices" class="list"></div>
+
+          <div class="card" style="margin-top:12px;">
+            <div class="section-head">
+              <h3>الفاتورة</h3>
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th>الخدمة</th>
+                  <th>السعر</th>
+                  <th>حذف</th>
+                </tr>
+              </thead>
+              <tbody id="invoiceBody"></tbody>
+            </table>
+
+            <div style="margin-top:12px;">
+              <div class="field">
+                <label>المبلغ المدفوع</label>
+                <input type="number" id="paidAmount" min="0" value="0" />
+              </div>
+
+              <div class="section-head">
+                <h3>الإجمالي: <span id="invoiceTotal">0.00</span> ر.س</h3>
+              </div>
+
+              <button class="primary-btn" id="saveSaleBtn">حفظ الفاتورة</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="section-head">
+            <h3>الفواتير الأخيرة</h3>
+          </div>
+          <div id="salesList" class="list"></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="inventoryPanel" class="content">
+      <div class="grid two-col">
+        <div class="card">
+          <div class="section-head">
+            <h3>إضافة منتج</h3>
+          </div>
+          <form id="inventoryForm">
+            <div class="form-grid">
+              <div class="field">
+                <label>اسم المنتج</label>
+                <input type="text" id="inventoryName" required />
+              </div>
+
+              <div class="field">
+                <label>الكمية</label>
+                <input type="number" id="inventoryQty" min="0" required />
+              </div>
+
+              <div class="field">
+                <label>الحد الأدنى</label>
+                <input type="number" id="inventoryMin" min="0" required />
+              </div>
+
+              <div class="field">
+                <label>سعر الشراء</label>
+                <input type="number" id="inventoryCost" min="0" step="0.01" required />
+              </div>
+            </div>
+
+            <button type="submit" class="primary-btn" style="margin-top:12px;">إضافة المنتج</button>
+          </form>
+        </div>
+
+        <div class="card">
+          <div class="section-head">
+            <h3>مخزون الصالون</h3>
+          </div>
+          <div id="inventoryList" class="list"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import {
+      getAuth,
+      createUserWithEmailAndPassword,
+      signInWithEmailAndPassword,
+      signOut
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+    import {
+      getFirestore,
+      doc,
+      setDoc,
+      getDoc,
+      collection,
+      addDoc,
+      getDocs,
+      onSnapshot,
+      serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyA31G1qjrzq-Ykxu4EojR8KkhL3zS_MuGY",
+      authDomain: "nailqualitysalon.firebaseapp.com",
+      projectId: "nailqualitysalon",
+      storageBucket: "nailqualitysalon.firebasestorage.app",
+      messagingSenderId: "596122867385",
+      appId: "1:596122867385:web:0d3f8d4bcf3e04b51f6d68"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    let currentUser = null;
+    let allServices = [];
+    let allSales = [];
+    let currentInvoice = [];
+
+    const defaultTheme = {
+      logoText: "صالون نيل كوالتي",
+      slogan: "أجمل جلسات العناية والاهتمام",
+      primaryColor: "#d96b87",
+      secondaryColor: "#f8dde7",
+      textColor: "#2c1c22",
+      backgroundColor: "#fff5f7"
+    };
+
+    function formatMoney(value) {
+      return Number(value || 0).toFixed(2) + " ر.س";
+    }
+
+    async function createUser({ email, password, name, role, phone = "" }) {
+      const userCred = await createUserWithEmailAndPassword(auth, email, password);
+      await setDoc(doc(db, "users", userCred.user.uid), {
+        uid: userCred.user.uid,
+        email,
+        name,
+        role,
+        phone,
+        createdAt: serverTimestamp()
+      });
+      return userCred.user.uid;
+    }
+
+    async function loginUser(email, password) {
+      const userCred = await signInWithEmailAndPassword(auth, email, password);
+      const snap = await getDoc(doc(db, "users", userCred.user.uid));
+      if (!snap.exists()) throw new Error("هذا الحساب غير مسجل في بيانات الصالون");
+      return snap.data();
+    }
+
+    async function saveTheme(theme) {
+      await setDoc(doc(db, "settings", "brand"), theme, { merge: true });
+    }
+
+    function applyTheme(theme) {
+      const root = document.documentElement;
+      root.style.setProperty("--primary", theme.primaryColor || defaultTheme.primaryColor);
+      root.style.setProperty("--secondary", theme.secondaryColor || defaultTheme.secondaryColor);
+      root.style.setProperty("--text", theme.textColor || defaultTheme.textColor);
+      root.style.setProperty("--bg", theme.backgroundColor || defaultTheme.backgroundColor);
+
+      document.getElementById("brandName").textContent = theme.logoText || defaultTheme.logoText;
+      document.getElementById("brandSlogan").textContent = theme.slogan || defaultTheme.slogan;
+    }
+
+    function showScreen(screenId) {
+      document.getElementById("loginScreen").classList.add("hidden");
+      document.getElementById("appScreen").classList.remove("hidden");
+
+      document.querySelectorAll(".tab").forEach(tab => {
+        const isActive = tab.dataset.panel === screenId;
+        tab.classList.toggle("active", isActive);
+      });
+
+      document.querySelectorAll(".content").forEach(panel => {
+        panel.classList.toggle("active", panel.id === screenId);
+      });
+    }
+
+    async function loadServices() {
+      const snapshot = await getDocs(collection(db, "services"));
+      allServices = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      renderCashierServices();
+    }
+
+    function renderCashierServices() {
+      const container = document.getElementById("cashierServices");
+      if (!allServices.length) {
+        container.innerHTML = '<div class="empty">لا توجد خدمات</div>';
+        return;
+      }
+
+      container.innerHTML = allServices.map(service => `
+        <div class="item">
+          <div class="item-head">
+            <div class="title">${service.name}</div>
+            <span class="pill confirmed">${formatMoney(service.price)}</span>
+          </div>
+          <div class="meta">
+            <span>${service.description || "بدون وصف"}</span>
+          </div>
+          <div class="actions">
+            <button class="success-btn" data-add-service="${service.name}" data-add-price="${service.price}">إضافة</button>
+          </div>
+        </div>
+      `).join("");
+
+      document.querySelectorAll("[data-add-service]").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const name = btn.dataset.addService;
+          const price = Number(btn.dataset.addPrice || 0);
+          currentInvoice.push({ name, price });
+          renderInvoice();
+        });
+      });
+    }
+
+    function renderInvoice() {
+      const body = document.getElementById("invoiceBody");
+      const totalEl = document.getElementById("invoiceTotal");
+
+      if (!currentInvoice.length) {
+        body.innerHTML = '<tr><td colspan="3">لا يوجد عناصر</td></tr>';
+        totalEl.textContent = "0.00";
+        return;
+      }
+
+      const total = currentInvoice.reduce((sum, item) => sum + Number(item.price || 0), 0);
+      totalEl.textContent = Number(total).toFixed(2);
+
+      body.innerHTML = currentInvoice.map((item, index) => `
+        <tr>
+          <td>${item.name}</td>
+          <td>${formatMoney(item.price)}</td>
+          <td><button class="danger-btn" data-remove-index="${index}">حذف</button></td>
+        </tr>
+      `).join("");
+
+      document.querySelectorAll("[data-remove-index]").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const index = Number(btn.dataset.removeIndex);
+          currentInvoice.splice(index, 1);
+          renderInvoice();
+        });
+      });
+    }
+
+    async function loadSales() {
+      const snapshot = await getDocs(collection(db, "sales"));
+      allSales = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      renderSales();
+    }
+
+    function renderSales() {
+      const list = document.getElementById("salesList");
+      if (!allSales.length) {
+        list.innerHTML = '<div class="empty">لا توجد فواتير</div>';
+        return;
+      }
+
+      list.innerHTML = allSales.slice().reverse().map(sale => `
+        <div class="item">
+          <div class="item-head">
+            <div class="title">${sale.clientName || "عميلة"}</div>
+            <span class="pill confirmed">${sale.paymentMethod || "كاش"}</span>
+          </div>
+          <div class="meta">
+            <span>الإجمالي: ${formatMoney(sale.total)}</span>
+            <span>مدفوع: ${formatMoney(sale.paid)}</span>
+            <span>باقي: ${formatMoney(sale.change)}</span>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    async function loadInventory() {
+      const snapshot = await getDocs(collection(db, "inventory"));
+      const list = document.getElementById("inventoryList");
+      const items = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+      if (!items.length) {
+        list.innerHTML = '<div class="empty">لا يوجد مخزون</div>';
+        return;
+      }
+
+      list.innerHTML = items.map(item => `
+        <div class="item">
+          <div class="item-head">
+            <div class="title">${item.name}</div>
+            <span class="pill ${Number(item.quantity) <= Number(item.minStock) ? "pending" : "confirmed"}">
+              ${Number(item.quantity) <= Number(item.minStock) ? "منخفض" : "كافي"}
+            </span>
+          </div>
+          <div class="meta">
+            <span>الكمية: ${item.quantity}</span>
+            <span>الحد الأدنى: ${item.minStock}</span>
+            <span>سعر الشراء: ${formatMoney(item.cost)}</span>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    function renderOnlineStaff() {
+      const list = document.getElementById("onlineStaffList");
+      onSnapshot(collection(db, "staffPresence"), (snapshot) => {
+        const rows = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        if (!rows.length) {
+          list.innerHTML = '<div class="empty">لا توجد موظفات</div>';
+          return;
+        }
+
+        list.innerHTML = rows.map(staff => `
+          <div class="item">
+            <div class="item-head">
+              <div class="title">${staff.name}</div>
+              <span class="pill ${staff.isOnline ? "confirmed" : "pending"}">${staff.isOnline ? "متصلة الآن" : "غير متصلة"}</span>
+            </div>
+            <div class="meta">
+              <span>آخر ظهور: ${staff.lastSeenAt ? new Date(staff.lastSeenAt.seconds * 1000).toLocaleString("ar-SA") : "غير معروف"}</span>
+            </div>
+          </div>
+        `).join("");
+      });
+    }
+
+    function renderAttendance() {
+      const list = document.getElementById("attendanceList");
+      onSnapshot(collection(db, "attendance"), (snapshot) => {
+        const rows = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        if (!rows.length) {
+          list.innerHTML = '<div class="empty">لا يوجد سجل حضور</div>';
+          return;
+        }
+
+        list.innerHTML = rows.slice().reverse().map(row => `
+          <div class="item">
+            <div class="item-head">
+              <div class="title">${row.name}</div>
+              <span class="pill confirmed">${row.date}</span>
+            </div>
+            <div class="meta">
+              <span>من: ${row.startTime}</span>
+              <span>إلى: ${row.endTime}</span>
+              <span>الساعات: ${Number(row.totalHours || 0).toFixed(2)}</span>
+            </div>
+          </div>
+        `).join("");
+      });
+    }
+
+    function renderVacations() {
+      const list = document.getElementById("vacationList");
+      onSnapshot(collection(db, "vacations"), (snapshot) => {
+        const rows = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        if (!rows.length) {
+          list.innerHTML = '<div class="empty">لا توجد إجازات</div>';
+          return;
+        }
+
+        list.innerHTML = rows.slice().reverse().map(row => `
+          <div class="item">
+            <div class="item-head">
+              <div class="title">${row.name}</div>
+              <span class="pill ${row.status === "مرفوضة" ? "canceled" : "confirmed"}">${row.status || "قيد الموافقة"}</span>
+            </div>
+            <div class="meta">
+              <span>من: ${row.startDate}</span>
+              <span>إلى: ${row.endDate}</span>
+              <span>الأيام: ${row.totalDays}</span>
+            </div>
+            <div class="meta"><span>السبب: ${row.reason || "لا يوجد سبب"}</span></div>
+          </div>
+        `).join("");
+      });
+    }
+
+    async function setStaffPresence(uid, name, isOnline) {
+      await setDoc(doc(db, "staffPresence", uid), {
+        uid,
+        name,
+        isOnline,
+        lastSeenAt: serverTimestamp()
+      }, { merge: true });
+    }
+
+    async function saveAttendance(uid, name, startTime, endTime) {
+      const start = new Date(startTime);
+      const end = new Date(endTime);
+      const totalHours = (end - start) / (1000 * 60 * 60);
+
+      await addDoc(collection(db, "attendance"), {
+        uid,
+        name,
+        date: new Date().toISOString().slice(0, 10),
+        startTime,
+        endTime,
+        totalHours: Number(totalHours.toFixed(2))
+      });
+    }
+
+    async function requestVacation(uid, name, startDate, endDate, reason) {
+      const start = new Date(startDate);
+      const end = new Date(endDate);
+      const totalDays = Math.ceil((end - start) / (1000 * 60 * 60 * 24)) + 1;
+
+      await addDoc(collection(db, "vacations"), {
+        uid,
+        name,
+        startDate,
+        endDate,
+        totalDays,
+        reason,
+        status: "قيد الموافقة"
+      });
+    }
+
+    document.getElementById("loginForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const email = document.getElementById("loginEmail").value;
+      const password = document.getElementById("loginPassword").value;
+
+      try {
+        const userData = await loginUser(email, password);
+        currentUser = userData;
+
+        document.getElementById("userChip").textContent = userData.name || "المستخدم";
+        document.getElementById("loginScreen").classList.add("hidden");
+        document.getElementById("appScreen").classList.remove("hidden");
+
+        if (userData.role === "owner") {
+          showScreen("ownerPanel");
+        } else if (userData.role === "staff") {
+          showScreen("staffPanel");
+        } else if (userData.role === "client") {
+          showScreen("clientPanel");
+        } else {
+          alert("دور المستخدم غير معروف");
+        }
+
+        if (userData.role === "staff") {
+          await setStaffPresence(auth.currentUser.uid, userData.name, true);
+        }
+
+      } catch (err) {
+        alert("خطأ في تسجيل الدخول: " + err.message);
+      }
+    });
+
+    document.getElementById("logoutBtn").addEventListener("click", async () => {
+      if (currentUser && currentUser.role === "staff" && auth.currentUser) {
+        await setStaffPresence(auth.currentUser.uid, currentUser.name, false);
+      }
+
+      await signOut(auth);
+      currentUser = null;
+
+      document.getElementById("appScreen").classList.add("hidden");
+      document.getElementById("loginScreen").classList.remove("hidden");
+    });
+
+    document.querySelectorAll(".tab").forEach(tab => {
+      tab.addEventListener("click", () => {
+        const panelId = tab.dataset.panel;
+        showScreen(panelId);
+      });
+    });
+
+    document.getElementById("serviceForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const service = {
+        name: document.getElementById("serviceName").value,
+        price: Number(document.getElementById("servicePrice").value || 0),
+        description: document.getElementById("serviceDesc").value,
+        createdAt: serverTimestamp()
+      };
+
+      await addDoc(collection(db, "services"), service);
+      e.target.reset();
+      loadServices();
+    });
+
+    document.getElementById("staffForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const email = document.getElementById("staffEmail").value;
+      const password = document.getElementById("staffPass").value;
+
+      try {
+        const uid = await createUser({
+          email,
+          password,
+          name: document.getElementById("staffName").value,
+          role: "staff",
+          phone: ""
+        });
+
+        await setDoc(doc(db, "staffInfo", uid), {
+          uid,
+          name: document.getElementById("staffName").value,
+          salary: Number(document.getElementById("staffSalary").value || 0),
+          email,
+          createdAt: serverTimestamp()
+        });
+
+        alert("تمت إضافة الموظفة بنجاح");
+        e.target.reset();
+      } catch (err) {
+        alert("حدث خطأ: " + err.message);
+      }
+    });
+
+    document.getElementById("themeForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const theme = {
+        primaryColor: document.getElementById("primaryColor").value,
+        secondaryColor: document.getElementById("secondaryColor").value,
+        textColor: document.getElementById("textColor").value,
+        backgroundColor: document.getElementById("backgroundColor").value,
+        logoText: document.getElementById("logoText").value,
+        slogan: document.getElementById("sloganText").value
+      };
+
+      await saveTheme(theme);
+      applyTheme(theme);
+      alert("تم حفظ الثيم");
+    });
+
+    document.getElementById("saveAttendanceBtn").addEventListener("click", async () => {
+      const start = document.getElementById("startWorkTime").value;
+      const end = document.getElementById("endWorkTime").value;
+
+      if (!start || !end) {
+        alert("اختر بداية ونهاية الدوام");
+        return;
+      }
+
+      const user = auth.currentUser;
+      if (!user) return;
+
+      const userSnap = await getDoc(doc(db, "users", user.uid));
+      const data = userSnap.data();
+
+      await saveAttendance(user.uid, data.name, start, end);
+      alert("تم حفظ الحضور بنجاح");
+    });
+
+    document.getElementById("requestLeaveBtn").addEventListener("click", async () => {
+      const start = document.getElementById("leaveStart").value;
+      const end = document.getElementById("leaveEnd").value;
+      const reason = document.getElementById("leaveReason").value;
+
+      if (!start || !end) {
+        alert("اختر تاريخ البداية والنهاية");
+        return;
+      }
+
+      const user = auth.currentUser;
+      if (!user) return;
+
+      const userSnap = await getDoc(doc(db, "users", user.uid));
+      const data = userSnap.data();
+
+      await requestVacation(user.uid, data.name, start, end, reason);
+      alert("تم إرسال طلب الإجازة");
+    });
+
+    document.getElementById("inventoryForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const item = {
+        name: document.getElementById("inventoryName").value,
+        quantity: Number(document.getElementById("inventoryQty").value || 0),
+        minStock: Number(document.getElementById("inventoryMin").value || 0),
+        cost: Number(document.getElementById("inventoryCost").value || 0),
+        createdAt: serverTimestamp()
+      };
+
+      await addDoc(collection(db, "inventory"), item);
+      e.target.reset();
+      loadInventory();
+    });
+
+    document.getElementById("saveSaleBtn").addEventListener("click", async () => {
+      if (!currentInvoice.length) {
+        alert("أضف خدمة واحدة على الأقل");
+        return;
+      }
+
+      const total = currentInvoice.reduce((sum, item) => sum + Number(item.price || 0), 0);
+      const paid = Number(document.getElementById("paidAmount").value || 0);
+      const change = paid - total;
+
+      await addDoc(collection(db, "sales"), {
+        clientName: document.getElementById("cashierClientName").value || "عميلة عامة",
+        paymentMethod: document.getElementById("paymentMethod").value,
+        items: currentInvoice,
+        total,
+        paid,
+        change,
+        createdAt: serverTimestamp()
+      });
+
+      currentInvoice = [];
+      renderInvoice();
+      document.getElementById("paidAmount").value = 0;
+      loadSales();
+      alert("تم حفظ الفاتورة");
+    });
+
+    onSnapshot(doc(db, "settings", "brand"), (snap) => {
+      if (snap.exists()) {
+        applyTheme(snap.data());
+      } else {
+        applyTheme(defaultTheme);
+      }
+    });
+
+    renderInvoice();
+    renderOnlineStaff();
+    renderAttendance();
+    renderVacations();
+
+    loadServices();
+    loadSales();
+    loadInventory();
+  </script>
+</body>
+</html>
