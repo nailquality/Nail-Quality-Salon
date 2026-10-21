@@ -1,1130 +1,1656 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>صالون جودة الأظافر</title>
-  <style>
-    :root{
-      --bg:#f7f2ee;
-      --bg-soft:#f2e9e3;
-      --card:#fffaf9;
-      --panel:#1d171a;
-      --panel-soft:#2d2024;
-      --primary:#c86f8b;
-      --primary-2:#d18ca0;
-      --primary-deep:#7a2d48;
-      --text:#1d1d1d;
-      --muted:#6d5c5c;
-      --line:#e8d9d2;
-      --green:#cfe9d1;
-      --green-text:#2d7d53;
-      --yellow:#f5e6b4;
-      --yellow-text:#8a5b00;
-      --red:#f4d5d5;
-      --red-text:#9a2d2d;
-      --shadow: 0 12px 24px rgba(46, 28, 31, 0.08);
-      --pink-glow: rgba(200,111,139,0.18);
-      --radius: 16px;
-      --font: "Segoe UI", Tahoma, sans-serif;
-    }
-
-    *{ box-sizing: border-box; }
-    html, body{
-      margin:0;
-      padding:0;
-      background: var(--bg);
-      color: var(--text);
-      font-family: var(--font);
-      direction: rtl;
-    }
-
-    body{
-      min-height: 100vh;
-      display:flex;
-      justify-content:center;
-      align-items:flex-start;
-      padding: 20px;
-    }
-
-    .app{
-      width: 1400px;
-      min-height: 900px;
-      background: var(--bg);
-      display:flex;
-      border-radius: 24px;
-      overflow:hidden;
-      box-shadow: 0 30px 80px rgba(0,0,0,0.08);
-      border:1px solid rgba(60,30,35,0.04);
-    }
-
-    .sidebar{
-      width: 260px;
-      background: var(--panel);
-      color:#fff;
-      padding: 18px 14px 20px;
-      display:flex;
-      flex-direction:column;
-      justify-content:space-between;
-      min-height:100%;
-    }
-
-    .brand-box{
-      background: linear-gradient(135deg, rgba(255,255,255,0.06), rgba(255,255,255,0.01));
-      border-radius: 18px;
-      padding: 14px 10px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      margin-bottom: 18px;
-    }
-
-    .brand-text{
-      font-weight: 800;
-      font-size: 15px;
-      color:#f8f3f5;
-      line-height:1.5;
-      text-align: center;
-      flex:1;
-    }
-
-    .brand-mark{
-      width: 42px;
-      height: 42px;
-      border-radius: 12px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      background: linear-gradient(135deg, #d8c1c8, #c77d98);
-      color: #fff;
-      font-size: 20px;
-      margin-right: 8px;
-    }
-
-    .menu{
-      display:flex;
-      flex-direction:column;
-      gap: 8px;
-      margin-top: 8px;
-    }
-
-    .menu-item{
-      width:100%;
-      border:none;
-      background: transparent;
-      color: #f2edf1;
-      display:flex;
-      align-items:center;
-      justify-content:flex-start;
-      gap: 12px;
-      padding: 14px 12px;
-      border-radius: 12px;
-      cursor: pointer;
-      font-weight: 700;
-      transition: 0.2s ease;
-      text-align:right;
-      font-size: 15px;
-    }
-
-    .menu-item:hover, .menu-item.active{
-      background: var(--primary);
-      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.08);
-    }
-
-    .menu-item .icon{
-      width: 24px;
-      text-align:center;
-      font-size: 18px;
-    }
-
-    .menu-item.primary-action{
-      background: linear-gradient(135deg, var(--primary), var(--primary-2));
-      box-shadow: 0 8px 18px rgba(200,111,139,0.25);
-      color:#fff;
-    }
-
-    .sidebar-footer{
-      margin-top: 12px;
-      padding-top: 16px;
-      border-top:1px solid rgba(255,255,255,0.12);
-    }
-
-    .main{
-      flex:1;
-      background: var(--bg);
-      display:flex;
-      flex-direction:column;
-      min-height: 100%;
-    }
-
-    .topbar{
-      background: rgba(255,255,255,0.65);
-      border-bottom: 1px solid var(--line);
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      padding: 18px 22px;
-      gap: 18px;
-      backdrop-filter: blur(8px);
-    }
-
-    .search{
-      background: #f7f3f2;
-      border:1px solid var(--line);
-      border-radius: 14px;
-      height: 48px;
-      flex:1;
-      display:flex;
-      align-items:center;
-      padding: 0 14px;
-      gap: 10px;
-      color: var(--muted);
-      max-width: 520px;
-    }
-
-    .search input{
-      border:none;
-      background: transparent;
-      flex:1;
-      height:100%;
-      font-size: 14px;
-      color: var(--text);
-      outline:none;
-      font-family: inherit;
-    }
-
-    .topbar-right{
-      display:flex;
-      align-items:center;
-      justify-content:flex-end;
-      gap: 14px;
-      min-width: 420px;
-      flex-wrap: wrap;
-    }
-
-    .date-box{
-      color: var(--muted);
-      font-size: 14px;
-      font-weight: 700;
-      background: rgba(255,255,255,0.5);
-      border: 1px solid var(--line);
-      padding: 12px 16px;
-      border-radius: 12px;
-      min-width: 180px;
-      text-align: center;
-    }
-
-    .avatar-box{
-      width: 42px;
-      height: 42px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #ffdbe6, #c77d98);
-      display:grid;
-      place-items:center;
-      font-weight: 900;
-      color: #fff;
-      box-shadow: 0 5px 12px rgba(147, 83, 109, 0.2);
-      font-size: 18px;
-    }
-
-    .content{
-      padding: 18px 22px 22px;
-      display:flex;
-      flex-direction:column;
-      gap:18px;
-    }
-
-    .hero{
-      background: linear-gradient(140deg, rgba(255,255,255,0.6), rgba(255,255,255,0.3));
-      border:1px solid var(--line);
-      border-radius: 18px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      padding: 16px 18px;
-      gap: 12px;
-    }
-
-    .hero-text{
-      font-size: 18px;
-      color: var(--text);
-      font-weight: 800;
-      display:flex;
-      align-items:center;
-      gap: 10px;
-    }
-
-    .hero .badge{
-      background: #f0d5de;
-      border-radius: 12px;
-      padding: 8px 12px;
-      color: var(--primary-deep);
-      font-weight: 800;
-    }
-
-    .info-cards{
-      display:grid;
-      grid-template-columns: repeat(4, minmax(180px, 1fr));
-      gap: 16px;
-    }
-
-    .info-card{
-      background: rgba(255,255,255,0.8);
-      border:1px solid var(--line);
-      border-radius: 18px;
-      padding: 18px 16px 12px;
-      box-shadow: var(--shadow);
-      min-height: 120px;
-      position:relative;
-      overflow:hidden;
-    }
-
-    .info-card::before{
-      content:"";
-      position:absolute;
-      top:0; left:0; right:0;
-      height: 5px;
-      background: var(--primary);
-    }
-
-    .info-card .label{
-      color: var(--muted);
-      font-size: 14px;
-      font-weight: 700;
-      margin-bottom: 8px;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-    }
-
-    .info-card .number{
-      font-size: 32px;
-      font-weight: 900;
-      color: var(--text);
-      line-height: 1.2;
-    }
-
-    .info-card .delta{
-      margin-top: 10px;
-      display:inline-flex;
-      align-items:center;
-      gap: 6px;
-      border-radius: 999px;
-      padding: 6px 10px;
-      font-size: 13px;
-      font-weight: 800;
-    }
-
-    .delta.green{
-      background: var(--green);
-      color: var(--green-text);
-    }
-
-    .delta.red{
-      background: var(--red);
-      color: var(--red-text);
-    }
-
-    .two-grid{
-      display:grid;
-      grid-template-columns: 1.4fr 1fr;
-      gap: 18px;
-    }
-
-    .panel{
-      background: rgba(255,255,255,0.82);
-      border:1px solid var(--line);
-      border-radius: 18px;
-      box-shadow: var(--shadow);
-      padding: 18px 16px;
-    }
-
-    .panel-header{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap: 10px;
-      margin-bottom: 12px;
-    }
-
-    .panel h3{
-      margin:0;
-      color: var(--text);
-      font-size: 18px;
-      font-weight: 900;
-    }
-
-    .panel-actions{
-      display:flex;
-      gap: 8px;
-      align-items:center;
-    }
-
-    .small-btn{
-      border:none;
-      background: var(--primary);
-      color:#fff;
-      padding: 8px 12px;
-      border-radius: 10px;
-      font-weight: 800;
-      cursor:pointer;
-    }
-
-    .mini-select{
-      border:1px solid var(--line);
-      background:#fff;
-      border-radius: 10px;
-      padding: 8px 10px;
-      font-size: 13px;
-      color: var(--muted);
-      outline:none;
-    }
-
-    .chart-area{
-      height: 260px;
-      display:flex;
-      align-items:flex-end;
-      gap: 16px;
-      padding: 12px 6px 10px;
-      border-bottom: 2px solid rgba(200,111,139,0.3);
-    }
-
-    .bar-col{
-      flex:1;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      justify-content:flex-end;
-      gap: 8px;
-    }
-
-    .bar{
-      width: 100%;
-      max-width: 56px;
-      border-radius: 10px 10px 0 0;
-      background: linear-gradient(180deg, #d28aa1, #bf5975);
-      box-shadow: 0 8px 18px rgba(200,111,139,0.22);
-      min-height: 40px;
-      position:relative;
-    }
-
-    .bar span{
-      position:absolute;
-      left:50%;
-      transform:translateX(-50%);
-      bottom: 6px;
-      font-size: 12px;
-      color: #fff;
-      font-weight: 800;
-    }
-
-    .bar-label{
-      font-size: 12px;
-      color: var(--muted);
-      font-weight:800;
-      text-align:center;
-      margin-top: 6px;
-    }
-
-    .mini-grid{
-      display:grid;
-      grid-template-columns: repeat(2, minmax(120px, 1fr));
-      gap: 12px;
-      margin-top: 12px;
-    }
-
-    .mini-card{
-      background: rgba(250,244,245,0.9);
-      border:1px solid var(--line);
-      border-radius: 14px;
-      padding: 14px 12px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:8px;
-    }
-
-    .mini-card .icon{
-      width: 40px;
-      height:40px;
-      display:grid;
-      place-items:center;
-      border-radius: 12px;
-      background: rgba(200,111,139,0.12);
-      color: var(--primary-deep);
-      font-size: 20px;
-    }
-
-    .mini-card .text{
-      font-size:12px;
-      color: var(--muted);
-      font-weight: 700;
-    }
-
-    .mini-card .num{
-      font-size: 18px;
-      font-weight: 900;
-      color: var(--text);
-    }
-
-    .bottom-grid{
-      display:grid;
-      grid-template-columns: 1.2fr 1fr 1fr;
-      gap: 18px;
-    }
-
-    .table-wrap{
-      width:100%;
-      overflow:hidden;
-    }
-
-    table{
-      width:100%;
-      border-collapse: collapse;
-      background:rgba(255,255,255,0.9);
-      border-radius: 14px;
-      overflow:hidden;
-    }
-
-    th, td{
-      padding: 12px 10px;
-      border-bottom: 1px solid var(--line);
-      text-align: center;
-      font-size: 14px;
-      color: var(--text);
-    }
-
-    th{
-      background: #fff1f5;
-      color: var(--primary-deep);
-      font-weight: 900;
-    }
-
-    td .status{
-      display:inline-block;
-      padding: 6px 10px;
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: 800;
-    }
-
-    .status.ok{
-      background: rgba(98, 170, 112, 0.12);
-      color: #2e7d4c;
-    }
-
-    .status.wait{
-      background: rgba(236, 180, 77, 0.16);
-      color: #915d00;
-    }
-
-    .status.bad{
-      background: rgba(210, 100, 100, 0.12);
-      color: #9c3838;
-    }
-
-    .small-legend{
-      display:flex;
-      gap: 12px;
-      align-items:center;
-      justify-content:center;
-      flex-wrap:wrap;
-      margin-top: 10px;
-      color: var(--muted);
-      font-size: 12px;
-      font-weight: 700;
-    }
-
-    .legend-dot{
-      width: 12px;
-      height:12px;
-      display:inline-block;
-      border-radius: 50%;
-      margin-left:6px;
-    }
-
-    .donut-wrap{
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      flex-direction:column;
-      gap: 10px;
-      margin-top: 8px;
-    }
-
-    .donut{
-      width: 150px;
-      height: 150px;
-      border-radius: 50%;
-      background: conic-gradient(
-        #d98ca8 0 32%, 
-        #b7c5f0 32% 58%, 
-        #e0d1ff 58% 79%, 
-        #e6c8a4 79% 100%
-      );
-      position:relative;
-    }
-
-    .donut::before{
-      content:"";
-      position:absolute;
-      inset: 18px;
-      border-radius:50%;
-      background: var(--card);
-      box-shadow: inset 0 0 0 1px rgba(120,90,100,0.08);
-    }
-
-    .donut-center{
-      position:absolute;
-      inset:0;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-weight:900;
-      font-size: 22px;
-      color: var(--text);
-      z-index:2;
-    }
-
-    .list-stack{
-      display:flex;
-      flex-direction:column;
-      gap: 10px;
-      margin-top: 12px;
-    }
-
-    .list-row{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap: 10px;
-      background: rgba(255,255,255,0.8);
-      border:1px solid var(--line);
-      border-radius: 12px;
-      padding: 10px 12px;
-      font-size: 14px;
-      color: var(--text);
-    }
-
-    .list-row .label{
-      display:flex;
-      align-items:center;
-      gap: 8px;
-      font-weight: 700;
-    }
-
-    .list-row .time{
-      font-weight:900;
-      color: var(--primary-deep);
-    }
-
-    .hidden{ display:none !important; }
-
-    /* modal */
-    .modal{
-      position:fixed;
-      inset:0;
-      background: rgba(15,14,16,0.52);
-      display:none;
-      align-items:center;
-      justify-content:center;
-      z-index: 999;
-      padding: 20px;
-    }
-
-    .modal.active{
-      display:flex;
-    }
-
-    .modal-box{
-      width: min(460px, 100%);
-      background: #fff;
-      border-radius: 18px;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
-      padding: 18px 18px 14px;
-      border:1px solid var(--line);
-    }
-
-    .modal-header{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      margin-bottom: 12px;
-    }
-
-    .modal-header h3{
-      margin:0;
-      color: var(--primary-deep);
-      font-size: 22px;
-    }
-
-    .close-btn{
-      border:none;
-      background: #f8ebef;
-      color: var(--primary-deep);
-      width: 36px;
-      height:36px;
-      border-radius: 10px;
-      cursor: pointer;
-      font-weight: 900;
-      font-size: 20px;
-    }
-
-    .modal-form{
-      display:grid;
-      gap: 12px;
-    }
-
-    .modal-form input{
-      width:100%;
-      padding: 12px 14px;
-      border:1px solid var(--line);
-      border-radius: 12px;
-      font-size: 15px;
-      outline:none;
-    }
-
-    .modal-form button{
-      background: linear-gradient(135deg, var(--primary), var(--primary-2));
-      border:none;
-      color:#fff;
-      padding: 12px 14px;
-      border-radius: 12px;
-      font-size: 16px;
-      font-weight: 900;
-      cursor:pointer;
-      box-shadow: 0 8px 18px rgba(200,111,139,0.22);
-    }
-
-    @media (max-width: 1100px){
-      .info-cards{
-        grid-template-columns: repeat(2, minmax(180px, 1fr));
-      }
-      .two-grid{
-        grid-template-columns:1fr;
-      }
-      .bottom-grid{
-        grid-template-columns:1fr;
-      }
-    }
-
-    @media (max-width: 920px){
-      .app{
-        width:100%;
-      }
-      .sidebar{
-        width:100%;
-      }
-      .app{
-        display:block;
-      }
-      .menu{
-        flex-direction: row;
-        flex-wrap:wrap;
-      }
-      .main{
-        min-height: auto;
-      }
-    }
-
-    @media (max-width: 640px){
-      .topbar{
-        flex-direction: column;
-        align-items:stretch;
-      }
-      .topbar-right{
-        min-width: auto;
-        justify-content:space-between;
-      }
-      .info-cards{
-        grid-template-columns:1fr;
-      }
-      .chart-area{
-        gap:10px;
-      }
-      .bar-label{
-        font-size:11px;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#71344f">
+<title>صالون جودة الأظافر | نظام الإدارة</title>
+
+<style>
+:root {
+  --wine:#71344f;
+  --wine-dark:#59253e;
+  --pink:#f8edf2;
+  --bg:#faf7f9;
+  --text:#30242b;
+  --line:#eadde4;
+  --green:#277653;
+  --red:#b43c4c;
+  --amber:#fff2cc;
+}
+* { box-sizing:border-box; }
+body {
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Tahoma,Arial,sans-serif;
+}
+header {
+  background:linear-gradient(120deg,var(--wine-dark),#884966);
+  color:white;
+  padding:22px 18px;
+}
+header h1 { margin:0 0 7px; font-size:24px; }
+header p { margin:0; opacity:.9; }
+nav {
+  display:flex;
+  gap:7px;
+  padding:12px;
+  overflow-x:auto;
+  background:white;
+  border-bottom:1px solid var(--line);
+  position:sticky;
+  top:0;
+  z-index:10;
+}
+nav button {
+  white-space:nowrap;
+  border:0;
+  background:var(--pink);
+  color:var(--wine);
+  padding:12px;
+  border-radius:10px;
+  font-weight:bold;
+}
+nav button.active { background:var(--wine); color:white; }
+main { max-width:1250px; margin:auto; padding:16px; }
+.panel {
+  background:white;
+  border:1px solid var(--line);
+  border-radius:15px;
+  padding:16px;
+  margin-bottom:15px;
+}
+h2 { font-size:20px; color:var(--wine); margin:0 0 15px; }
+h3 { font-size:16px; margin:12px 0; }
+.grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(145px,1fr));
+  gap:12px;
+  margin-bottom:15px;
+}
+.stat { padding:17px; background:var(--pink); border-radius:12px; }
+.stat small { display:block; color:#765a69; margin-bottom:8px; }
+.stat strong { font-size:22px; color:var(--wine); overflow-wrap:anywhere; }
+.fields,.filters {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(155px,1fr));
+  gap:10px;
+  margin-bottom:12px;
+}
+label { display:block; font-size:13px; margin-bottom:5px; color:#68485a; }
+input,select,textarea {
+  width:100%;
+  padding:11px;
+  border:1px solid #ddcbd5;
+  border-radius:9px;
+  background:white;
+  font:inherit;
+  min-width:0;
+}
+input:focus,select:focus,textarea:focus {
+  outline:2px solid #d8a9bf;
+  border-color:var(--wine);
+}
+button { cursor:pointer; font:inherit; }
+.btn {
+  border:0;
+  border-radius:9px;
+  padding:10px 14px;
+  background:var(--wine);
+  color:white;
+  font-weight:bold;
+  margin:2px 0;
+}
+.btn.secondary { background:var(--pink); color:var(--wine); }
+.btn.danger { background:var(--red); color:white; }
+.btn.success { background:var(--green); color:white; }
+.actions { display:flex; gap:7px; flex-wrap:wrap; margin-top:10px; }
+.table-wrap { overflow-x:auto; }
+table { width:100%; border-collapse:collapse; min-width:750px; }
+th,td {
+  padding:11px 9px;
+  border-bottom:1px solid var(--line);
+  text-align:right;
+  font-size:13px;
+  vertical-align:top;
+}
+th { background:var(--pink); color:var(--wine); }
+.muted { color:#826f79; font-size:13px; }
+.chart {
+  min-height:190px;
+  display:flex;
+  align-items:stretch;
+  gap:10px;
+  padding:15px 5px 0;
+  overflow-x:auto;
+  border-bottom:1px solid var(--line);
+}
+.bar-item {
+  min-width:48px;
+  min-height:150px;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+  align-items:center;
+  gap:5px;
+}
+.bar-area {
+  height:110px;
+  width:30px;
+  display:flex;
+  align-items:flex-end;
+  justify-content:center;
+  border-bottom:1px solid #bcaab3;
+}
+.bar {
+  width:25px;
+  min-height:0;
+  background:linear-gradient(#bc799a,#71344f);
+  border-radius:7px 7px 0 0;
+}
+.bar.negative {
+  background:var(--red);
+  border-radius:0 0 7px 7px;
+}
+.bar-item small { font-size:10px; white-space:nowrap; }
+.hidden { display:none!important; }
+.tag {
+  display:inline-block;
+  border-radius:20px;
+  padding:4px 8px;
+  background:var(--pink);
+  color:var(--wine);
+  font-size:12px;
+}
+.notice {
+  padding:11px;
+  background:var(--amber);
+  border-radius:9px;
+  font-size:13px;
+  line-height:1.8;
+}
+.good-notice {
+  padding:11px;
+  background:#eaf7ef;
+  color:#205b3c;
+  border-radius:9px;
+  font-size:13px;
+  line-height:1.8;
+}
+hr { border:0; border-top:1px solid var(--line); margin:16px 0; }
+@media(max-width:500px) {
+  main { padding:9px; }
+  .panel { padding:12px; }
+  header h1 { font-size:21px; }
+  .stat strong { font-size:19px; }
+}
+</style>
 </head>
+
 <body>
-  <div class="app">
-    <aside class="sidebar">
+<header>
+  <h1>✿ صالون جودة الأظافر</h1>
+  <p>نظام الإدارة والحجوزات والفواتير وسجل العميلات</p>
+</header>
+
+<nav id="nav">
+  <button class="active" data-page="dashboard">الرئيسية والإحصائيات</button>
+  <button data-page="employees">الموظفات</button>
+  <button data-page="appointments">الحجوزات</button>
+  <button data-page="invoices">الفواتير</button>
+  <button data-page="cashier">الكاشير والمصروفات</button>
+  <button data-page="clients">العميلات والولاء</button>
+  <button data-page="settings">الإعدادات والنسخ</button>
+</nav>
+
+<main>
+<!-- لوحة الإحصائيات -->
+<section id="dashboard" class="page">
+  <div class="panel">
+    <h2>لوحة الإحصائيات والرسوم البيانية</h2>
+    <div class="filters">
       <div>
-        <div class="brand-box">
-          <div class="brand-text">صالون جودة<br>الأظافر</div>
-          <div class="brand-mark">✦</div>
-        </div>
-
-        <div class="menu">
-          <button class="menu-item active"><span class="icon">⌂</span> الرئيسية</button>
-          <button class="menu-item"><span class="icon">🧾</span> الكاشير</button>
-          <button class="menu-item"><span class="icon">💳</span> الفواتير</button>
-          <button class="menu-item"><span class="icon">📊</span> التحليلات</button>
-          <button class="menu-item"><span class="icon">📦</span> المخزون</button>
-          <button class="menu-item"><span class="icon">🧑‍💼</span> الموظفات</button>
-          <button class="menu-item"><span class="icon">👥</span> العميلات</button>
-          <button class="menu-item"><span class="icon">⚙️</span> الإعدادات</button>
-          <button class="menu-item primary-action" id="openStaffModalBtn"><span class="icon">＋</span> إضافة موظفة</button>
-        </div>
+        <label for="dashFrom">من تاريخ</label>
+        <input type="date" id="dashFrom">
       </div>
-
-      <div class="sidebar-footer">
-        <button class="menu-item" id="logoutBtn"><span class="icon">⎋</span> تسجيل الخروج</button>
+      <div>
+        <label for="dashTo">إلى تاريخ</label>
+        <input type="date" id="dashTo">
       </div>
-    </aside>
-
-    <main class="main">
-      <div class="topbar">
-        <div class="search">
-          <span>⌕</span>
-          <input type="text" placeholder="ابحث عن موظفة، خدمة، عميلة..." />
-        </div>
-
-        <div class="topbar-right">
-          <div class="date-box" id="todayDateBox">الأحد 26 أكتوبر 2025</div>
-          <div class="avatar-box">م</div>
-        </div>
+      <div>
+        <label for="chartMode">نوع الرسم</label>
+        <select id="chartMode">
+          <option value="revenue">الإيرادات</option>
+          <option value="expenses">المصروفات</option>
+          <option value="profit">صافي الدخل</option>
+          <option value="invoices">عدد الفواتير</option>
+        </select>
       </div>
-
-      <div class="content">
-        <div class="hero">
-          <div class="hero-text">
-            <span>☕</span>
-            <span id="ownerHeroText">مرحباً صاحبة صالون جودة الأظافر ✨👑</span>
-          </div>
-          <div class="badge">مؤشرات اليوم</div>
-        </div>
-
-        <div class="info-cards">
-          <div class="info-card">
-            <div class="label">
-              <span>إجمالي الإيرادات</span>
-              <span>📈</span>
-            </div>
-            <div class="number">10,870</div>
-            <div class="delta green">↑ 16%</div>
-          </div>
-
-          <div class="info-card">
-            <div class="label">
-              <span>إجمالي المبيعات</span>
-              <span>💸</span>
-            </div>
-            <div class="number">8,420</div>
-            <div class="delta green">↑ 18%</div>
-          </div>
-
-          <div class="info-card">
-            <div class="label">
-              <span>الإجمالي اليوم</span>
-              <span>🧾</span>
-            </div>
-            <div class="number">2,450</div>
-            <div class="delta red">↓ 12%</div>
-          </div>
-
-          <div class="info-card">
-            <div class="label">
-              <span>عدد الحجوزات</span>
-              <span>📅</span>
-            </div>
-            <div class="number">18</div>
-            <div class="delta green">↑ 22%</div>
-          </div>
-        </div>
-
-        <div class="two-grid">
-          <div class="panel">
-            <div class="panel-header">
-              <h3>مبيعات الموظفات</h3>
-              <div class="panel-actions">
-                <select class="mini-select">
-                  <option>آخر 7 أيام</option>
-                  <option>آخر 30 يوم</option>
-                  <option>هذا الشهر</option>
-                </select>
-              </div>
-            </div>
-
-            <div class="chart-area">
-              <div class="bar-col">
-                <div class="bar" style="height: 44%;"><span>1.5k</span></div>
-                <div class="bar-label">الأحد</div>
-              </div>
-              <div class="bar-col">
-                <div class="bar" style="height: 62%;"><span>2k</span></div>
-                <div class="bar-label">الإثنين</div>
-              </div>
-              <div class="bar-col">
-                <div class="bar" style="height: 80%;"><span>2.2k</span></div>
-                <div class="bar-label">الثلاثاء</div>
-              </div>
-              <div class="bar-col">
-                <div class="bar" style="height: 71%;"><span>1.9k</span></div>
-                <div class="bar-label">الأربعاء</div>
-              </div>
-              <div class="bar-col">
-                <div class="bar" style="height: 92%;"><span>2.4k</span></div>
-                <div class="bar-label">الخميس</div>
-              </div>
-              <div class="bar-col">
-                <div class="bar" style="height: 74%;"><span>2.1k</span></div>
-                <div class="bar-label">الجمعة</div>
-              </div>
-              <div class="bar-col">
-                <div class="bar" style="height: 56%;"><span>1.8k</span></div>
-                <div class="bar-label">السبت</div>
-              </div>
-            </div>
-          </div>
-
-          <div class="panel">
-            <div class="panel-header">
-              <h3>تقسيم المبيعات</h3>
-            </div>
-
-            <div class="donut-wrap">
-              <div class="donut">
-                <div class="donut-center">32%</div>
-              </div>
-              <div class="small-legend">
-                <span><i class="legend-dot" style="background:#d98ca8;"></i> خدمات</span>
-                <span><i class="legend-dot" style="background:#b7c5f0;"></i> صبغات</span>
-                <span><i class="legend-dot" style="background:#e0d1ff;"></i> عناية</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="bottom-grid">
-          <div class="panel">
-            <div class="panel-header">
-              <h3>أحدث الفواتير</h3>
-              <button class="small-btn">عرض الكل</button>
-            </div>
-
-            <div class="table-wrap">
-              <table>
-                <thead>
-                  <tr>
-                    <th>العميلة</th>
-                    <th>المبلغ</th>
-                    <th>الوقت</th>
-                    <th>الحالة</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>سارة محمد</td>
-                    <td>380 ر.س</td>
-                    <td>10:15</td>
-                    <td><span class="status ok">مكتملة</span></td>
-                  </tr>
-                  <tr>
-                    <td>نور البلوشي</td>
-                    <td>450 ر.س</td>
-                    <td>11:40</td>
-                    <td><span class="status wait">قيد التنفيذ</span></td>
-                  </tr>
-                  <tr>
-                    <td>ليلى علي</td>
-                    <td>520 ر.س</td>
-                    <td>12:20</td>
-                    <td><span class="status ok">مكتملة</span></td>
-                  </tr>
-                  <tr>
-                    <td>أميرة ناصر</td>
-                    <td>300 ر.س</td>
-                    <td>13:50</td>
-                    <td><span class="status bad">ملغية</span></td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          <div class="panel">
-            <div class="panel-header">
-              <h3>الموظفات</h3>
-            </div>
-
-            <div class="mini-grid">
-              <div class="mini-card">
-                <div class="icon">👩‍🦰</div>
-                <div>
-                  <div class="text">إضافة موظفة</div>
-                  <div class="num">+ جديد</div>
-                </div>
-              </div>
-
-              <div class="mini-card">
-                <div class="icon">📋</div>
-                <div>
-                  <div class="text">تقارير</div>
-                  <div class="num">12</div>
-                </div>
-              </div>
-
-              <div class="mini-card">
-                <div class="icon">🧾</div>
-                <div>
-                  <div class="text">الفواتير</div>
-                  <div class="num">96</div>
-                </div>
-              </div>
-
-              <div class="mini-card">
-                <div class="icon">💬</div>
-                <div>
-                  <div class="text">الرسائل</div>
-                  <div class="num">8</div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="panel">
-            <div class="panel-header">
-              <h3>المواعيد القادمة</h3>
-            </div>
-
-            <div class="list-stack">
-              <div class="list-row">
-                <div class="label"><span>🧑‍🦰</span> سارة</div>
-                <div class="time">10:00</div>
-              </div>
-              <div class="list-row">
-                <div class="label"><span>💃</span> مريم</div>
-                <div class="time">11:30</div>
-              </div>
-              <div class="list-row">
-                <div class="label"><span>🌸</span> زينة</div>
-                <div class="time">12:45</div>
-              </div>
-              <div class="list-row">
-                <div class="label"><span>✨</span> هالة</div>
-                <div class="time">14:00</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </main>
-  </div>
-
-  <!-- modal لإضافة موظفة -->
-  <div class="modal" id="staffModal">
-    <div class="modal-box">
-      <div class="modal-header">
-        <h3>إضافة موظفة جديدة</h3>
-        <button class="close-btn" id="closeStaffModalBtn">×</button>
-      </div>
-
-      <form class="modal-form" id="staffForm">
-        <input type="text" id="staffName" placeholder="اسم الموظفة" required />
-        <input type="text" id="staffUser" placeholder="اسم المستخدم" required />
-        <input type="password" id="staffPass" placeholder="كلمة المرور" required />
-        <button type="submit">حفظ الموظفة</button>
-      </form>
+    </div>
+    <div class="actions">
+      <button class="btn" id="applyDashboard">تطبيق الفترة</button>
+      <button class="btn secondary" id="resetDashboard">عرض الكل</button>
     </div>
   </div>
 
-  <script>
-    const STORAGE_KEY = "nail_quality_staff_accounts";
-    const OWNER_EMAIL = "owner@nailqualitysalon.com";
-    const OWNER_PASS = "Admin123!";
+  <div class="grid" id="stats"></div>
 
-    const todayBox = document.getElementById("todayDateBox");
-    const ownerHeroText = document.getElementById("ownerHeroText");
+  <div class="panel">
+    <h2>الأداء خلال الفترة</h2>
+    <div id="mainChart" class="chart"></div>
+    <p class="muted">تُحسب النتائج من الفواتير والمصروفات المسجلة في النظام.</p>
+  </div>
 
-    function getStaffList() {
-      const s = localStorage.getItem(STORAGE_KEY);
-      return s ? JSON.parse(s) : [
-        { name: "سارة النجار", username: "sara", password: "123456" },
-        { name: "ريم القحطاني", username: "reem", password: "123456" }
-      ];
+  <div class="panel">
+    <h2>إيرادات الموظفات</h2>
+    <div id="staffChart" class="chart"></div>
+  </div>
+
+  <div class="panel">
+    <h2>ملخص الفترة</h2>
+    <div id="dashSummary"></div>
+  </div>
+</section>
+
+<!-- الموظفات -->
+<section id="employees" class="page hidden">
+  <div class="panel">
+    <h2>إضافة موظفة أو تعديل بياناتها</h2>
+    <form id="employeeForm">
+      <input type="hidden" id="empId">
+      <div class="fields">
+        <div>
+          <label for="empName">اسم الموظفة *</label>
+          <input id="empName" required maxlength="100">
+        </div>
+        <div>
+          <label for="empPhone">رقم الجوال</label>
+          <input id="empPhone" type="tel" maxlength="20">
+        </div>
+        <div>
+          <label for="empSalary">الراتب الشهري بالريال</label>
+          <input id="empSalary" type="number" min="0" step=".01" value="0">
+        </div>
+        <div>
+          <label for="empIqama">رقم الإقامة</label>
+          <input id="empIqama" maxlength="30">
+        </div>
+        <div>
+          <label for="empExpiry">تاريخ انتهاء الإقامة</label>
+          <input id="empExpiry" type="date">
+        </div>
+        <div>
+          <label for="empCommission">العمولة (%)</label>
+          <input id="empCommission" type="number" min="0" max="100" step=".01" value="0">
+        </div>
+      </div>
+      <div class="actions">
+        <button class="btn" type="submit">حفظ الموظفة</button>
+        <button class="btn secondary" type="button" id="clearEmployee">تفريغ الحقول</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="panel">
+    <h2>سجل الموظفات</h2>
+    <div class="filters">
+      <div>
+        <label for="empSearch">بحث بالاسم أو الجوال أو الإقامة</label>
+        <input id="empSearch" placeholder="اكتبي بيانات البحث">
+      </div>
+      <div>
+        <label for="empExpiryFilter">انتهاء الإقامة في تاريخ</label>
+        <input type="date" id="empExpiryFilter">
+      </div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>الاسم</th>
+            <th>الجوال</th>
+            <th>الراتب</th>
+            <th>الإقامة</th>
+            <th>تاريخ الانتهاء</th>
+            <th>الإيرادات</th>
+            <th>العمولة المستحقة</th>
+            <th>الإجراءات</th>
+          </tr>
+        </thead>
+        <tbody id="employeeRows"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- نهاية الجزء الأول: أكمل الجزء الثاني مباشرة بعد هذا السطر -->
+
+<!-- الحجوزات -->
+<section id="appointments" class="page hidden">
+  <div class="panel">
+    <h2>إضافة حجز أو تعديل حجز</h2>
+    <form id="appointmentForm">
+      <input type="hidden" id="aptId">
+      <div class="fields">
+        <div>
+          <label for="aptPhone">جوال العميلة *</label>
+          <input id="aptPhone" type="tel" required maxlength="20" placeholder="05xxxxxxxx">
+        </div>
+        <div>
+          <label for="aptName">اسم العميلة *</label>
+          <input id="aptName" required maxlength="100">
+        </div>
+        <div>
+          <label for="aptService">الخدمة *</label>
+          <input id="aptService" required maxlength="120" placeholder="مثال: مناكير">
+        </div>
+        <div>
+          <label for="aptEmployee">الموظفة</label>
+          <select id="aptEmployee"></select>
+        </div>
+        <div>
+          <label for="aptDate">التاريخ *</label>
+          <input id="aptDate" type="date" required>
+        </div>
+        <div>
+          <label for="aptTime">الوقت *</label>
+          <input id="aptTime" type="time" required>
+        </div>
+        <div>
+          <label for="aptPrice">السعر بالريال</label>
+          <input id="aptPrice" type="number" min="0" step=".01" value="0">
+        </div>
+        <div>
+          <label for="aptStatus">حالة الحجز</label>
+          <select id="aptStatus">
+            <option>بانتظار التأكيد</option>
+            <option>مؤكد</option>
+            <option>مكتمل</option>
+            <option>ملغي</option>
+            <option>لم تحضر</option>
+          </select>
+        </div>
+      </div>
+      <div class="actions">
+        <button class="btn" type="submit">حفظ الحجز</button>
+        <button class="btn secondary" type="button" id="clearAppointment">تفريغ الحقول</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="panel">
+    <h2>إغلاق يوم أو فترة للحجوزات</h2>
+    <p class="muted">يمكن تسجيل يوم إجازة أو وقت غير متاح. سيُمنع الحجز الجديد الذي يتعارض مع الإغلاق.</p>
+    <form id="closureForm">
+      <div class="fields">
+        <div>
+          <label for="closureDate">التاريخ *</label>
+          <input id="closureDate" type="date" required>
+        </div>
+        <div>
+          <label for="closureStart">من الساعة</label>
+          <input id="closureStart" type="time">
+        </div>
+        <div>
+          <label for="closureEnd">إلى الساعة</label>
+          <input id="closureEnd" type="time">
+        </div>
+        <div>
+          <label for="closureEmployee">الموظفة</label>
+          <select id="closureEmployee">
+            <option value="">إغلاق الصالون بالكامل</option>
+          </select>
+        </div>
+        <div>
+          <label for="closureReason">السبب</label>
+          <input id="closureReason" maxlength="150" placeholder="إجازة أو صيانة">
+        </div>
+      </div>
+      <button class="btn" type="submit">إضافة فترة إغلاق</button>
+    </form>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>التاريخ</th>
+            <th>من</th>
+            <th>إلى</th>
+            <th>النطاق</th>
+            <th>السبب</th>
+            <th>الإجراء</th>
+          </tr>
+        </thead>
+        <tbody id="closureRows"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>البحث في الحجوزات</h2>
+    <div class="filters">
+      <div>
+        <label for="aptFrom">من تاريخ</label>
+        <input id="aptFrom" type="date">
+      </div>
+      <div>
+        <label for="aptTo">إلى تاريخ</label>
+        <input id="aptTo" type="date">
+      </div>
+      <div>
+        <label for="aptSearch">بحث بالاسم أو الجوال أو الخدمة</label>
+        <input id="aptSearch" placeholder="بحث عام">
+      </div>
+      <div>
+        <label for="aptFilterStatus">الحالة</label>
+        <select id="aptFilterStatus">
+          <option value="">كل الحالات</option>
+          <option>بانتظار التأكيد</option>
+          <option>مؤكد</option>
+          <option>مكتمل</option>
+          <option>ملغي</option>
+          <option>لم تحضر</option>
+        </select>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>التاريخ</th>
+            <th>الوقت</th>
+            <th>العميلة</th>
+            <th>الجوال</th>
+            <th>الخدمة</th>
+            <th>الموظفة</th>
+            <th>السعر</th>
+            <th>الحالة</th>
+            <th>الإجراءات</th>
+          </tr>
+        </thead>
+        <tbody id="appointmentRows"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- الفواتير -->
+<section id="invoices" class="page hidden">
+  <div class="panel">
+    <h2>البحث في الفواتير والتقارير</h2>
+    <div class="filters">
+      <div>
+        <label for="invFrom">من تاريخ</label>
+        <input type="date" id="invFrom">
+      </div>
+      <div>
+        <label for="invTo">إلى تاريخ</label>
+        <input type="date" id="invTo">
+      </div>
+      <div>
+        <label for="invSearch">رقم الفاتورة أو اسم العميلة أو جوالها</label>
+        <input id="invSearch" placeholder="اكتبي بيانات البحث">
+      </div>
+      <div>
+        <label for="invEmployee">الموظفة</label>
+        <select id="invEmployee">
+          <option value="">كل الموظفات</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="grid" id="invoiceStats"></div>
+
+    <div class="actions">
+      <button class="btn secondary" id="printInvoiceReport" type="button">طباعة التقرير الظاهر</button>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>رقم الفاتورة</th>
+            <th>التاريخ والوقت</th>
+            <th>العميلة</th>
+            <th>الخدمة</th>
+            <th>الموظفة</th>
+            <th>السعر</th>
+            <th>الخصم</th>
+            <th>الإجمالي</th>
+            <th>طريقة الدفع</th>
+            <th>الإجراءات</th>
+          </tr>
+        </thead>
+        <tbody id="invoiceRows"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>ملاحظات مالية</h2>
+    <p class="notice">
+      هذه الفواتير سجل داخلي للمبيعات. لا تُعد وحدها فواتير ضريبية إلكترونية معتمدة،
+      ولا تنفذ تحصيلًا إلكترونيًا حقيقيًا. يلزم إعداد المتطلبات النظامية المناسبة قبل الاستخدام الرسمي.
+    </p>
+  </div>
+</section>
+
+<!-- نهاية الجزء الثاني: ألصق الجزء الثالث مباشرة بعد هذا السطر -->
+
+<!-- الكاشير والمصروفات -->
+<section id="cashier" class="page hidden">
+  <div class="panel">
+    <h2>الكاشير — إصدار فاتورة</h2>
+    <form id="cashierForm">
+      <div class="fields">
+        <div>
+          <label for="posPhone">جوال العميلة *</label>
+          <input id="posPhone" type="tel" required maxlength="20" placeholder="05xxxxxxxx">
+        </div>
+        <div>
+          <label for="posName">اسم العميلة *</label>
+          <input id="posName" required maxlength="100" placeholder="يُملأ تلقائيًا إذا كانت مسجلة">
+        </div>
+        <div>
+          <label for="posService">الخدمة *</label>
+          <input id="posService" required maxlength="120">
+        </div>
+        <div>
+          <label for="posEmployee">الموظفة</label>
+          <select id="posEmployee"></select>
+        </div>
+        <div>
+          <label for="posPrice">السعر بالريال *</label>
+          <input id="posPrice" type="number" min="0" step=".01" required>
+        </div>
+        <div>
+          <label for="posDiscount">الخصم بالريال</label>
+          <input id="posDiscount" type="number" min="0" step=".01" value="0">
+        </div>
+        <div>
+          <label for="posPayment">طريقة الدفع</label>
+          <select id="posPayment">
+            <option>مدى</option>
+            <option>نقدًا</option>
+            <option>تحويل بنكي</option>
+            <option>أخرى</option>
+          </select>
+        </div>
+        <div>
+          <label for="posDate">تاريخ الفاتورة *</label>
+          <input id="posDate" type="date" required>
+        </div>
+      </div>
+      <button class="btn success" type="submit">إصدار الفاتورة وتسجيل الخدمة</button>
+    </form>
+    <p class="muted">تسجيل طريقة الدفع هنا لا ينفذ عملية تحصيل إلكتروني.</p>
+  </div>
+
+  <div class="panel">
+    <h2>تسجيل مصروف</h2>
+    <form id="expenseForm">
+      <div class="fields">
+        <div>
+          <label for="expenseName">وصف المصروف *</label>
+          <input id="expenseName" required maxlength="150" placeholder="إيجار، مواد، كهرباء">
+        </div>
+        <div>
+          <label for="expenseAmount">المبلغ بالريال *</label>
+          <input id="expenseAmount" type="number" min="0" step=".01" required>
+        </div>
+        <div>
+          <label for="expenseDate">تاريخ المصروف *</label>
+          <input id="expenseDate" type="date" required>
+        </div>
+      </div>
+      <button class="btn" type="submit">حفظ المصروف</button>
+    </form>
+  </div>
+
+  <div class="panel">
+    <h2>سجل المصروفات</h2>
+    <div class="filters">
+      <div>
+        <label for="expenseFrom">من تاريخ</label>
+        <input id="expenseFrom" type="date">
+      </div>
+      <div>
+        <label for="expenseTo">إلى تاريخ</label>
+        <input id="expenseTo" type="date">
+      </div>
+      <div>
+        <label for="expenseSearch">بحث بوصف المصروف</label>
+        <input id="expenseSearch" placeholder="مثال: إيجار">
+      </div>
+    </div>
+    <div class="grid" id="expenseStats"></div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>التاريخ</th>
+            <th>الوصف</th>
+            <th>المبلغ</th>
+            <th>الإجراءات</th>
+          </tr>
+        </thead>
+        <tbody id="expenseRows"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- سجل العميلات والولاء -->
+<section id="clients" class="page hidden">
+  <div class="panel">
+    <h2>سجل العميلات ونقاط الولاء</h2>
+    <div class="filters">
+      <div>
+        <label for="clientSearch">البحث بالاسم أو الجوال أو رقم العميلة</label>
+        <input id="clientSearch" placeholder="ابحثي عن عميلة">
+      </div>
+      <div>
+        <label for="clientFrom">من تاريخ الخدمة</label>
+        <input id="clientFrom" type="date">
+      </div>
+      <div>
+        <label for="clientTo">إلى تاريخ الخدمة</label>
+        <input id="clientTo" type="date">
+      </div>
+    </div>
+    <p class="muted">عدد النقاط المعروضة يعتمد على سجل الولاء المسجل في النظام.</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>رقم العميلة</th>
+            <th>الاسم</th>
+            <th>الجوال</th>
+            <th>النقاط</th>
+            <th>آخر خدمة</th>
+            <th>تاريخ آخر خدمة</th>
+            <th>الموظفة</th>
+            <th>عدد الزيارات بالفترة</th>
+            <th>الإجراءات</th>
+          </tr>
+        </thead>
+        <tbody id="clientRows"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>إضافة عميلة أو تعديل بياناتها</h2>
+    <form id="clientForm">
+      <input type="hidden" id="clientId">
+      <div class="fields">
+        <div>
+          <label for="clientName">اسم العميلة *</label>
+          <input id="clientName" required maxlength="100">
+        </div>
+        <div>
+          <label for="clientPhone">رقم الجوال *</label>
+          <input id="clientPhone" required type="tel" maxlength="20">
+        </div>
+        <div>
+          <label for="clientPoints">نقاط الولاء</label>
+          <input id="clientPoints" type="number" min="0" step="1" value="0">
+        </div>
+      </div>
+      <div class="actions">
+        <button class="btn" type="submit">حفظ بيانات العميلة</button>
+        <button class="btn secondary" type="button" id="clearClient">تفريغ الحقول</button>
+      </div>
+    </form>
+  </div>
+</section>
+
+<!-- الإعدادات والنسخ الاحتياطي -->
+<section id="settings" class="page hidden">
+  <div class="panel">
+    <h2>النسخ الاحتياطي</h2>
+    <p>
+      يمكنك تنزيل نسخة من بيانات النظام الموجودة في هذا المتصفح،
+      ثم استعادتها لاحقًا. احتفظي بالنسخة في مكان آمن.
+    </p>
+    <div class="actions">
+      <button class="btn" type="button" id="downloadBackup">تنزيل نسخة احتياطية</button>
+      <button class="btn secondary" type="button" id="chooseRestore">استعادة نسخة احتياطية</button>
+      <input class="hidden" id="restoreFile" type="file" accept=".json,application/json">
+    </div>
+    <p id="backupStatus" class="muted" aria-live="polite"></p>
+  </div>
+
+  <div class="panel">
+    <h2>إعدادات الاتصال</h2>
+    <p class="notice">
+      لم يُضف اتصال Firebase في هذه الأجزاء بعد. يجب إضافة إعداد المشروع،
+      وتسجيل الدخول، وقواعد Firestore المناسبة في الجزء البرمجي الأخير
+      أو في ملفات JavaScript منفصلة.
+    </p>
+    <p class="notice">
+      لا تضعي كلمة مرور المالك أو مفاتيح الخدمة الخاصة داخل ملف HTML عام.
+      لا تحفظي بيانات حقيقية للعميلات أو أرقام الإقامات قبل تطبيق صلاحيات الوصول المناسبة.
+    </p>
+  </div>
+
+  <div class="panel">
+    <h2>معلومات النظام</h2>
+    <p>صالون جودة الأظافر</p>
+    <p>رقم التواصل: <b dir="ltr">+966 54 426 7911</b></p>
+    <a href="https://wa.me/966544267911" target="_blank" rel="noopener noreferrer">
+      التواصل عبر واتساب
+    </a>
+  </div>
+</section>
+
+<!-- ألصق الجزء الرابع مباشرة بعد هذا السطر -->
+
+<script>
+"use strict";
+
+/* ==========================================
+   صالون جودة الأظافر — الجزء الرابع
+   تخزين محلي مؤقت إلى حين ربط Firebase
+========================================== */
+
+const STORAGE_KEY = "qualityNailSalon_v1";
+
+const $ = id => document.getElementById(id);
+
+function localDate() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+}
+
+function uid(prefix="id") {
+  return prefix + "_" + Date.now().toString(36) + "_" +
+    Math.random().toString(36).slice(2,9);
+}
+
+function num(v) {
+  const n = Number(v);
+  return Number.isFinite(n) ? n : 0;
+}
+
+function money(v) {
+  return num(v).toLocaleString("ar-SA", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  }) + " ر.س";
+}
+
+function esc(v) {
+  return String(v ?? "").replace(/[&<>"']/g, c => ({
+    "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;"
+  })[c]);
+}
+
+function normalizePhone(value) {
+  let s = String(value ?? "").replace(/[٠-٩]/g, d =>
+    String("٠١٢٣٤٥٦٧٨٩".indexOf(d))
+  ).replace(/[۰-۹]/g, d =>
+    String("۰۱۲۳۴۵۶۷۸۹".indexOf(d))
+  );
+  s = s.replace(/[^\d]/g, "");
+  if (s.startsWith("00966")) s = s.slice(2);
+  if (s.startsWith("966")) return s;
+  if (s.startsWith("05")) return "966" + s.slice(1);
+  if (s.startsWith("5") && s.length === 9) return "966" + s;
+  return s;
+}
+
+function readDB() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return null;
+    const d = JSON.parse(raw);
+    if (!d || typeof d !== "object") return null;
+    return {
+      employees: Array.isArray(d.employees) ? d.employees : [],
+      appointments: Array.isArray(d.appointments) ? d.appointments : [],
+      invoices: Array.isArray(d.invoices) ? d.invoices : [],
+      clients: Array.isArray(d.clients) ? d.clients : [],
+      expenses: Array.isArray(d.expenses) ? d.expenses : [],
+      closures: Array.isArray(d.closures) ? d.closures : []
+    };
+  } catch {
+    return null;
+  }
+}
+
+let db = readDB() || {
+  employees: [],
+  appointments: [],
+  invoices: [],
+  clients: [],
+  expenses: [],
+  closures: []
+};
+
+function saveDB() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(db));
+    return true;
+  } catch (err) {
+    alert("تعذر حفظ البيانات. قد تكون مساحة المتصفح ممتلئة.");
+    return false;
+  }
+}
+
+function findEmployee(id) {
+  return db.employees.find(e => e.id === id);
+}
+
+function employeeName(id) {
+  return findEmployee(id)?.name || "غير محددة";
+}
+
+function findClientByPhone(phone) {
+  const p = normalizePhone(phone);
+  return db.clients.find(c => normalizePhone(c.phone) === p);
+}
+
+function ensureClient(name, phone) {
+  const p = normalizePhone(phone);
+  let c = db.clients.find(x => normalizePhone(x.phone) === p);
+  if (!c) {
+    c = {id:uid("client"), name:name.trim(), phone:p, pointsAdjustment:0};
+    db.clients.push(c);
+  } else if (name.trim()) {
+    c.name = name.trim();
+  }
+  return c;
+}
+
+function clientEarnedPoints(clientId) {
+  const client = db.clients.find(c => c.id === clientId);
+  if (!client) return 0;
+  const p = normalizePhone(client.phone);
+  return db.invoices
+    .filter(i => normalizePhone(i.phone) === p)
+    .reduce((sum, i) => sum + Math.floor(Math.max(0,num(i.total))/10), 0);
+}
+
+function clientPoints(client) {
+  return Math.max(0, clientEarnedPoints(client.id) + num(client.pointsAdjustment));
+}
+
+function updateClientPoints() {
+  db.clients.forEach(c => {
+    if (c.pointsAdjustment === undefined) c.pointsAdjustment = num(c.points);
+  });
+}
+
+function invoiceTotal(price, discount) {
+  return Math.max(0, num(price) - Math.max(0,num(discount)));
+}
+
+function setMessage(id, msg) {
+  const el = $(id);
+  if (el) el.textContent = msg;
+}
+
+function showPage(page) {
+  document.querySelectorAll(".page").forEach(p =>
+    p.classList.toggle("hidden", p.id !== page)
+  );
+  document.querySelectorAll("#nav button").forEach(b =>
+    b.classList.toggle("active", b.dataset.page === page)
+  );
+}
+
+$("nav").addEventListener("click", e => {
+  const btn = e.target.closest("button[data-page]");
+  if (btn) showPage(btn.dataset.page);
+});
+
+function fillEmployeeSelects() {
+  const configs = [
+    ["aptEmployee", true],
+    ["closureEmployee", true],
+    ["invEmployee", false],
+    ["posEmployee", true]
+  ];
+
+  configs.forEach(([id, allowBlank]) => {
+    const select = $(id);
+    if (!select) return;
+    const old = select.value;
+    const first = id === "closureEmployee"
+      ? '<option value="">إغلاق الصالون بالكامل</option>'
+      : id === "invEmployee"
+      ? '<option value="">كل الموظفات</option>'
+      : '<option value="">غير محددة</option>';
+
+    select.innerHTML = first + db.employees.map(e =>
+      `<option value="${esc(e.id)}">${esc(e.name)}</option>`
+    ).join("");
+
+    if ([...select.options].some(o => o.value === old)) select.value = old;
+  });
+}
+
+function statCard(label, value) {
+  return `<div class="stat"><small>${esc(label)}</small><strong>${esc(value)}</strong></div>`;
+}
+
+function dateInRange(date, from, to) {
+  if (from && date < from) return false;
+  if (to && date > to) return false;
+  return true;
+}
+
+function getDashboardInvoices() {
+  const from = $("dashFrom").value;
+  const to = $("dashTo").value;
+  return db.invoices.filter(i => dateInRange(i.date, from, to));
+}
+
+function getDashboardExpenses() {
+  const from = $("dashFrom").value;
+  const to = $("dashTo").value;
+  return db.expenses.filter(e => dateInRange(e.date, from, to));
+}
+
+function renderChart(containerId, data, mode) {
+  const el = $(containerId);
+  if (!el) return;
+  if (!data.length) {
+    el.innerHTML = '<p class="muted">لا توجد بيانات في الفترة المحددة.</p>';
+    return;
+  }
+
+  const maxAbs = Math.max(1, ...data.map(x => Math.abs(x.value)));
+  el.innerHTML = data.map(item => {
+    const pct = Math.max(2, Math.round(Math.abs(item.value) / maxAbs * 100));
+    const neg = item.value < 0;
+    return `<div class="bar-item">
+      <small>${esc(mode === "invoices" ? item.value : money(item.value))}</small>
+      <div class="bar-area" title="${esc(item.label)}">
+        <div class="bar ${neg ? "negative" : ""}" style="height:${pct}%"></div>
+      </div>
+      <small>${esc(item.label)}</small>
+    </div>`;
+  }).join("");
+}
+
+function renderDashboard() {
+  const invoices = getDashboardInvoices();
+  const expenses = getDashboardExpenses();
+  const revenue = invoices.reduce((s,i) => s + num(i.total), 0);
+  const cost = expenses.reduce((s,e) => s + num(e.amount), 0);
+  const profit = revenue - cost;
+
+  $("stats").innerHTML =
+    statCard("إجمالي الإيرادات", money(revenue)) +
+    statCard("إجمالي المصروفات", money(cost)) +
+    statCard("صافي الدخل قبل الرواتب والالتزامات الأخرى", money(profit)) +
+    statCard("عدد الفواتير", invoices.length) +
+    statCard("عدد الموظفات", db.employees.length) +
+    statCard("عدد الحجوزات", db.appointments.filter(a => a.status !== "ملغي").length);
+
+  const dates = [...new Set([
+    ...invoices.map(i => i.date),
+    ...expenses.map(e => e.date)
+  ])].filter(Boolean).sort();
+
+  const mode = $("chartMode").value;
+  const chartData = dates.map(date => {
+    const dayInvoices = invoices.filter(i => i.date === date);
+    const dayExpenses = expenses.filter(e => e.date === date);
+    const dayRevenue = dayInvoices.reduce((s,i) => s + num(i.total), 0);
+    const dayCost = dayExpenses.reduce((s,e) => s + num(e.amount), 0);
+    let value = dayRevenue;
+    if (mode === "expenses") value = dayCost;
+    if (mode === "profit") value = dayRevenue - dayCost;
+    if (mode === "invoices") value = dayInvoices.length;
+    return {label:date.slice(5), value};
+  });
+
+  renderChart("mainChart", chartData, mode);
+
+  const staffData = db.employees.map(e => ({
+    label:e.name,
+    value:invoices.filter(i => i.employeeId === e.id)
+      .reduce((s,i) => s + num(i.total), 0)
+  }));
+  renderChart("staffChart", staffData, "revenue");
+
+  $("dashSummary").innerHTML = `
+    <p>الفواتير: <b>${invoices.length}</b></p>
+    <p>الإيرادات: <b>${money(revenue)}</b></p>
+    <p>المصروفات المسجلة: <b>${money(cost)}</b></p>
+    <p>صافي الإيرادات بعد المصروفات المسجلة: <b>${money(profit)}</b></p>
+    <p class="muted">هذا الملخص لا يخصم الرواتب أو الضرائب أو أي التزامات لم تُسجّل كمصروفات.</p>`;
+}
+
+function clearEmployeeForm() {
+  $("employeeForm").reset();
+  $("empId").value = "";
+  $("empSalary").value = "0";
+  $("empCommission").value = "0";
+}
+
+$("clearEmployee").addEventListener("click", clearEmployeeForm);
+
+$("employeeForm").addEventListener("submit", e => {
+  e.preventDefault();
+  const id = $("empId").value;
+  const record = {
+    id: id || uid("emp"),
+    name: $("empName").value.trim(),
+    phone: normalizePhone($("empPhone").value),
+    salary: Math.max(0,num($("empSalary").value)),
+    iqama: $("empIqama").value.trim(),
+    expiry: $("empExpiry").value,
+    commission: Math.min(100,Math.max(0,num($("empCommission").value)))
+  };
+  if (!record.name) return alert("اكتبي اسم الموظفة.");
+  const index = db.employees.findIndex(x => x.id === id);
+  if (index >= 0) db.employees[index] = record;
+  else db.employees.push(record);
+  saveDB();
+  clearEmployeeForm();
+  refreshAll();
+});
+
+function renderEmployees() {
+  const q = $("empSearch").value.trim().toLowerCase();
+  const expiry = $("empExpiryFilter").value;
+  const rows = db.employees.filter(e => {
+    const match = [e.name,e.phone,e.iqama].some(v =>
+      String(v || "").toLowerCase().includes(q)
+    );
+    return match && (!expiry || e.expiry === expiry);
+  });
+
+  $("employeeRows").innerHTML = rows.map(e => {
+    const invoices = db.invoices.filter(i => i.employeeId === e.id);
+    const revenue = invoices.reduce((s,i) => s + num(i.total), 0);
+    const commission = invoices.reduce((s,i) =>
+      s + num(i.total) * num(e.commission)/100, 0);
+    return `<tr>
+      <td>${esc(e.name)}</td>
+      <td>${esc(e.phone || "—")}</td>
+      <td>${money(e.salary)}</td>
+      <td>${esc(e.iqama || "—")}</td>
+      <td>${esc(e.expiry || "—")}</td>
+      <td>${money(revenue)}</td>
+      <td>${money(commission)}</td>
+      <td>
+        <button class="btn secondary" data-action="edit-employee" data-id="${esc(e.id)}">تعديل</button>
+        <button class="btn danger" data-action="delete-employee" data-id="${esc(e.id)}">حذف</button>
+      </td>
+    </tr>`;
+  }).join("") || '<tr><td colspan="8">لا توجد موظفات مطابقة للبحث.</td></tr>';
+}
+
+$("empSearch").addEventListener("input", renderEmployees);
+$("empExpiryFilter").addEventListener("change", renderEmployees);
+
+function clearAppointmentForm() {
+  $("appointmentForm").reset();
+  $("aptId").value = "";
+  $("aptPrice").value = "0";
+  $("aptStatus").value = "بانتظار التأكيد";
+}
+
+$("clearAppointment").addEventListener("click", clearAppointmentForm);
+
+function closureConflict(date, time, employeeId) {
+  return db.closures.some(c => {
+    if (c.date !== date) return false;
+    if (c.employeeId && c.employeeId !== employeeId) return false;
+    if (!c.start || !c.end) return true;
+    return time >= c.start && time < c.end;
+  });
+}
+
+function appointmentConflict(record) {
+  return db.appointments.some(a =>
+    a.id !== record.id &&
+    a.date === record.date &&
+    a.time === record.time &&
+    a.status !== "ملغي" &&
+    record.status !== "ملغي" &&
+    record.employeeId &&
+    a.employeeId === record.employeeId
+  );
+}
+
+$("appointmentForm").addEventListener("submit", e => {
+  e.preventDefault();
+  const id = $("aptId").value;
+  const phone = normalizePhone($("aptPhone").value);
+  const record = {
+    id: id || uid("apt"),
+    phone,
+    name: $("aptName").value.trim(),
+    service: $("aptService").value.trim(),
+    employeeId: $("aptEmployee").value,
+    date: $("aptDate").value,
+    time: $("aptTime").value,
+    price: Math.max(0,num($("aptPrice").value)),
+    status: $("aptStatus").value
+  };
+
+  if (!record.date || !record.time || !record.name || !record.service || !phone) {
+    return alert("تأكدي من تعبئة بيانات الحجز المطلوبة.");
+  }
+  if (record.status !== "ملغي" && closureConflict(record.date,record.time,record.employeeId)) {
+    return alert("هذا الموعد يقع ضمن فترة إغلاق مسجلة.");
+  }
+  if (appointmentConflict(record)) {
+    return alert("لدى الموظفة حجز آخر في التاريخ والوقت نفسيهما.");
+  }
+
+  ensureClient(record.name, phone);
+  const index = db.appointments.findIndex(a => a.id === id);
+  if (index >= 0) db.appointments[index] = record;
+  else db.appointments.push(record);
+
+  saveDB();
+  clearAppointmentForm();
+  refreshAll();
+});
+
+$("closureForm").addEventListener("submit", e => {
+  e.preventDefault();
+  const date = $("closureDate").value;
+  const start = $("closureStart").value;
+  const end = $("closureEnd").value;
+  if (!date) return alert("اختاري تاريخ الإغلاق.");
+  if ((start && !end) || (!start && end)) return alert("أدخلي وقت البداية والنهاية معًا أو اتركيهما فارغين لإغلاق اليوم كاملًا.");
+  if (start && end && start >= end) return alert("وقت النهاية يجب أن يكون بعد وقت البداية.");
+
+  const closure = {
+    id:uid("closure"),
+    date,
+    start,
+    end,
+    employeeId:$("closureEmployee").value,
+    reason:$("closureReason").value.trim()
+  };
+
+  const conflict = db.appointments.some(a =>
+    a.date === date &&
+    a.status !== "ملغي" &&
+    (!closure.employeeId || a.employeeId === closure.employeeId) &&
+    (!start || !end || (a.time >= start && a.time < end))
+  );
+
+  if (conflict && !confirm("يوجد حجز يتعارض مع الإغلاق. هل تريدين إضافة الإغلاق على أي حال؟")) return;
+  db.closures.push(closure);
+  saveDB();
+  $("closureForm").reset();
+  refreshAll();
+});
+
+function renderClosures() {
+  $("closureRows").innerHTML = db.closures.slice().sort((a,b) =>
+    (a.date + a.start).localeCompare(b.date + b.start)
+  ).map(c => `<tr>
+    <td>${esc(c.date)}</td>
+    <td>${esc(c.start || "اليوم كامل")}</td>
+    <td>${esc(c.end || "—")}</td>
+    <td>${esc(c.employeeId ? employeeName(c.employeeId) : "الصالون بالكامل")}</td>
+    <td>${esc(c.reason || "—")}</td>
+    <td><button class="btn danger" data-action="delete-closure" data-id="${esc(c.id)}">حذف</button></td>
+  </tr>`).join("") || '<tr><td colspan="6">لا توجد فترات إغلاق.</td></tr>';
+}
+
+function renderAppointments() {
+  const from = $("aptFrom").value, to = $("aptTo").value;
+  const q = $("aptSearch").value.trim().toLowerCase();
+  const status = $("aptFilterStatus").value;
+
+  const rows = db.appointments.filter(a =>
+    dateInRange(a.date,from,to) &&
+    (!status || a.status === status) &&
+    [a.name,a.phone,a.service,employeeName(a.employeeId)].some(v =>
+      String(v || "").toLowerCase().includes(q)
+    )
+  ).sort((a,b) => (a.date+a.time).localeCompare(b.date+b.time));
+
+  $("appointmentRows").innerHTML = rows.map(a => `<tr>
+    <td>${esc(a.date)}</td>
+    <td>${esc(a.time)}</td>
+    <td>${esc(a.name)}</td>
+    <td>${esc(a.phone)}</td>
+    <td>${esc(a.service)}</td>
+    <td>${esc(employeeName(a.employeeId))}</td>
+    <td>${money(a.price)}</td>
+    <td>${esc(a.status)}</td>
+    <td>
+      <button class="btn secondary" data-action="edit-appointment" data-id="${esc(a.id)}">تعديل</button>
+      <button class="btn danger" data-action="cancel-appointment" data-id="${esc(a.id)}">إلغاء</button>
+      <button class="btn danger" data-action="delete-appointment" data-id="${esc(a.id)}">حذف</button>
+    </td>
+  </tr>`).join("") || '<tr><td colspan="9">لا توجد حجوزات مطابقة.</td></tr>';
+}
+
+["aptFrom","aptTo","aptSearch","aptFilterStatus"].forEach(id =>
+  $(id).addEventListener(id === "aptSearch" ? "input" : "change", renderAppointments)
+);
+
+function clearInvoiceFilters() {
+  $("invFrom").value = "";
+  $("invTo").value = "";
+  $("invSearch").value = "";
+  $("invEmployee").value = "";
+}
+
+function renderInvoices() {
+  const from = $("invFrom").value, to = $("invTo").value;
+  const q = $("invSearch").value.trim().toLowerCase();
+  const emp = $("invEmployee").value;
+  const rows = db.invoices.filter(i =>
+    dateInRange(i.date,from,to) &&
+    (!emp || i.employeeId === emp) &&
+    [i.number,i.name,i.phone,i.service].some(v =>
+      String(v || "").toLowerCase().includes(q)
+    )
+  ).sort((a,b) => (b.createdAt || "").localeCompare(a.createdAt || ""));
+
+  const revenue = rows.reduce((s,i) => s + num(i.total), 0);
+  const discounts = rows.reduce((s,i) => s + num(i.discount), 0);
+  $("invoiceStats").innerHTML =
+    statCard("عدد الفواتير", rows.length) +
+    statCard("إجمالي المبيعات", money(revenue)) +
+    statCard("الخصومات", money(discounts));
+
+  $("invoiceRows").innerHTML = rows.map(i => `<tr>
+    <td>${esc(i.number)}</td>
+    <td>${esc(i.date)} ${esc(i.time || "")}</td>
+    <td>${esc(i.name)}</td>
+    <td>${esc(i.service)}</td>
+    <td>${esc(employeeName(i.employeeId))}</td>
+    <td>${money(i.price)}</td>
+    <td>${money(i.discount)}</td>
+    <td>${money(i.total)}</td>
+    <td>${esc(i.payment)}</td>
+    <td>
+      <button class="btn secondary" data-action="edit-invoice" data-id="${esc(i.id)}">تعديل</button>
+      <button class="btn danger" data-action="delete-invoice" data-id="${esc(i.id)}">حذف</button>
+      <button class="btn secondary" data-action="print-invoice" data-id="${esc(i.id)}">طباعة</button>
+    </td>
+  </tr>`).join("") || '<tr><td colspan="10">لا توجد فواتير مطابقة.</td></tr>';
+}
+
+["invFrom","invTo","invEmployee"].forEach(id =>
+  $(id).addEventListener("change", renderInvoices)
+);
+$("invSearch").addEventListener("input", renderInvoices);
+
+function issueInvoice(data) {
+  const client = ensureClient(data.name, data.phone);
+  const total = invoiceTotal(data.price, data.discount);
+  const invoice = {
+    id:uid("inv"),
+    number:"QNS-" + Date.now().toString().slice(-8),
+    date:data.date || localDate(),
+    time:new Date().toLocaleTimeString("ar-SA",{hour:"2-digit",minute:"2-digit"}),
+    createdAt:new Date().toISOString(),
+    clientId:client.id,
+    name:data.name.trim(),
+    phone:normalizePhone(data.phone),
+    service:data.service.trim(),
+    employeeId:data.employeeId || "",
+    price:Math.max(0,num(data.price)),
+    discount:Math.min(Math.max(0,num(data.discount)),Math.max(0,num(data.price))),
+    total,
+    payment:data.payment || "نقدًا"
+  };
+  db.invoices.push(invoice);
+  saveDB();
+  refreshAll();
+  return invoice;
+}
+
+$("cashierForm").addEventListener("submit", e => {
+  e.preventDefault();
+  const name = $("posName").value.trim();
+  const phone = normalizePhone($("posPhone").value);
+  const price = num($("posPrice").value);
+  const discount = num($("posDiscount").value);
+  if (!name || !phone || !$("posService").value.trim()) return alert("أكملي بيانات الفاتورة.");
+  if (price < 0 || discount < 0 || discount > price) return alert("راجعي السعر والخصم.");
+  if (!$("posDate").value) return alert("اختاري تاريخ الفاتورة.");
+
+  const invoice = issueInvoice({
+    name,phone,
+    service:$("posService").value,
+    employeeId:$("posEmployee").value,
+    price,discount,
+    payment:$("posPayment").value,
+    date:$("posDate").value
+  });
+  $("cashierForm").reset();
+  $("posDate").value = localDate();
+  $("posDiscount").value = "0";
+  if (confirm("تم تسجيل الفاتورة. هل تريدين طباعتها الآن؟")) printInvoice(invoice.id);
+});
+
+$("posPhone").addEventListener("change", () => {
+  const c = findClientByPhone($("posPhone").value);
+  if (c) $("posName").value = c.name;
+});
+
+$("expenseForm").addEventListener("submit", e => {
+  e.preventDefault();
+  const record = {
+    id:uid("expense"),
+    name:$("expenseName").value.trim(),
+    amount:num($("expenseAmount").value),
+    date:$("expenseDate").value
+  };
+  if (!record.name || !record.date || record.amount < 0) return alert("راجعي بيانات المصروف.");
+  db.expenses.push(record);
+  saveDB();
+  $("expenseForm").reset();
+  $("expenseDate").value = localDate();
+  refreshAll();
+});
+
+function renderExpenses() {
+  const from = $("expenseFrom").value, to = $("expenseTo").value;
+  const q = $("expenseSearch").value.trim().toLowerCase();
+  const rows = db.expenses.filter(x =>
+    dateInRange(x.date,from,to) && x.name.toLowerCase().includes(q)
+  ).sort((a,b) => b.date.localeCompare(a.date));
+  const total = rows.reduce((s,x) => s + num(x.amount), 0);
+  $("expenseStats").innerHTML =
+    statCard("عدد المصروفات", rows.length) +
+    statCard("إجمالي المصروفات", money(total));
+
+  $("expenseRows").innerHTML = rows.map(x => `<tr>
+    <td>${esc(x.date)}</td>
+    <td>${esc(x.name)}</td>
+    <td>${money(x.amount)}</td>
+    <td>
+      <button class="btn secondary" data-action="edit-expense" data-id="${esc(x.id)}">تعديل</button>
+      <button class="btn danger" data-action="delete-expense" data-id="${esc(x.id)}">حذف</button>
+    </td>
+  </tr>`).join("") || '<tr><td colspan="4">لا توجد مصروفات مطابقة.</td></tr>';
+}
+
+["expenseFrom","expenseTo"].forEach(id =>
+  $(id).addEventListener("change", renderExpenses)
+);
+$("expenseSearch").addEventListener("input", renderExpenses);
+
+function renderClients() {
+  const q = $("clientSearch").value.trim().toLowerCase();
+  const from = $("clientFrom").value, to = $("clientTo").value;
+
+  const rows = db.clients.filter(c =>
+    [c.id,c.name,c.phone].some(v => String(v || "").toLowerCase().includes(q))
+  ).map(c => {
+    const invoices = db.invoices.filter(i =>
+      normalizePhone(i.phone) === normalizePhone(c.phone) &&
+      dateInRange(i.date,from,to)
+    ).sort((a,b) => (b.date+b.time).localeCompare(a.date+a.time));
+    const latest = invoices[0];
+    return {c,invoices,latest};
+  });
+
+  $("clientRows").innerHTML = rows.map(({c,invoices,latest}) => `<tr>
+    <td>${esc(c.id)}</td>
+    <td>${esc(c.name)}</td>
+    <td>${esc(c.phone)}</td>
+    <td>${clientPoints(c)}</td>
+    <td>${esc(latest?.service || "—")}</td>
+    <td>${esc(latest?.date || "—")}</td>
+    <td>${esc(latest ? employeeName(latest.employeeId) : "—")}</td>
+    <td>${invoices.length}</td>
+    <td>
+      <button class="btn secondary" data-action="edit-client" data-id="${esc(c.id)}">تعديل</button>
+      <button class="btn danger" data-action="delete-client" data-id="${esc(c.id)}">حذف</button>
+    </td>
+  </tr>`).join("") || '<tr><td colspan="9">لا توجد عميلات مطابقة.</td></tr>';
+}
+
+["clientSearch"].forEach(id => $(id).addEventListener("input", renderClients));
+["clientFrom","clientTo"].forEach(id => $(id).addEventListener("change", renderClients));
+
+function clearClientForm() {
+  $("clientForm").reset();
+  $("clientId").value = "";
+  $("clientPoints").value = "0";
+}
+$("clearClient").addEventListener("click", clearClientForm);
+
+$("clientPhone").addEventListener("change", () => {
+  const c = findClientByPhone($("clientPhone").value);
+  if (c && !$("clientId").value) {
+    $("clientName").value = c.name;
+    $("clientPoints").value = clientPoints(c);
+  }
+});
+
+$("clientForm").addEventListener("submit", e => {
+  e.preventDefault();
+  const id = $("clientId").value;
+  const name = $("clientName").value.trim();
+  const phone = normalizePhone($("clientPhone").value);
+  const points = Math.max(0,Math.floor(num($("clientPoints").value)));
+  if (!name || !phone) return alert("أدخلي الاسم ورقم الجوال.");
+
+  const duplicate = db.clients.find(c =>
+    normalizePhone(c.phone) === phone && c.id !== id
+  );
+  if (duplicate) return alert("رقم الجوال مسجل لعميلة أخرى. عدّلي السجل الموجود.");
+
+  let c = db.clients.find(x => x.id === id);
+  if (c) {
+    const oldPoints = clientPoints(c);
+    c.name = name;
+    c.phone = phone;
+    c.pointsAdjustment = points - clientEarnedPoints(c.id);
+    // الحفاظ على النقاط التي أدخلتها صاحبة الصالون كرصيد يدوي.
+  } else {
+    c = {id:uid("client"),name,phone,pointsAdjustment:points};
+    db.clients.push(c);
+  }
+  saveDB();
+  clearClientForm();
+  refreshAll();
+});
+
+function printInvoice(id) {
+  const i = db.invoices.find(x => x.id === id);
+  if (!i) return;
+  const w = window.open("", "_blank", "width=700,height=700");
+  if (!w) return alert("اسمحي بالنوافذ المنبثقة حتى تتمكني من الطباعة.");
+  w.document.write(`<!doctype html><html lang="ar" dir="rtl"><head>
+    <meta charset="utf-8"><title>فاتورة ${esc(i.number)}</title>
+    <style>body{font-family:Tahoma,Arial;padding:25px;color:#30242b}
+    h1{color:#71344f}table{width:100%;border-collapse:collapse}
+    td,th{padding:12px;border:1px solid #ddd;text-align:right}
+    </style></head><body>
+    <h1>صالون جودة الأظافر</h1>
+    <h2>فاتورة داخلية</h2>
+    <p>رقم الفاتورة: ${esc(i.number)}</p>
+    <p>التاريخ: ${esc(i.date)} ${esc(i.time || "")}</p>
+    <p>العميلة: ${esc(i.name)}</p>
+    <p>الجوال: ${esc(i.phone)}</p>
+    <table><tr><th>الخدمة</th><th>الموظفة</th><th>السعر</th><th>الخصم</th><th>الإجمالي</th></tr>
+    <tr><td>${esc(i.service)}</td><td>${esc(employeeName(i.employeeId))}</td>
+    <td>${money(i.price)}</td><td>${money(i.discount)}</td><td>${money(i.total)}</td></tr></table>
+    <p>طريقة الدفع: ${esc(i.payment)}</p>
+    <p><small>سجل داخلي، وليس بحد ذاته فاتورة ضريبية إلكترونية معتمدة.</small></p>
+    <script>window.onload=()=>window.print();<\/script>
+    </body></html>`);
+  w.document.close();
+}
+
+$("printInvoiceReport").addEventListener("click", () => {
+  const content = $("invoiceRows").closest("table").outerHTML;
+  const w = window.open("", "_blank", "width=900,height=700");
+  if (!w) return alert("اسمحي بالنوافذ المنبثقة حتى تتمكني من الطباعة.");
+  w.document.write(`<html lang="ar" dir="rtl"><head><meta charset="utf-8">
+    <title>تقرير الفواتير</title><style>
+    body{font-family:Tahoma;padding:20px}table{width:100%;border-collapse:collapse}
+    td,th{padding:8px;border:1px solid #ddd;text-align:right}
+    </style></head><body><h2>تقرير فواتير صالون جودة الأظافر</h2>${content}
+    <script>window.onload=()=>window.print();<\/script></body></html>`);
+  w.document.close();
+});
+
+function handleAction(action, id) {
+  const confirmDelete = msg => confirm(msg + "؟ لا يمكن التراجع عن هذه العملية.");
+  if (action === "edit-employee") {
+    const e = findEmployee(id); if (!e) return;
+    $("empId").value=e.id; $("empName").value=e.name; $("empPhone").value=e.phone || "";
+    $("empSalary").value=e.salary || 0; $("empIqama").value=e.iqama || "";
+    $("empExpiry").value=e.expiry || ""; $("empCommission").value=e.commission || 0;
+    showPage("employees"); window.scrollTo(0,0);
+  }
+  if (action === "delete-employee") {
+    if (!confirmDelete("حذف الموظفة")) return;
+    db.employees=db.employees.filter(e=>e.id!==id); saveDB(); refreshAll();
+  }
+  if (action === "edit-appointment") {
+    const a=db.appointments.find(x=>x.id===id); if(!a)return;
+    $("aptId").value=a.id; $("aptPhone").value=a.phone; $("aptName").value=a.name;
+    $("aptService").value=a.service; $("aptEmployee").value=a.employeeId || "";
+    $("aptDate").value=a.date; $("aptTime").value=a.time;
+    $("aptPrice").value=a.price; $("aptStatus").value=a.status;
+    showPage("appointments"); window.scrollTo(0,0);
+  }
+  if (action === "cancel-appointment") {
+    const a=db.appointments.find(x=>x.id===id); if(!a)return;
+    if(!confirm("هل تريدين إلغاء هذا الحجز؟"))return;
+    a.status="ملغي"; saveDB(); refreshAll();
+  }
+  if (action === "delete-appointment") {
+    if(!confirmDelete("حذف الحجز"))return;
+    db.appointments=db.appointments.filter(a=>a.id!==id); saveDB(); refreshAll();
+  }
+  if (action === "delete-closure") {
+    if(!confirmDelete("حذف فترة الإغلاق"))return;
+    db.closures=db.closures.filter(c=>c.id!==id); saveDB(); refreshAll();
+  }
+  if (action === "edit-invoice") {
+    const i=db.invoices.find(x=>x.id===id); if(!i)return;
+    const price=prompt("السعر الجديد بالريال:",i.price); if(price===null)return;
+    const p=Number(price); if(!Number.isFinite(p)||p<0)return alert("السعر غير صحيح.");
+    const discount=prompt("الخصم الجديد بالريال:",i.discount); if(discount===null)return;
+    const d=Number(discount); if(!Number.isFinite(d)||d<0||d>p)return alert("الخصم غير صحيح.");
+    const service=prompt("اسم الخدمة:",i.service); if(service===null)return;
+    i.price=p; i.discount=d; i.total=invoiceTotal(p,d); i.service=service.trim();
+    saveDB(); refreshAll();
+  }
+  if (action === "delete-invoice") {
+    if(!confirmDelete("حذف الفاتورة"))return;
+    db.invoices=db.invoices.filter(i=>i.id!==id); saveDB(); refreshAll();
+  }
+  if (action === "print-invoice") printInvoice(id);
+  if (action === "edit-expense") {
+    const x=db.expenses.find(e=>e.id===id); if(!x)return;
+    const name=prompt("وصف المصروف:",x.name); if(name===null)return;
+    const amount=prompt("المبلغ بالريال:",x.amount); if(amount===null)return;
+    const n=Number(amount); if(!Number.isFinite(n)||n<0)return alert("المبلغ غير صحيح.");
+    const date=prompt("التاريخ (YYYY-MM-DD):",x.date); if(date===null)return;
+    x.name=name.trim(); x.amount=n; x.date=date; saveDB(); refreshAll();
+  }
+  if (action === "delete-expense") {
+    if(!confirmDelete("حذف المصروف"))return;
+    db.expenses=db.expenses.filter(x=>x.id!==id); saveDB(); refreshAll();
+  }
+  if (action === "edit-client") {
+    const c=db.clients.find(x=>x.id===id); if(!c)return;
+    $("clientId").value=c.id; $("clientName").value=c.name;
+    $("clientPhone").value=c.phone; $("clientPoints").value=clientPoints(c);
+    showPage("clients"); window.scrollTo(0,0);
+  }
+  if (action === "delete-client") {
+    if(!confirmDelete("حذف بيانات العميلة"))return;
+    db.clients=db.clients.filter(c=>c.id!==id); saveDB(); refreshAll();
+  }
+}
+
+document.addEventListener("click", e => {
+  const btn = e.target.closest("[data-action]");
+  if (btn) handleAction(btn.dataset.action,btn.dataset.id);
+});
+
+$("applyDashboard").addEventListener("click", renderDashboard);
+$("resetDashboard").addEventListener("click", () => {
+  $("dashFrom").value = ""; $("dashTo").value = "";
+  renderDashboard();
+});
+$("chartMode").addEventListener("change", renderDashboard);
+
+$("downloadBackup").addEventListener("click", () => {
+  const blob = new Blob([JSON.stringify({
+    app:"Quality Nail Salon",
+    version:1,
+    exportedAt:new Date().toISOString(),
+    data:db
+  },null,2)],{type:"application/json"});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement("a");
+  a.href=url; a.download="quality-nail-salon-backup-"+localDate()+".json";
+  a.click(); URL.revokeObjectURL(url);
+  setMessage("backupStatus","تم تجهيز النسخة الاحتياطية للتنزيل.");
+});
+
+$("chooseRestore").addEventListener("click", () => $("restoreFile").click());
+
+$("restoreFile").addEventListener("change", async e => {
+  const file=e.target.files?.[0]; if(!file)return;
+  try {
+    const parsed=JSON.parse(await file.text());
+    const source=parsed.data || parsed;
+    const keys=["employees","appointments","invoices","clients","expenses","closures"];
+    if(!source || !keys.every(k=>Array.isArray(source[k]))) {
+      throw new Error("ملف النسخة لا يحتوي على بنية بيانات النظام المطلوبة.");
     }
+    if(!confirm("ستُستبدل بيانات هذا المتصفح بالبيانات الموجودة في النسخة. هل تريدين المتابعة؟")) return;
+    db={
+      employees:source.employees,
+      appointments:source.appointments,
+      invoices:source.invoices,
+      clients:source.clients,
+      expenses:source.expenses,
+      closures:source.closures
+    };
+    updateClientPoints();
+    saveDB(); refreshAll();
+    setMessage("backupStatus","تمت استعادة البيانات في هذا المتصفح.");
+  } catch(err) {
+    alert("تعذرت استعادة النسخة: " + err.message);
+  } finally {
+    e.target.value="";
+  }
+});
 
-    function saveStaffList(data) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-    }
+function refreshAll() {
+  fillEmployeeSelects();
+  renderDashboard();
+  renderEmployees();
+  renderAppointments();
+  renderClosures();
+  renderInvoices();
+  renderExpenses();
+  renderClients();
+}
 
-    function setCurrentDate() {
-      const now = new Date();
-      const dateString = now.toLocaleDateString("ar-EG", {
-        weekday: "long",
-        day: "numeric",
-        month: "long",
-        year: "numeric"
-      });
+function init() {
+  updateClientPoints();
+  $("posDate").value=localDate();
+  $("expenseDate").value=localDate();
+  $("aptDate").value=localDate();
+  refreshAll();
+  saveDB();
+}
 
-      todayBox.textContent = dateString;
-    }
+init();
+</script>
 
-    function loginOwner() {
-      const email = prompt("أدخل البريد الإلكتروني لصاحبة الصالون:");
-      const pass = prompt("أدخل كلمة المرور:");
-      if (email === OWNER_EMAIL && pass === OWNER_PASS) {
-        ownerHeroText.textContent = "مرحباً صاحبة صالون جودة الأظافر ✨👑";
-        alert("تم تسجيل الدخول بنجاح");
-        return true;
-      }
-      alert("بيانات الدخول غير صحيحة");
-      return false;
-    }
-
-    function openStaffModal() {
-      document.getElementById("staffModal").classList.add("active");
-    }
-
-    function closeStaffModal() {
-      document.getElementById("staffModal").classList.remove("active");
-      document.getElementById("staffForm").reset();
-    }
-
-    function addStaffMember(event) {
-      event.preventDefault();
-
-      const name = document.getElementById("staffName").value.trim();
-      const username = document.getElementById("staffUser").value.trim();
-      const password = document.getElementById("staffPass").value.trim();
-
-      if (!name || !username || !password) {
-        alert("يرجى تعبئة جميع الحقول");
-        return;
-      }
-
-      const list = getStaffList();
-      const found = list.some(item => item.username === username);
-      if (found) {
-        alert("اسم المستخدم موجود مسبقاً");
-        return;
-      }
-
-      list.push({ name, username, password });
-      saveStaffList(list);
-
-      alert("تمت إضافة الموظفة بنجاح");
-      closeStaffModal();
-    }
-
-    document.getElementById("openStaffModalBtn").addEventListener("click", openStaffModal);
-    document.getElementById("closeStaffModalBtn").addEventListener("click", closeStaffModal);
-    document.getElementById("staffForm").addEventListener("submit", addStaffMember);
-
-    document.getElementById("logoutBtn").addEventListener("click", () => {
-      const ok = loginOwner();
-      if (ok) {
-        ownerHeroText.textContent = "مرحباً صاحبة صالون جودة الأظافر ✨👑";
-      }
-    });
-
-    setCurrentDate();
-
-    // لو أردت تفعيل تسجيل الدخول فوراً
-    // loginOwner();
-  </script>
+</main>
 </body>
 </html>
