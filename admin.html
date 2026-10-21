@@ -1,1 +1,184 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>لوحة الإدارة</title>
+  <style>
+    body {
+      margin: 0;
+      background: #fff9fb;
+      font-family: "Segoe UI", Tahoma, sans-serif;
+      display: grid;
+      place-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    .box {
+      width: min(700px, 100%);
+      background: white;
+      border: 1px solid #f0d7df;
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: 0 18px 36px rgba(199, 92, 122, 0.12);
+    }
+    h2 {
+      margin-top: 0;
+      color: #c65d7a;
+      text-align: center;
+    }
+    .login-form {
+      display: grid;
+      gap: 12px;
+    }
+    input {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid #efd4dc;
+      border-radius: 12px;
+      font-size: 16px;
+    }
+    .btn {
+      width: 100%;
+      border: none;
+      background: linear-gradient(135deg, #d96b87, #e18aa4);
+      color: white;
+      border-radius: 12px;
+      padding: 12px;
+      font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .dashboard {
+      display: none;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 18px;
+    }
+    th, td {
+      padding: 12px 10px;
+      border-bottom: 1px solid #f0d7df;
+      text-align: center;
+    }
+    th {
+      background: #fff1f5;
+      color: #8a5d6e;
+    }
+    .logout {
+      background: #d94f4f;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      padding: 10px 16px;
+      cursor: pointer;
+      margin-top: 12px;
+    }
+    .alert {
+      margin-top: 12px;
+      padding: 10px;
+      border-radius: 10px;
+      display: none;
+      font-size: 14px;
+    }
+    .alert.error {
+      display: block;
+      background: #fde8e8;
+      color: #b33636;
+    }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <div id="adminLoginBox">
+      <h2>تسجيل دخول الإدارة</h2>
+      <div class="login-form">
+        <input id="adminEmail" type="email" placeholder="البريد الإلكتروني" value="admin@nailqualitysalon.com" />
+        <input id="adminPassword" type="password" placeholder="كلمة المرور" value="Admin123!" />
+        <button class="btn" id="adminLoginBtn">دخول</button>
+      </div>
+      <div id="adminError" class="alert error"></div>
+    </div>
 
+    <div id="adminDashboard" class="dashboard">
+      <h2>لوحة المالك</h2>
+      <button class="logout" id="logoutAdminBtn">تسجيل الخروج</button>
+
+      <table>
+        <thead>
+          <tr>
+            <th>الاسم</th>
+            <th>رقم الجوال</th>
+            <th>تاريخ التسجيل</th>
+          </tr>
+        </thead>
+        <tbody id="clientsTableBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    const ADMIN_EMAIL = "admin@nailqualitysalon.com";
+    const ADMIN_PASSWORD = "Admin123!";
+
+    const CLIENTS_KEY = "nail_quality_clients";
+    const ADMIN_SESSION_KEY = "nail_quality_admin_session";
+
+    function getClients() {
+      return JSON.parse(localStorage.getItem(CLIENTS_KEY) || "[]");
+    }
+
+    function renderClients() {
+      const clients = getClients();
+      const tbody = document.getElementById("clientsTableBody");
+
+      if (!clients.length) {
+        tbody.innerHTML = `<tr><td colspan="3">لا توجد عميلات مسجلات</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = clients.map(client => `
+        <tr>
+          <td>${client.name}</td>
+          <td>${client.phone}</td>
+          <td>${new Date(client.createdAt).toLocaleString("ar-SA")}</td>
+        </tr>
+      `).join("");
+    }
+
+    function checkAdminSession() {
+      const isLogged = localStorage.getItem(ADMIN_SESSION_KEY) === "true";
+      if (isLogged) {
+        document.getElementById("adminLoginBox").style.display = "none";
+        document.getElementById("adminDashboard").style.display = "block";
+        renderClients();
+      }
+    }
+
+    document.getElementById("adminLoginBtn").addEventListener("click", () => {
+      const email = document.getElementById("adminEmail").value.trim();
+      const password = document.getElementById("adminPassword").value.trim();
+
+      if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
+        localStorage.setItem(ADMIN_SESSION_KEY, "true");
+        document.getElementById("adminLoginBox").style.display = "none";
+        document.getElementById("adminDashboard").style.display = "block";
+        renderClients();
+      } else {
+        const err = document.getElementById("adminError");
+        err.textContent = "بيانات الإدارة غير صحيحة";
+        err.style.display = "block";
+      }
+    });
+
+    document.getElementById("logoutAdminBtn").addEventListener("click", () => {
+      localStorage.removeItem(ADMIN_SESSION_KEY);
+      document.getElementById("adminDashboard").style.display = "none";
+      document.getElementById("adminLoginBox").style.display = "block";
+    });
+
+    checkAdminSession();
+  </script>
+</body>
+</html>
