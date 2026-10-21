@@ -3,1229 +3,222 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>صالون نيل كوالتي</title>
+  <title>صالون جودة الأظافر</title>
   <style>
-    :root {
-      --primary: #d96b87;
-      --secondary: #f8dde7;
-      --text: #2c1c22;
-      --bg: #fff5f7;
-      --card: #ffffff;
-      --muted: #7d5d66;
-      --line: #efd5dd;
-      --success: #1e9f73;
-      --warning: #f3b34d;
-      --danger: #d85a5a;
-    }
-
     * { box-sizing: border-box; }
-    html, body {
+    body {
       margin: 0;
-      padding: 0;
-      background: var(--bg);
-      color: var(--text);
       font-family: "Segoe UI", Tahoma, sans-serif;
-    }
-
-    body { min-height: 100vh; }
-
-    .hidden { display: none !important; }
-
-    .login-wrap {
+      background: linear-gradient(135deg, #fff9fb, #f7edf3);
       min-height: 100vh;
       display: grid;
       place-items: center;
-      background: linear-gradient(135deg, #fff9fb, #f9edf3);
       padding: 20px;
     }
-
-    .login-box {
-      width: min(520px, 100%);
+    .box {
+      width: min(500px, 100%);
       background: #fff;
-      border-radius: 24px;
-      padding: 30px;
-      border: 1px solid var(--line);
-      box-shadow: 0 18px 36px rgba(217,107,135,0.12);
+      border: 1px solid #f0d7df;
+      border-radius: 22px;
+      box-shadow: 0 18px 40px rgba(199, 92, 122, 0.12);
+      padding: 28px;
     }
-
-    .login-box h2 {
-      margin: 0 0 18px;
+    h2 {
       text-align: center;
-      font-size: 2rem;
-      color: var(--primary);
-    }
-
-    .field {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
+      color: #c65d7a;
+      margin-top: 0;
       margin-bottom: 16px;
     }
-
-    label {
-      font-weight: 700;
-      color: var(--muted);
-      font-size: 0.9rem;
+    h3 {
+      margin: 0 0 14px;
+      color: #6b4d57;
     }
-
-    input, select, textarea, button {
-      font: inherit;
-      border-radius: 12px;
-      outline: none;
-    }
-
-    input, select, textarea {
-      border: 1px solid var(--line);
+    input {
+      width: 100%;
       padding: 12px 14px;
-      background: #fffdfd;
-      color: var(--text);
+      border-radius: 12px;
+      border: 1px solid #efd4dc;
+      margin-bottom: 12px;
+      font-size: 16px;
     }
-
-    input:focus, select:focus, textarea:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(217,107,135,0.12);
-    }
-
     button {
-      border: none;
-      cursor: pointer;
-      font-weight: 700;
-      transition: 0.2s ease;
-    }
-
-    .primary-btn {
-      background: linear-gradient(135deg, var(--primary), #df7f9d);
-      color: white;
-      padding: 13px 18px;
       width: 100%;
-      box-shadow: 0 10px 20px rgba(217,107,135,0.18);
-    }
-    .primary-btn:hover { filter: brightness(1.03); }
-
-    .topbar {
-      background: linear-gradient(135deg, var(--primary), #e590a7);
+      border: none;
+      background: linear-gradient(135deg, #d96b87, #e18aa4);
       color: #fff;
-      padding: 18px 24px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .brand h1 {
-      margin: 0;
-      font-size: 2rem;
-    }
-
-    .brand small {
-      opacity: 0.92;
-    }
-
-    .user-chip {
-      background: rgba(255,255,255,0.12);
-      border: 1px solid rgba(255,255,255,0.18);
-      border-radius: 999px;
-      padding: 8px 14px;
-      font-weight: 700;
-    }
-
-    .tabs {
-      background: #fff;
-      border-bottom: 1px solid var(--line);
-      padding: 14px 16px 0;
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .tab {
-      background: var(--secondary);
-      color: var(--text);
-      border: none;
-      padding: 12px 18px;
-      border-radius: 12px 12px 0 0;
+      border-radius: 12px;
+      padding: 12px;
+      font-size: 16px;
       font-weight: 700;
       cursor: pointer;
+      margin-top: 6px;
     }
-
-    .tab.active {
-      background: #fff;
-      color: var(--primary);
-      box-shadow: inset 0 -2px 0 var(--primary);
-    }
-
-    .content {
-      display: none;
-      padding: 20px;
-    }
-
-    .content.active {
-      display: block;
-    }
-
-    .grid {
-      display: grid;
-      gap: 18px;
-    }
-
-    .two-col { grid-template-columns: 1.2fr 0.8fr; }
-    .three-col { grid-template-columns: repeat(3, minmax(200px, 1fr)); }
-
-    .card {
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      padding: 18px;
-      box-shadow: 0 8px 18px rgba(58,30,37,0.04);
-    }
-
-    .section-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 14px;
-      flex-wrap: wrap;
-    }
-
-    .section-head h3 {
-      margin: 0;
-      font-size: 1.2rem;
-    }
-
-    .form-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(170px, 1fr));
-      gap: 14px;
-    }
-
-    .field.full { grid-column: 1 / -1; }
-
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(150px, 1fr));
-      gap: 16px;
-    }
-
-    .stat {
-      background: linear-gradient(135deg, #fff, #fff7f9);
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      padding: 18px;
-    }
-
-    .stat .label {
-      font-size: 0.9rem;
-      color: var(--muted);
-    }
-
-    .stat .value {
-      font-size: 1.8rem;
-      font-weight: 800;
-      margin-top: 8px;
-      color: var(--primary);
-    }
-
-    .list {
-      display: grid;
-      gap: 12px;
+    .toggle {
       margin-top: 16px;
-    }
-
-    .item {
-      background: #fff;
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      padding: 14px 16px;
-      display: grid;
-      gap: 8px;
-    }
-
-    .item-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .title {
-      font-weight: 800;
-    }
-
-    .meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      font-size: 0.88rem;
-      color: var(--muted);
-    }
-
-    .pill {
-      border-radius: 999px;
-      padding: 6px 10px;
-      font-size: 0.78rem;
-      font-weight: 700;
-      display: inline-flex;
-      align-items: center;
-    }
-
-    .pill.confirmed {
-      background: rgba(30,159,115,0.12);
-      color: var(--success);
-    }
-
-    .pill.pending {
-      background: rgba(243,179,77,0.12);
-      color: #b77800;
-    }
-
-    .pill.canceled {
-      background: rgba(216,90,90,0.12);
-      color: var(--danger);
-    }
-
-    .actions {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    .success-btn, .danger-btn, .ghost-btn {
-      border: none;
-      padding: 9px 12px;
-      border-radius: 10px;
+      text-align: center;
+      color: #7d5d66;
       cursor: pointer;
-      font-weight: 700;
+      font-size: 14px;
     }
-
-    .success-btn {
-      background: rgba(30,159,115,0.12);
-      color: var(--success);
+    .alert {
+      display: none;
+      margin-top: 14px;
+      padding: 12px;
+      border-radius: 10px;
+      font-size: 14px;
     }
-
-    .danger-btn {
-      background: rgba(216,90,90,0.12);
-      color: var(--danger);
+    .alert.error {
+      display: block;
+      background: #fde8e8;
+      color: #b33636;
     }
-
-    .ghost-btn {
-      background: #f4e9ee;
-      color: var(--text);
+    .alert.success {
+      display: block;
+      background: #eafaf1;
+      color: #1c8a5d;
     }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      background: #fff;
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      overflow: hidden;
-    }
-
-    th, td {
-      padding: 12px 10px;
-      border-bottom: 1px solid var(--line);
+    .admin-link {
+      display: block;
       text-align: center;
-    }
-
-    th {
-      background: #fff5f8;
-      color: var(--primary);
-    }
-
-    .empty {
-      border: 1px dashed var(--line);
-      border-radius: 12px;
-      padding: 18px;
-      text-align: center;
-      color: var(--muted);
-      background: #fffafc;
-    }
-
-    @media (max-width: 900px) {
-      .two-col, .three-col, .stats, .form-grid {
-        grid-template-columns: 1fr;
-      }
+      margin-top: 18px;
+      color: #8c5c6d;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: bold;
     }
   </style>
 </head>
 <body>
+  <div class="box">
+    <h2>صالون جودة الأظافر</h2>
 
-  <div id="loginScreen" class="login-wrap">
-    <div class="login-box">
-      <h2>تسجيل الدخول</h2>
+    <div id="registerBox">
+      <h3>تسجيل عميلة جديدة</h3>
 
-      <form id="loginForm">
-        <div class="field">
-          <label>البريد الإلكتروني</label>
-          <input type="email" id="loginEmail" placeholder="example@email.com" required />
-        </div>
+      <input id="regName" type="text" placeholder="الاسم الكامل" />
+      <input id="regPhone" type="tel" placeholder="رقم الجوال" />
+      <input id="regPassword" type="password" placeholder="كلمة المرور" />
 
-        <div class="field">
-          <label>كلمة المرور</label>
-          <input type="password" id="loginPassword" placeholder="••••••••" required />
-        </div>
-
-        <button type="submit" class="primary-btn">دخول</button>
-      </form>
+      <button id="registerBtn">تسجيل</button>
+      <div class="toggle" id="showLogin">لدي حساب بالفعل</div>
     </div>
+
+    <div id="loginBox" style="display:none;">
+      <h3>تسجيل الدخول</h3>
+
+      <input id="loginPhone" type="tel" placeholder="رقم الجوال" />
+      <input id="loginPassword" type="password" placeholder="كلمة المرور" />
+
+      <button id="loginBtn">دخول</button>
+      <div class="toggle" id="showRegister">إنشاء حساب جديد</div>
+    </div>
+
+    <div id="message" class="alert"></div>
+
+    <a class="admin-link" href="admin.html">لوحة الإدارة</a>
   </div>
 
-  <div id="appScreen" class="hidden">
-    <header class="topbar">
-      <div class="brand">
-        <h1 id="brandName">صالون نيل كوالتي</h1>
-        <small id="brandSlogan">أجمل جلسات العناية والاهتمام</small>
-      </div>
-      <div class="user-chip" id="userChip">المستخدم</div>
-    </header>
+  <script>
+    const CLIENTS_KEY = "nail_quality_clients";
+    const CURRENT_CLIENT_KEY = "nail_quality_current_client";
 
-    <div class="tabs">
-      <button class="tab active" data-panel="ownerPanel">المالك</button>
-      <button class="tab" data-panel="staffPanel">الموظفات</button>
-      <button class="tab" data-panel="clientPanel">العميلات</button>
-      <button class="tab" data-panel="cashierPanel">الكاشير</button>
-      <button class="tab" data-panel="inventoryPanel">المخزون</button>
-      <button class="ghost-btn" id="logoutBtn" style="margin-right:auto; padding:12px 18px; border-radius:12px;">تسجيل الخروج</button>
-    </div>
-
-    <div id="ownerPanel" class="content active">
-      <div class="grid two-col">
-        <div class="card">
-          <div class="section-head">
-            <h3>إضافة خدمة</h3>
-          </div>
-          <form id="serviceForm">
-            <div class="form-grid">
-              <div class="field">
-                <label>اسم الخدمة</label>
-                <input type="text" id="serviceName" required />
-              </div>
-
-              <div class="field">
-                <label>السعر</label>
-                <input type="number" id="servicePrice" min="0" step="0.01" required />
-              </div>
-
-              <div class="field full">
-                <label>الوصف</label>
-                <textarea id="serviceDesc"></textarea>
-              </div>
-            </div>
-
-            <button type="submit" class="primary-btn" style="margin-top:12px;">حفظ الخدمة</button>
-          </form>
-        </div>
-
-        <div class="card">
-          <div class="section-head">
-            <h3>إضافة موظفة</h3>
-          </div>
-          <form id="staffForm">
-            <div class="form-grid">
-              <div class="field">
-                <label>اسم الموظفة</label>
-                <input type="text" id="staffName" required />
-              </div>
-
-              <div class="field">
-                <label>الراتب</label>
-                <input type="number" id="staffSalary" min="0" step="0.01" required />
-              </div>
-
-              <div class="field">
-                <label>البريد الإلكتروني</label>
-                <input type="email" id="staffEmail" required />
-              </div>
-
-              <div class="field">
-                <label>كلمة المرور</label>
-                <input type="password" id="staffPass" required />
-              </div>
-            </div>
-
-            <button type="submit" class="primary-btn" style="margin-top:12px;">إضافة موظفة</button>
-          </form>
-        </div>
-      </div>
-
-      <div class="card" style="margin-top:18px;">
-        <div class="section-head">
-          <h3>تعديل الثيم العام</h3>
-        </div>
-
-        <form id="themeForm">
-          <div class="form-grid">
-            <div class="field">
-              <label>لون الأساسي</label>
-              <input type="color" id="primaryColor" value="#d96b87" />
-            </div>
-
-            <div class="field">
-              <label>لون الثانوي</label>
-              <input type="color" id="secondaryColor" value="#f8dde7" />
-            </div>
-
-            <div class="field">
-              <label>لون النص</label>
-              <input type="color" id="textColor" value="#2c1c22" />
-            </div>
-
-            <div class="field">
-              <label>لون الخلفية</label>
-              <input type="color" id="backgroundColor" value="#fff5f7" />
-            </div>
-
-            <div class="field">
-              <label>اسم الصالون</label>
-              <input type="text" id="logoText" value="صالون نيل كوالتي" />
-            </div>
-
-            <div class="field">
-              <label>العبارة</label>
-              <input type="text" id="sloganText" value="أجمل جلسات العناية والاهتمام" />
-            </div>
-          </div>
-
-          <button type="submit" class="primary-btn" style="margin-top:14px;">حفظ الثيم</button>
-        </form>
-      </div>
-
-      <div class="card" style="margin-top:18px;">
-        <div class="section-head">
-          <h3>حالة الموظفات</h3>
-        </div>
-        <div id="onlineStaffList" class="list"></div>
-      </div>
-
-      <div class="card" style="margin-top:18px;">
-        <div class="section-head">
-          <h3>سجل الحضور</h3>
-        </div>
-        <div id="attendanceList" class="list"></div>
-      </div>
-
-      <div class="card" style="margin-top:18px;">
-        <div class="section-head">
-          <h3>الإجازات</h3>
-        </div>
-        <div id="vacationList" class="list"></div>
-      </div>
-    </div>
-
-    <div id="staffPanel" class="content">
-      <div class="card">
-        <div class="section-head">
-          <h3>حضور الموظفة</h3>
-        </div>
-
-        <div class="form-grid">
-          <div class="field">
-            <label>بداية الدوام</label>
-            <input type="datetime-local" id="startWorkTime" />
-          </div>
-
-          <div class="field">
-            <label>نهاية الدوام</label>
-            <input type="datetime-local" id="endWorkTime" />
-          </div>
-        </div>
-
-        <button class="primary-btn" id="saveAttendanceBtn" style="margin-top:12px;">حفظ الحضور</button>
-      </div>
-
-      <div class="card" style="margin-top:18px;">
-        <div class="section-head">
-          <h3>طلب إجازة</h3>
-        </div>
-
-        <div class="form-grid">
-          <div class="field">
-            <label>تاريخ البداية</label>
-            <input type="date" id="leaveStart" />
-          </div>
-
-          <div class="field">
-            <label>تاريخ النهاية</label>
-            <input type="date" id="leaveEnd" />
-          </div>
-
-          <div class="field full">
-            <label>سبب الإجازة</label>
-            <textarea id="leaveReason"></textarea>
-          </div>
-        </div>
-
-        <button class="primary-btn" id="requestLeaveBtn" style="margin-top:12px;">إرسال طلب الإجازة</button>
-      </div>
-    </div>
-
-    <div id="clientPanel" class="content">
-      <div class="card">
-        <div class="section-head">
-          <h3>بيانات العميلة</h3>
-        </div>
-        <div id="clientProfile" class="list"></div>
-      </div>
-    </div>
-
-    <div id="cashierPanel" class="content">
-      <div class="grid two-col">
-        <div class="card">
-          <div class="section-head">
-            <h3>الكاشير السريع</h3>
-          </div>
-
-          <div class="form-grid">
-            <div class="field">
-              <label>اسم العميلة</label>
-              <input type="text" id="cashierClientName" />
-            </div>
-
-            <div class="field">
-              <label>طريقة الدفع</label>
-              <select id="paymentMethod">
-                <option value="كاش">كاش</option>
-                <option value="بطاقة">بطاقة</option>
-                <option value="شبكة">شبكة</option>
-              </select>
-            </div>
-          </div>
-
-          <div id="cashierServices" class="list"></div>
-
-          <div class="card" style="margin-top:12px;">
-            <div class="section-head">
-              <h3>الفاتورة</h3>
-            </div>
-            <table>
-              <thead>
-                <tr>
-                  <th>الخدمة</th>
-                  <th>السعر</th>
-                  <th>حذف</th>
-                </tr>
-              </thead>
-              <tbody id="invoiceBody"></tbody>
-            </table>
-
-            <div style="margin-top:12px;">
-              <div class="field">
-                <label>المبلغ المدفوع</label>
-                <input type="number" id="paidAmount" min="0" value="0" />
-              </div>
-
-              <div class="section-head">
-                <h3>الإجمالي: <span id="invoiceTotal">0.00</span> ر.س</h3>
-              </div>
-
-              <button class="primary-btn" id="saveSaleBtn">حفظ الفاتورة</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="section-head">
-            <h3>الفواتير الأخيرة</h3>
-          </div>
-          <div id="salesList" class="list"></div>
-        </div>
-      </div>
-    </div>
-
-    <div id="inventoryPanel" class="content">
-      <div class="grid two-col">
-        <div class="card">
-          <div class="section-head">
-            <h3>إضافة منتج</h3>
-          </div>
-          <form id="inventoryForm">
-            <div class="form-grid">
-              <div class="field">
-                <label>اسم المنتج</label>
-                <input type="text" id="inventoryName" required />
-              </div>
-
-              <div class="field">
-                <label>الكمية</label>
-                <input type="number" id="inventoryQty" min="0" required />
-              </div>
-
-              <div class="field">
-                <label>الحد الأدنى</label>
-                <input type="number" id="inventoryMin" min="0" required />
-              </div>
-
-              <div class="field">
-                <label>سعر الشراء</label>
-                <input type="number" id="inventoryCost" min="0" step="0.01" required />
-              </div>
-            </div>
-
-            <button type="submit" class="primary-btn" style="margin-top:12px;">إضافة المنتج</button>
-          </form>
-        </div>
-
-        <div class="card">
-          <div class="section-head">
-            <h3>مخزون الصالون</h3>
-          </div>
-          <div id="inventoryList" class="list"></div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import {
-      getAuth,
-      createUserWithEmailAndPassword,
-      signInWithEmailAndPassword,
-      signOut
-    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-    import {
-      getFirestore,
-      doc,
-      setDoc,
-      getDoc,
-      collection,
-      addDoc,
-      getDocs,
-      onSnapshot,
-      serverTimestamp
-    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyA31G1qjrzq-Ykxu4EojR8KkhL3zS_MuGY",
-      authDomain: "nailqualitysalon.firebaseapp.com",
-      projectId: "nailqualitysalon",
-      storageBucket: "nailqualitysalon.firebasestorage.app",
-      messagingSenderId: "596122867385",
-      appId: "1:596122867385:web:0d3f8d4bcf3e04b51f6d68"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-
-    let currentUser = null;
-    let allServices = [];
-    let allSales = [];
-    let currentInvoice = [];
-
-    const defaultTheme = {
-      logoText: "صالون نيل كوالتي",
-      slogan: "أجمل جلسات العناية والاهتمام",
-      primaryColor: "#d96b87",
-      secondaryColor: "#f8dde7",
-      textColor: "#2c1c22",
-      backgroundColor: "#fff5f7"
-    };
-
-    function formatMoney(value) {
-      return Number(value || 0).toFixed(2) + " ر.س";
+    function getClients() {
+      const data = localStorage.getItem(CLIENTS_KEY);
+      return data ? JSON.parse(data) : [];
     }
 
-    async function createUser({ email, password, name, role, phone = "" }) {
-      const userCred = await createUserWithEmailAndPassword(auth, email, password);
-      await setDoc(doc(db, "users", userCred.user.uid), {
-        uid: userCred.user.uid,
-        email,
+    function saveClients(clients) {
+      localStorage.setItem(CLIENTS_KEY, JSON.stringify(clients));
+    }
+
+    function showMessage(text, type) {
+      const msg = document.getElementById("message");
+      msg.textContent = text;
+      msg.className = "alert " + type;
+    }
+
+    document.getElementById("showLogin").addEventListener("click", () => {
+      document.getElementById("registerBox").style.display = "none";
+      document.getElementById("loginBox").style.display = "block";
+    });
+
+    document.getElementById("showRegister").addEventListener("click", () => {
+      document.getElementById("loginBox").style.display = "none";
+      document.getElementById("registerBox").style.display = "block";
+    });
+
+    document.getElementById("registerBtn").addEventListener("click", () => {
+      const name = document.getElementById("regName").value.trim();
+      const phone = document.getElementById("regPhone").value.trim();
+      const password = document.getElementById("regPassword").value.trim();
+
+      if (!name || !phone || !password) {
+        showMessage("يرجى تعبئة جميع الحقول", "error");
+        return;
+      }
+
+      const clients = getClients();
+      const samePhone = clients.some(c => c.phone === phone);
+
+      if (samePhone) {
+        showMessage("هذا الرقم مسجل مسبقاً، لا يمكنك تسجيل حساب جديد بنفس الرقم", "error");
+        return;
+      }
+
+      const newClient = {
+        id: Date.now(),
         name,
-        role,
         phone,
-        createdAt: serverTimestamp()
-      });
-      return userCred.user.uid;
-    }
-
-    async function loginUser(email, password) {
-      const userCred = await signInWithEmailAndPassword(auth, email, password);
-      const snap = await getDoc(doc(db, "users", userCred.user.uid));
-      if (!snap.exists()) throw new Error("هذا الحساب غير مسجل في بيانات الصالون");
-      return snap.data();
-    }
-
-    async function saveTheme(theme) {
-      await setDoc(doc(db, "settings", "brand"), theme, { merge: true });
-    }
-
-    function applyTheme(theme) {
-      const root = document.documentElement;
-      root.style.setProperty("--primary", theme.primaryColor || defaultTheme.primaryColor);
-      root.style.setProperty("--secondary", theme.secondaryColor || defaultTheme.secondaryColor);
-      root.style.setProperty("--text", theme.textColor || defaultTheme.textColor);
-      root.style.setProperty("--bg", theme.backgroundColor || defaultTheme.backgroundColor);
-
-      document.getElementById("brandName").textContent = theme.logoText || defaultTheme.logoText;
-      document.getElementById("brandSlogan").textContent = theme.slogan || defaultTheme.slogan;
-    }
-
-    function showScreen(screenId) {
-      document.getElementById("loginScreen").classList.add("hidden");
-      document.getElementById("appScreen").classList.remove("hidden");
-
-      document.querySelectorAll(".tab").forEach(tab => {
-        const isActive = tab.dataset.panel === screenId;
-        tab.classList.toggle("active", isActive);
-      });
-
-      document.querySelectorAll(".content").forEach(panel => {
-        panel.classList.toggle("active", panel.id === screenId);
-      });
-    }
-
-    async function loadServices() {
-      const snapshot = await getDocs(collection(db, "services"));
-      allServices = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      renderCashierServices();
-    }
-
-    function renderCashierServices() {
-      const container = document.getElementById("cashierServices");
-      if (!allServices.length) {
-        container.innerHTML = '<div class="empty">لا توجد خدمات</div>';
-        return;
-      }
-
-      container.innerHTML = allServices.map(service => `
-        <div class="item">
-          <div class="item-head">
-            <div class="title">${service.name}</div>
-            <span class="pill confirmed">${formatMoney(service.price)}</span>
-          </div>
-          <div class="meta">
-            <span>${service.description || "بدون وصف"}</span>
-          </div>
-          <div class="actions">
-            <button class="success-btn" data-add-service="${service.name}" data-add-price="${service.price}">إضافة</button>
-          </div>
-        </div>
-      `).join("");
-
-      document.querySelectorAll("[data-add-service]").forEach(btn => {
-        btn.addEventListener("click", () => {
-          const name = btn.dataset.addService;
-          const price = Number(btn.dataset.addPrice || 0);
-          currentInvoice.push({ name, price });
-          renderInvoice();
-        });
-      });
-    }
-
-    function renderInvoice() {
-      const body = document.getElementById("invoiceBody");
-      const totalEl = document.getElementById("invoiceTotal");
-
-      if (!currentInvoice.length) {
-        body.innerHTML = '<tr><td colspan="3">لا يوجد عناصر</td></tr>';
-        totalEl.textContent = "0.00";
-        return;
-      }
-
-      const total = currentInvoice.reduce((sum, item) => sum + Number(item.price || 0), 0);
-      totalEl.textContent = Number(total).toFixed(2);
-
-      body.innerHTML = currentInvoice.map((item, index) => `
-        <tr>
-          <td>${item.name}</td>
-          <td>${formatMoney(item.price)}</td>
-          <td><button class="danger-btn" data-remove-index="${index}">حذف</button></td>
-        </tr>
-      `).join("");
-
-      document.querySelectorAll("[data-remove-index]").forEach(btn => {
-        btn.addEventListener("click", () => {
-          const index = Number(btn.dataset.removeIndex);
-          currentInvoice.splice(index, 1);
-          renderInvoice();
-        });
-      });
-    }
-
-    async function loadSales() {
-      const snapshot = await getDocs(collection(db, "sales"));
-      allSales = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      renderSales();
-    }
-
-    function renderSales() {
-      const list = document.getElementById("salesList");
-      if (!allSales.length) {
-        list.innerHTML = '<div class="empty">لا توجد فواتير</div>';
-        return;
-      }
-
-      list.innerHTML = allSales.slice().reverse().map(sale => `
-        <div class="item">
-          <div class="item-head">
-            <div class="title">${sale.clientName || "عميلة"}</div>
-            <span class="pill confirmed">${sale.paymentMethod || "كاش"}</span>
-          </div>
-          <div class="meta">
-            <span>الإجمالي: ${formatMoney(sale.total)}</span>
-            <span>مدفوع: ${formatMoney(sale.paid)}</span>
-            <span>باقي: ${formatMoney(sale.change)}</span>
-          </div>
-        </div>
-      `).join("");
-    }
-
-    async function loadInventory() {
-      const snapshot = await getDocs(collection(db, "inventory"));
-      const list = document.getElementById("inventoryList");
-      const items = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-
-      if (!items.length) {
-        list.innerHTML = '<div class="empty">لا يوجد مخزون</div>';
-        return;
-      }
-
-      list.innerHTML = items.map(item => `
-        <div class="item">
-          <div class="item-head">
-            <div class="title">${item.name}</div>
-            <span class="pill ${Number(item.quantity) <= Number(item.minStock) ? "pending" : "confirmed"}">
-              ${Number(item.quantity) <= Number(item.minStock) ? "منخفض" : "كافي"}
-            </span>
-          </div>
-          <div class="meta">
-            <span>الكمية: ${item.quantity}</span>
-            <span>الحد الأدنى: ${item.minStock}</span>
-            <span>سعر الشراء: ${formatMoney(item.cost)}</span>
-          </div>
-        </div>
-      `).join("");
-    }
-
-    function renderOnlineStaff() {
-      const list = document.getElementById("onlineStaffList");
-      onSnapshot(collection(db, "staffPresence"), (snapshot) => {
-        const rows = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        if (!rows.length) {
-          list.innerHTML = '<div class="empty">لا توجد موظفات</div>';
-          return;
-        }
-
-        list.innerHTML = rows.map(staff => `
-          <div class="item">
-            <div class="item-head">
-              <div class="title">${staff.name}</div>
-              <span class="pill ${staff.isOnline ? "confirmed" : "pending"}">${staff.isOnline ? "متصلة الآن" : "غير متصلة"}</span>
-            </div>
-            <div class="meta">
-              <span>آخر ظهور: ${staff.lastSeenAt ? new Date(staff.lastSeenAt.seconds * 1000).toLocaleString("ar-SA") : "غير معروف"}</span>
-            </div>
-          </div>
-        `).join("");
-      });
-    }
-
-    function renderAttendance() {
-      const list = document.getElementById("attendanceList");
-      onSnapshot(collection(db, "attendance"), (snapshot) => {
-        const rows = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        if (!rows.length) {
-          list.innerHTML = '<div class="empty">لا يوجد سجل حضور</div>';
-          return;
-        }
-
-        list.innerHTML = rows.slice().reverse().map(row => `
-          <div class="item">
-            <div class="item-head">
-              <div class="title">${row.name}</div>
-              <span class="pill confirmed">${row.date}</span>
-            </div>
-            <div class="meta">
-              <span>من: ${row.startTime}</span>
-              <span>إلى: ${row.endTime}</span>
-              <span>الساعات: ${Number(row.totalHours || 0).toFixed(2)}</span>
-            </div>
-          </div>
-        `).join("");
-      });
-    }
-
-    function renderVacations() {
-      const list = document.getElementById("vacationList");
-      onSnapshot(collection(db, "vacations"), (snapshot) => {
-        const rows = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        if (!rows.length) {
-          list.innerHTML = '<div class="empty">لا توجد إجازات</div>';
-          return;
-        }
-
-        list.innerHTML = rows.slice().reverse().map(row => `
-          <div class="item">
-            <div class="item-head">
-              <div class="title">${row.name}</div>
-              <span class="pill ${row.status === "مرفوضة" ? "canceled" : "confirmed"}">${row.status || "قيد الموافقة"}</span>
-            </div>
-            <div class="meta">
-              <span>من: ${row.startDate}</span>
-              <span>إلى: ${row.endDate}</span>
-              <span>الأيام: ${row.totalDays}</span>
-            </div>
-            <div class="meta"><span>السبب: ${row.reason || "لا يوجد سبب"}</span></div>
-          </div>
-        `).join("");
-      });
-    }
-
-    async function setStaffPresence(uid, name, isOnline) {
-      await setDoc(doc(db, "staffPresence", uid), {
-        uid,
-        name,
-        isOnline,
-        lastSeenAt: serverTimestamp()
-      }, { merge: true });
-    }
-
-    async function saveAttendance(uid, name, startTime, endTime) {
-      const start = new Date(startTime);
-      const end = new Date(endTime);
-      const totalHours = (end - start) / (1000 * 60 * 60);
-
-      await addDoc(collection(db, "attendance"), {
-        uid,
-        name,
-        date: new Date().toISOString().slice(0, 10),
-        startTime,
-        endTime,
-        totalHours: Number(totalHours.toFixed(2))
-      });
-    }
-
-    async function requestVacation(uid, name, startDate, endDate, reason) {
-      const start = new Date(startDate);
-      const end = new Date(endDate);
-      const totalDays = Math.ceil((end - start) / (1000 * 60 * 60 * 24)) + 1;
-
-      await addDoc(collection(db, "vacations"), {
-        uid,
-        name,
-        startDate,
-        endDate,
-        totalDays,
-        reason,
-        status: "قيد الموافقة"
-      });
-    }
-
-    document.getElementById("loginForm").addEventListener("submit", async (e) => {
-      e.preventDefault();
-
-      const email = document.getElementById("loginEmail").value;
-      const password = document.getElementById("loginPassword").value;
-
-      try {
-        const userData = await loginUser(email, password);
-        currentUser = userData;
-
-        document.getElementById("userChip").textContent = userData.name || "المستخدم";
-        document.getElementById("loginScreen").classList.add("hidden");
-        document.getElementById("appScreen").classList.remove("hidden");
-
-        if (userData.role === "owner") {
-          showScreen("ownerPanel");
-        } else if (userData.role === "staff") {
-          showScreen("staffPanel");
-        } else if (userData.role === "client") {
-          showScreen("clientPanel");
-        } else {
-          alert("دور المستخدم غير معروف");
-        }
-
-        if (userData.role === "staff") {
-          await setStaffPresence(auth.currentUser.uid, userData.name, true);
-        }
-
-      } catch (err) {
-        alert("خطأ في تسجيل الدخول: " + err.message);
-      }
-    });
-
-    document.getElementById("logoutBtn").addEventListener("click", async () => {
-      if (currentUser && currentUser.role === "staff" && auth.currentUser) {
-        await setStaffPresence(auth.currentUser.uid, currentUser.name, false);
-      }
-
-      await signOut(auth);
-      currentUser = null;
-
-      document.getElementById("appScreen").classList.add("hidden");
-      document.getElementById("loginScreen").classList.remove("hidden");
-    });
-
-    document.querySelectorAll(".tab").forEach(tab => {
-      tab.addEventListener("click", () => {
-        const panelId = tab.dataset.panel;
-        showScreen(panelId);
-      });
-    });
-
-    document.getElementById("serviceForm").addEventListener("submit", async (e) => {
-      e.preventDefault();
-
-      const service = {
-        name: document.getElementById("serviceName").value,
-        price: Number(document.getElementById("servicePrice").value || 0),
-        description: document.getElementById("serviceDesc").value,
-        createdAt: serverTimestamp()
+        password,
+        role: "client",
+        createdAt: new Date().toISOString()
       };
 
-      await addDoc(collection(db, "services"), service);
-      e.target.reset();
-      loadServices();
+      clients.push(newClient);
+      saveClients(clients);
+
+      localStorage.setItem(CURRENT_CLIENT_KEY, JSON.stringify({
+        id: newClient.id,
+        name: newClient.name,
+        phone: newClient.phone
+      }));
+
+      showMessage("تم إنشاء الحساب بنجاح", "success");
+
+      setTimeout(() => {
+        window.location.href = "client.html";
+      }, 800);
     });
 
-    document.getElementById("staffForm").addEventListener("submit", async (e) => {
-      e.preventDefault();
+    document.getElementById("loginBtn").addEventListener("click", () => {
+      const phone = document.getElementById("loginPhone").value.trim();
+      const password = document.getElementById("loginPassword").value.trim();
 
-      const email = document.getElementById("staffEmail").value;
-      const password = document.getElementById("staffPass").value;
-
-      try {
-        const uid = await createUser({
-          email,
-          password,
-          name: document.getElementById("staffName").value,
-          role: "staff",
-          phone: ""
-        });
-
-        await setDoc(doc(db, "staffInfo", uid), {
-          uid,
-          name: document.getElementById("staffName").value,
-          salary: Number(document.getElementById("staffSalary").value || 0),
-          email,
-          createdAt: serverTimestamp()
-        });
-
-        alert("تمت إضافة الموظفة بنجاح");
-        e.target.reset();
-      } catch (err) {
-        alert("حدث خطأ: " + err.message);
-      }
-    });
-
-    document.getElementById("themeForm").addEventListener("submit", async (e) => {
-      e.preventDefault();
-
-      const theme = {
-        primaryColor: document.getElementById("primaryColor").value,
-        secondaryColor: document.getElementById("secondaryColor").value,
-        textColor: document.getElementById("textColor").value,
-        backgroundColor: document.getElementById("backgroundColor").value,
-        logoText: document.getElementById("logoText").value,
-        slogan: document.getElementById("sloganText").value
-      };
-
-      await saveTheme(theme);
-      applyTheme(theme);
-      alert("تم حفظ الثيم");
-    });
-
-    document.getElementById("saveAttendanceBtn").addEventListener("click", async () => {
-      const start = document.getElementById("startWorkTime").value;
-      const end = document.getElementById("endWorkTime").value;
-
-      if (!start || !end) {
-        alert("اختر بداية ونهاية الدوام");
+      if (!phone || !password) {
+        showMessage("يرجى إدخال رقم الجوال وكلمة المرور", "error");
         return;
       }
 
-      const user = auth.currentUser;
-      if (!user) return;
+      const clients = getClients();
+      const matched = clients.find(c => c.phone === phone && c.password === password);
 
-      const userSnap = await getDoc(doc(db, "users", user.uid));
-      const data = userSnap.data();
-
-      await saveAttendance(user.uid, data.name, start, end);
-      alert("تم حفظ الحضور بنجاح");
-    });
-
-    document.getElementById("requestLeaveBtn").addEventListener("click", async () => {
-      const start = document.getElementById("leaveStart").value;
-      const end = document.getElementById("leaveEnd").value;
-      const reason = document.getElementById("leaveReason").value;
-
-      if (!start || !end) {
-        alert("اختر تاريخ البداية والنهاية");
+      if (!matched) {
+        showMessage("بيانات الدخول غير صحيحة", "error");
         return;
       }
 
-      const user = auth.currentUser;
-      if (!user) return;
+      localStorage.setItem(CURRENT_CLIENT_KEY, JSON.stringify({
+        id: matched.id,
+        name: matched.name,
+        phone: matched.phone
+      }));
 
-      const userSnap = await getDoc(doc(db, "users", user.uid));
-      const data = userSnap.data();
+      showMessage("تم تسجيل الدخول بنجاح", "success");
 
-      await requestVacation(user.uid, data.name, start, end, reason);
-      alert("تم إرسال طلب الإجازة");
+      setTimeout(() => {
+        window.location.href = "client.html";
+      }, 800);
     });
-
-    document.getElementById("inventoryForm").addEventListener("submit", async (e) => {
-      e.preventDefault();
-
-      const item = {
-        name: document.getElementById("inventoryName").value,
-        quantity: Number(document.getElementById("inventoryQty").value || 0),
-        minStock: Number(document.getElementById("inventoryMin").value || 0),
-        cost: Number(document.getElementById("inventoryCost").value || 0),
-        createdAt: serverTimestamp()
-      };
-
-      await addDoc(collection(db, "inventory"), item);
-      e.target.reset();
-      loadInventory();
-    });
-
-    document.getElementById("saveSaleBtn").addEventListener("click", async () => {
-      if (!currentInvoice.length) {
-        alert("أضف خدمة واحدة على الأقل");
-        return;
-      }
-
-      const total = currentInvoice.reduce((sum, item) => sum + Number(item.price || 0), 0);
-      const paid = Number(document.getElementById("paidAmount").value || 0);
-      const change = paid - total;
-
-      await addDoc(collection(db, "sales"), {
-        clientName: document.getElementById("cashierClientName").value || "عميلة عامة",
-        paymentMethod: document.getElementById("paymentMethod").value,
-        items: currentInvoice,
-        total,
-        paid,
-        change,
-        createdAt: serverTimestamp()
-      });
-
-      currentInvoice = [];
-      renderInvoice();
-      document.getElementById("paidAmount").value = 0;
-      loadSales();
-      alert("تم حفظ الفاتورة");
-    });
-
-    onSnapshot(doc(db, "settings", "brand"), (snap) => {
-      if (snap.exists()) {
-        applyTheme(snap.data());
-      } else {
-        applyTheme(defaultTheme);
-      }
-    });
-
-    renderInvoice();
-    renderOnlineStaff();
-    renderAttendance();
-    renderVacations();
-
-    loadServices();
-    loadSales();
-    loadInventory();
   </script>
 </body>
 </html>
